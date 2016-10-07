@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="static/icommon.css" />
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>新建商品</title>
+    <title>添加品牌商品</title>
     <style>
         /*自定义表单样式*/
         .form-container {
@@ -56,12 +55,30 @@
         <div class="form-container clearfix">
             <div class="form-left" style="float:left; width:700px;">
                 <div class="form-row">
-                    <label class="title">直达链接</label><input class="easyui-textbox" type="text" name="postInfoTitle" value="" style="width:462px;" />
+                    <label class="title">需检测链接</label><input class="easyui-textbox" type="text" name="postInfoTitle" value="" style="width:462px;" />
                     <a href="javascript:void(0)" class="easyui-linkbutton" onclick="">检测重复</a>
                 </div>
                 <div class="form-row">
                     <label class="title">重复信息 </label> 无
                 </div>
+                <div class="form-row">
+                    <label class="title">国家</label>
+                    <select class="easyui-combobox" data-options="editable:false" name="" style="width:215px;">
+                        <option value="">无</option>
+                        <option value="90">美国</option>
+                        <option value="11">日本</option>
+                        <option value="157">澳大利亚</option>
+                        <option value="158">新西兰</option>
+                        <option value="9">韩国</option>
+                        <option value="62">德国</option>
+                        <option value="68">英国</option>
+                    </select>
+                    <label class="title">电商</label><input class="easyui-textbox" type="text" readonly="readonly" name="mallName" value="" />
+                </div>
+
+
+
+
                 <div class="form-row">
                     <label class="title">标题</label><input class="easyui-textbox" type="text" name="postInfoTitle" value="" maxlength="500" />
                     <label class="title">规格</label><input class="easyui-textbox" type="text" name="Specifications" value="" />

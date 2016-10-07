@@ -1,0 +1,240 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="static/icommon.css" />
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>热门活动</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <table id="dataGrid" data-options="fit:true,border:false"></table>
+        <div id="tb">
+            <div style="margin:5px">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript: addFun();">添加</a>
+            </div>
+            <div style="margin:5px">
+                标题: <input class="easyui-textbox" type="text" id="txttitle" value="" />
+                开始时间: <input class="easyui-datebox" style="width:80px">
+                ~ <input class="easyui-datebox" style="width:80px">
+                状态: 
+                <select class="easyui-combobox" name="" style="width:100px">
+                    <option value="0">显示</option>
+                    <option value="1">隐藏</option>
+                    <option value="2">删除</option>
+                </select>
+            </div>
+            <div style="margin:5px">
+                结束时间: <input class="easyui-datebox" style="width:80px">
+                ~ <input class="easyui-datebox" style="width:80px">
+                父级专题:
+                <select class="easyui-combobox" name="serspecialtype" style="width:100px">
+                    <option value="">全部</option>
+                    <option value="1">潮流放映室</option>
+                    <option value="2">颜控王国</option>
+                    <option value="3">母婴速递</option>
+                    <option value="4">男人观</option>
+                    <option value="5">生活意象派</option>
+                    <option value="6">酷玩博物馆</option>
+                    <option value="7">吃货欲望号</option>
+                </select>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dataGrid;
+        $(function () {
+            dataGrid = $('#dataGrid').datagrid({
+                url: 'json/special.json',
+                method: "GET",
+                toolbar: '#tb',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    width: '80',
+                    title: '信息号',
+                    field: 'id',
+                    sortable: true
+                }, {
+                    width: '200',
+                    title: '标题',
+                    field: 'title',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '排序',
+                    field: 'seq',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '开始时间',
+                    field: 'starttime'
+                }, {
+                    width: '100',
+                    title: '结束时间',
+                    field: 'endtime',
+                    sortable: true
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width:260,
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        str += $.formatString('<a href="javascript:void(0)" class="special-easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'" onclick="editFun(\'{0}\');" >编辑</a>', row.id);
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="special-easyui-linkbutton-view" data-options="plain:true,iconCls:\'icon-ok\'" onclick="viewProductFun(\'{0}\');" >已关联商品</a>', row.id);
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="special-easyui-linkbutton-add" data-options="plain:true,iconCls:\'icon-add\'" onclick="addProductFun(\'{0}\');" >关联商品</a>', row.id);
+                        
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.special-easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                    $('.special-easyui-linkbutton-view').linkbutton({ text: '已关联商品', plain: true, iconCls: 'icon-ok' });
+                    $('.special-easyui-linkbutton-add').linkbutton({ text: '关联商品', plain: true, iconCls: 'icon-add' });
+                }
+            });
+
+            $('#ff').form({
+                url: '',
+                onSubmit: function () {
+                    return $(this).form('validate');
+                },
+                success: function (data) {
+                    $.messager.alert('Info', data, 'info');
+                }
+            });
+        });
+
+        //添加
+        function addFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 500,
+                height: 400,
+                href: 'brandspecialAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#specialAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //编辑
+        function editFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '编辑',
+                width: 500,
+                height: 450,
+                href: 'brandspecialEdit.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#specialEditForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //查看已关联商品
+        function viewProductFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '已关联商品',
+                width: 800,
+                height: 500,
+                href: 'brandspecialSelectedProduct.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        
+
+                        //var f = parent.$.modalDialog.handler.find('#specialEditForm');
+                        //f.submit();
+                    }
+                }]
+            });
+
+        }
+
+        //关联商品
+        function addProductFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '关联商品',
+                width: 800,
+                height: 500,
+                href: 'brandspecialEditProduct.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+
+                        //var selRows = $('#dataGridProduct').datagrid('getChecked');  //获取到已选的行提交
+
+                        //var f = parent.$.modalDialog.handler.find('#specialEditForm');
+                        //f.submit();
+                    }
+                }]
+            });
+
+        }
+
+        
+    </script>
+</body>
+</html>
