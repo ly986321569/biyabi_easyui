@@ -1,0 +1,82 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $('#specialAddForm').form({
+            url : '/special/add',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="specialAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>标题</td>
+                    <td colspan="3"><input name="posttitle" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" style="width:400px;"></td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td colspan="3"><input name="specialContent" type="text" class="easyui-textbox easyui-validatebox span2" data-options="multiline:true,required:true" style="width:400px;height:100px" value=""></td>
+                </tr>
+                <tr>
+                    <td>排序</td>
+                    <td><input name="postorderby" value="0" class="easyui-numberspinner" style="width: 112px; height: 29px;" required="required"></td>
+                    <td>状态</td>
+                    <td>
+                        <select class="easyui-combobox" name="postdeteletype" style="width:120px;">
+                            <option value="1">保留</option>
+                            <option value="2">隐藏</option>
+                            <option value="0">删除</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>定时显示</td>
+                    <td>
+                        <label><input type="checkbox" name="postpushshow">是 </label>
+                        <input class="easyui-datebox" name="postpushtime" value="" />
+                    </td>
+                    <td>父级专题</td>
+                    <td>
+                        <select class="easyui-combobox" name="specialtype" style="width:120px;">
+                            <option value="1">潮流放映室</option>
+                            <option value="2">颜控王国</option>
+                            <option value="3">母婴速递</option>
+                            <option value="4">男人观</option>
+                            <option value="5">生活意象派</option>
+                            <option value="6">酷玩博物馆</option>
+                            <option value="7">吃货欲望号</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>选择图片<br />（长宽2:1） </td>
+                    <td colspan="2">
+                        <img src="static/images/default_item.jpg" alt="" width="100" />
+                    </td>
+                    <td>
+                        <input class="easyui-filebox" name="file1" data-options="prompt:'选择图片'"><br /><br />
+                        <label><input type="checkbox" name="postpushsend" value="1" /> 是否推送</label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

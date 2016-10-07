@@ -1,0 +1,487 @@
+﻿
+<!DOCTYPE html>
+<html class="panel-fit">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="http://123.207.96.81:8080/backend/static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="static/icommon.css" />
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>主页</title>
+    <script type="text/javascript">
+        var index_layout;
+        var index_tabs;
+        var layout_west_tree;
+
+        $(function () {
+            var tabsClass = 'index_tabs';//tabs页签Class
+            var tab_rightmenuClass = 'tab_rightmenu';//tabs右键菜单Class
+
+            window.onresize = function () {
+                render();  //渲染页面
+            }
+            render();
+
+            //渲染页面
+            function render() {
+                //设置自定义选项卡内容的高度
+                $(".b-tabcontent").css({ "height": $("body").height() - $(".b-top").height() + "px" });
+
+                //渲染当前tab选项卡布局
+                //index_layout = $('#index_layout').layout({
+                index_layout = $('.b-tabitem.current .index_layout').layout({
+                    fit: true
+                });
+
+                //渲染当前tab选项卡 easyui tab
+                //index_tabs = $('#index_tabs').tabs({
+                index_tabs = $('.b-tabitem.current .index_tabs').tabs({
+                    fit: true,
+                    border: false,
+                    tools: [{
+                        iconCls: 'icon-home',
+                        handler: function () {
+                            index_tabs.tabs('select', 0);
+                        }
+                    }, {
+                        iconCls: 'icon-refresh',
+                        handler: function () {
+                            var index = index_tabs.tabs('getTabIndex', index_tabs.tabs('getSelected'));
+                            index_tabs.tabs('getTab', index).panel('open').panel('refresh');
+                        }
+                    }, {
+                        iconCls: 'icon-del',
+                        handler: function () {
+                            var index = index_tabs.tabs('getTabIndex', index_tabs.tabs('getSelected'));
+                            var tab = index_tabs.tabs('getTab', index);
+                            if (tab.panel('options').closable) {
+                                index_tabs.tabs('close', index);
+                            }
+                        }
+                    }]
+                });
+
+                //绑定tabs的右键菜单
+                $(".b-tabitem.current ." + tabsClass).tabs({
+                    onContextMenu: function (e, title) {//这时去掉 tabsId所在的div的这个属性：class="easyui-tabs"，否则会加载2次
+                        e.preventDefault();
+                        $('.' + tab_rightmenuClass).menu('show', {
+                            left: e.pageX, top: e.pageY
+                        }).data("tabTitle", title);
+                    }
+                });
+
+                //实例化menu的onClick事件  
+                $("." + tab_rightmenuClass).menu({
+                    onClick: function (item) {
+                        CloseTab(tabsClass, tab_rightmenuClass, item.name);
+                    }
+                });
+            }
+
+            //自定义选项卡切换
+            $(".b-tabnav>ul>li a").on("click", function () {
+                var index = $(this).parents("li").index();
+                $(".b-tabnav>ul>li").removeClass("current");
+                $(this).parents("li").addClass("current");
+                $(".b-tabcontent>.b-tabitem").removeClass("current");
+                $(".b-tabcontent>.b-tabitem").eq(index).addClass("current");
+                render();
+            })
+        });
+        /**  
+         tab关闭事件  
+         @param tabId     tab组件Id 
+         @param tabMenuId tab组件右键菜单Id 
+         @param type      tab组件右键菜单div中的name属性值 
+        */
+        //function CloseTab(tabId, tabMenuId, type) {  //tab组件对象  
+        //    var tabs = $('#' + tabId);  //tab组件右键菜单对象 
+        //    var tab_menu = $('#' + tabMenuId);
+
+        /**  
+         tab关闭事件  
+         @param tabClass     tab组件Class
+         @param tabMenuClass tab组件右键菜单Class 
+         @param type      tab组件右键菜单div中的name属性值 
+        */
+        function CloseTab(tabClass, tabMenuClass, type) {  //tab组件对象  
+            var tabs = $('.b-tabitem.current .' + tabClass);  //tab组件右键菜单对象 
+            var tab_menu = $('.' + tabMenuClass);
+
+            //获取当前tab的标题 
+            var curTabTitle = tab_menu.data('tabTitle');
+            if (type === 'tab_menu-tabrefresh') {
+                var currTab = tabs.tabs('getSelected');
+                var url = $(currTab.panel('options').content).attr('src');
+                tabs.tabs('update', { tab: currTab, options: { content: '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>' } });
+            }
+                //关闭当前tab
+            else if (type === 'tab_menu-tabclose') {
+                //通过标题关闭tab
+                tabs.tabs("close", curTabTitle);
+            }
+                //关闭全部tab
+            else if (type === 'tab_menu-tabcloseall') {
+                //获取所有关闭的tab对象
+                var closeTabsTitle = getAllTabObj(tabs);
+                //循环删除要关闭的tab
+                $.each(closeTabsTitle, function () {
+                    var title = this;
+                    tabs.tabs('close', title);
+                });
+            }
+                //关闭其他tab
+            else if (type === 'tab_menu-tabcloseother') {
+                //获取所有关闭的tab对象
+                var closeTabsTitle = getAllTabObj(tabs);
+                //循环删除要关闭的tab
+                $.each(closeTabsTitle, function () {
+                    var title = this;
+                    if (title != curTabTitle) {
+                        tabs.tabs('close', title);
+                    }
+                });
+            }
+                //关闭当前左侧tab
+            else if (type === 'tab_menu-tabcloseleft') {
+                //获取所有关闭的tab对象
+                var closeTabsTitle = getLeftToCurrTabObj(tabs, curTabTitle);
+                //循环删除要关闭的tab
+                $.each(closeTabsTitle, function () {
+                    var title = this; tabs.tabs('close', title);
+                });
+            }
+                //关闭当前右侧tab
+            else if (type === 'tab_menu-tabcloseright') {
+                //获取所有关闭的tab对象
+                var closeTabsTitle = getRightToCurrTabObj(tabs, curTabTitle);
+                //循环删除要关闭的tab
+                $.each(closeTabsTitle, function () {
+                    var title = this;
+                    tabs.tabs('close', title);
+                });
+            }
+        };
+
+        /**  获取所有关闭的tab对象
+        @param  tabs tab组件
+        */
+        function getAllTabObj(tabs) {
+            //存放所有tab标题
+            var closeTabsTitle = [];
+            //所有所有tab对象
+            var allTabs = tabs.tabs('tabs');
+            $.each(allTabs, function () {
+                var tab = this;
+                var opt = tab.panel('options');
+                //获取标题
+                var title = opt.title;
+                //是否可关闭 ture:会显示一个关闭按钮，点击该按钮将关闭选项卡
+                var closable = opt.closable;
+                if (closable) {
+                    closeTabsTitle.push(title);
+                }
+            });
+            return closeTabsTitle;
+        }
+
+        /**
+        获取左侧第一个到当前的tab
+        @param tabs   tab组件
+        @param  curTabTitle 到当前的tab
+        */
+        function getLeftToCurrTabObj(tabs, curTabTitle) {
+            //存放所有tab标题
+            var closeTabsTitle = [];  //所有所有tab对象
+            var allTabs = tabs.tabs('tabs');
+            for (var i = 0; i < allTabs.length; i++) {
+                var tab = allTabs[i];
+                var opt = tab.panel('options');
+                //获取标题
+                var title = opt.title;
+                //是否可关闭 ture:会显示一个关闭按钮，点击该按钮将关闭选项卡
+                var closable = opt.closable;
+                if (closable) {
+                    if (title == curTabTitle) {
+                        return closeTabsTitle;
+                    }
+                    closeTabsTitle.push(title);
+                }
+            } return closeTabsTitle;
+        }
+        /**
+        获取当前到右侧最后一个的tab
+        @param tabs   tab组件
+        @param  curTabTitle 到当前的tab
+        */
+        function getRightToCurrTabObj(tabs, curTabTitle) {
+            //存放所有tab标题
+            var closeTabsTitle = [];  //所有所有tab对象
+            var allTabs = tabs.tabs('tabs');
+            for (var i = (allTabs.length - 1) ; i >= 0; i--) {
+                var tab = allTabs[i];
+                var opt = tab.panel('options');
+                //获取标题
+                var title = opt.title;
+                //是否可关闭 ture:会显示一个关闭按钮，点击该按钮将关闭选项卡
+                var closable = opt.closable;
+                if (closable) {
+                    if (title == curTabTitle) {
+                        return closeTabsTitle;
+                    }
+                    closeTabsTitle.push(title);
+                }
+            }
+            return closeTabsTitle;
+        }
+
+        //添加tab选项卡
+        function addTab(title, href, icon) {
+            //var tt = $('#index_tabs');
+            var tt = $('.b-tabitem.current .index_tabs');
+            icon = icon || 'menu_icon_service';
+            if (tt.tabs('exists', title)) {
+                tt.tabs('select', title);
+                var currTab = tt.tabs('getTab', title);
+                tt.tabs('update', { tab: currTab, options: { content: content, closable: true } });
+            } else {
+                if (href) {
+                    var content = '<iframe frameborder="0" src="' + href + '" style="border:0;width:100%;height:99.5%;"></iframe>';
+                } else {
+                    var content = '未实现';
+                }
+                tt.tabs('add', {
+                    title: title,
+                    content: content,
+                    closable: true,
+                    iconCls: icon
+                });
+            }
+        }
+
+        function logout() {
+            $.messager.confirm('提示', '确定要退出?', function (r) {
+                if (r) {
+                    progressLoad();
+                    $.post('http://123.207.96.81:8080/backend/logout', function (result) {
+                        if (result.success) {
+                            progressClose();
+                            window.location.href = 'http://123.207.96.81:8080/backend';
+                        }
+                    }, 'json');
+                }
+            });
+        }
+
+        function editUserPwd() {
+            parent.$.modalDialog({
+                title: '修改密码',
+                width: 300,
+                height: 250,
+                href: 'http://123.207.96.81:8080/backend/user/editPwdPage',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        var f = parent.$.modalDialog.handler.find('#editUserPwdForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+    </script>
+</head>
+<body class="panel-noscroll">
+    <div id="loading" style="position: fixed;top: -50%;left: -50%;width: 200%;height: 200%;background: #fff;z-index: 100;overflow: hidden;">
+        <img src="http://123.207.96.81:8080/backend/static/style/images/ajax-loader.gif" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;" />
+    </div>
+    <div class="b-top">
+        <div class="clearfix">
+            <span style="float: right; padding-right: 20px; margin-top: 15px; color: #333">欢迎 <b>admin</b>&nbsp;&nbsp; <a href="javascript:void(0)" onclick="editUserPwd()" class="easyui-linkbutton" plain="true" icon="icon-edit">修改密码</a>&nbsp;&nbsp;<a href="javascript:void(0)" onclick="logout()" class="easyui-linkbutton" plain="true" icon="icon-clear">安全退出</a></span>
+            <span class="header"></span>
+            <h1 class="header-title">比呀比运营管理系统</h1>
+        </div>
+        <div class="b-tabnav" style="display:block;">
+            <ul>
+                <li class="current"><a href="javascript:;">系统管理</a></li>
+                <li><a href="javascript:;">商品管理</a></li>
+                <li><a href="javascript:;">订单管理</a></li>
+                <li><a href="javascript:;">物流管理</a></li>
+                <li><a href="javascript:;">客服管理</a></li>
+                <li><a href="javascript:;">支付管理</a></li>
+            </ul>
+        </div>
+    </div>
+    <ul class="b-tabcontent">
+        <li class="b-tabitem current">
+            <div class="index_layout">
+                <div data-options="region:'west',split:true" title="菜单" style="width: 160px; overflow: hidden;overflow-y:auto; padding:0px">
+                    <div class="easyui-accordion  i_accordion_menu" fit="true" border="false">
+                        <div title="系统管理" selected="true" style="overflow: auto;">
+                            <a href="javascript:addTab('用户管理','http://123.207.96.81:8080/backend/user/manager','menu_icon_service')">
+                                <span class="menu_icon_service"></span>
+                                <span>用户管理</span>
+                            </a>
+                            <a href="javascript:addTab('部门管理','http://123.207.96.81:8080/backend/organization/manager','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>部门管理</span>
+                            </a>
+                            <a href="javascript:addTab('角色管理','http://123.207.96.81:8080/backend/role/manager','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>角色管理</span>
+                            </a>
+                            <a href="javascript:addTab('资源管理','http://123.207.96.81:8080/backend/resource/manager','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>资源管理</span>
+                            </a>
+                        </div>
+                        <div title="监控管理" style="overflow: auto;">
+                            <a href="javascript:addTab('系统日志','http://123.207.96.81:8080/backend/sysLog/manager','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>系统日志</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div data-options="region:'center'" style="overflow: hidden;">
+                    <div id="index_tabs" class="index_tabs" style="overflow: hidden;">
+                        <div title="首页" data-options="border:false" style="overflow: hidden;">
+
+                        </div>
+                    </div>
+                </div>
+                <div data-options="region:'south',border:false" style="height: 30px;line-height:30px; overflow: hidden;text-align: center;background-color: #eee">Copyright © 2016 power by <a href="http://www.biyabi.com/" target="_blank">比呀比</a></div>
+            </div>
+        </li>
+        <li class="b-tabitem">
+            <div class="index_layout">
+                <div data-options="region:'west',split:true" title="菜单" style="width: 160px; overflow: hidden;overflow-y:auto; padding:0px">
+                    <div class="easyui-accordion  i_accordion_menu" fit="true" border="false">
+                        <div title="商品管理" selected="true" style="overflow: auto;">
+                            <!--<a href="javascript:addTab('商品信息管理','http://123.207.96.81:8080/backend/user/manager','menu_icon_service')">
+                                <span class="menu_icon_service"></span>
+                                <span>商品信息管理</span>
+                            </a>
+                            <a href="javascript:addTab('商品促销管理','http://123.207.96.81:8080/backend/organization/manager','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>商品促销管理</span>
+                            </a>-->
+                            <a href="javascript:addTab('新建信息','createProduct.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>新建信息</span>
+                            </a>
+                            <a href="javascript:addTab('编辑信息','updateProduct.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>编辑信息</span>
+                            </a>
+                            <a href="javascript:addTab('评论审核','review.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>评论审核</span>
+                            </a>
+                            <a href="javascript:addTab('热门活动','promotion.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>热门活动</span>
+                            </a>
+                            <a href="javascript:addTab('品牌商品','addbrandspecial.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>品牌商品</span>
+                            </a>
+                            <a href="javascript:addTab('热门专题','special.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>热门专题</span>
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                <div data-options="region:'center'" style="overflow: hidden;">
+                    <div id="index_tabs" class="index_tabs" style="overflow: hidden;">
+                        <div title="首页" data-options="border:false" style="overflow: hidden;">
+
+                        </div>
+                    </div>
+                </div>
+                <div data-options="region:'south',border:false" style="height: 30px;line-height:30px; overflow: hidden;text-align: center;background-color: #eee">Copyright © 2016 power by <a href="http://www.biyabi.com/" target="_blank">比呀比</a></div>
+            </div>
+        </li>
+        <!-- 商品管理选项页面 end -->
+
+        <!--订单管理选项页面 begin-->
+        <li class="b-tabitem">
+            订单管理
+        </li>
+        <!--订单管理选项页面 end-->
+
+        <!--物流管理选项页面 begin-->
+        <li class="b-tabitem">
+            物流管理
+        </li>
+        <!-- 物流管理选项页面 end-->
+
+        <!--客服管理选项页面 begin-->
+        <li class="b-tabitem">
+            客服管理
+        </li>
+        <!--客服管理选项页面 end-->
+
+        <!-- 支付管理选项页面 begin-->
+        <li class="b-tabitem">
+            支付管理
+        </li>
+        <!-- 支付管理选项页面 end-->
+    </ul>
+
+    <div id="tab_rightmenu" class="easyui-menu tab_rightmenu" style="width:150px;">
+        <div data-options="name:'tab_menu-tabrefresh',iconCls:'icon-refresh'">刷新</div>
+        <div class="menu-sep"></div>
+        <div data-options="name:'tab_menu-tabclose',iconCls:'icon-del'">关闭</div>
+        <div name="tab_menu-tabcloseall">关闭全部标签</div>
+        <div name="tab_menu-tabcloseother">关闭其他标签</div>
+        <div class="menu-sep"></div>
+        <div name="tab_menu-tabcloseright">关闭右侧标签</div>
+        <div name="tab_menu-tabcloseleft">关闭左侧标签</div>
+    </div>
+
+    <!--[if lte IE 7]>
+    <div id="ie6-warning"><p>您正在使用 低版本浏览器，在本页面可能会导致部分功能无法使用。建议您升级到 <a href="http://www.microsoft.com/china/windows/internet-explorer/" target="_blank">Internet Explorer 8</a> 或以下浏览器：
+    <a href="http://www.mozillaonline.com/" target="_blank">Firefox</a> / <a href="http://www.google.com/chrome/?hl=zh-CN" target="_blank">Chrome</a> / <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> / <a href="http://www.operachina.com/" target="_blank">Opera</a></p></div>
+    <![endif]-->
+
+    <style>
+        /*ie6提示*/
+        #ie6-warning {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fae692;
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+            #ie6-warning p {
+                width: 960px;
+                margin: 0 auto;
+            }
+    </style>
+</body>
+</html>

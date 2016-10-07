@@ -1,0 +1,38 @@
+﻿{
+  "total": 3,
+  "rows": [
+    {
+      "id": 251803,
+      "title": "本土运费 我们包了",
+      "seq": 1,
+      "url": "http://m.biyabi.com/Home/ActivityWithoutTransportFee",
+      "mall": "日本亚马逊",
+      "starttime": "2016-10-5",
+      "endtime": "2016-10-5",
+      "type": "热门",
+      "country": "国内"
+    },
+    {
+      "id": 251803,
+      "title": "本土运费 我们包了",
+      "seq": 1,
+      "url": "http://m.biyabi.com/Home/ActivityWithoutTransportFee",
+      "mall": "日本亚马逊",
+      "starttime": "2016-10-5",
+      "endtime": "2016-10-5",
+      "type": "热门",
+      "country": "国内"
+    },
+    {
+      "id": 251803,
+      "title": "本土运费 我们包了",
+      "seq": 1,
+      "url": "http://m.biyabi.com/Home/ActivityWithoutTransportFee",
+      "mall": "日本亚马逊",
+      "starttime": "2016-10-5",
+      "endtime": "2016-10-5",
+      "type": "热门",
+      "country": "国内"
+    }
+  ]
+}

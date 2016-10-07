@@ -1,0 +1,224 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="static/icommon.css" />
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>评论审核</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="easyui-tabs" style="width:100%;height:500px;">
+            <div title="推荐" style="padding:10px">
+                <table id="dataGridType1" data-options="fit:true,border:false"></table>
+            </div>
+            <div title="晒单" style="padding:10px">
+                <table id="dataGridType2" data-options="fit:true,border:false"></table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dataGridType1, dataGridType2;
+        $(function () {
+            dataGridType1 = $('#dataGridType1').datagrid({
+                url: '/json/review.json',  //请求json文件需要加method为get，否则405错误
+                method:'GET',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                //columns: [[{
+                    width: '100',
+                    title: '评论ID',
+                    field: 'id',
+                    sortable: true
+                }, {
+                    width: '120',
+                    title: '标题',
+                    field: 'title',
+                    sortable: true, formatter: function (value, row, index) {
+                        return '<a href="javascript:parent.addTab(\'' + value +'\',\'http://www.biyabi.com\',\'menu_icon_datadeal\')" >' + value + '</a>';
+                        //href = "javascript:addTab('" + value +"','createProduct.html','menu_icon_datadeal')"
+                    }
+                }, {
+                    width: '200',
+                    title: '评论',
+                    field: 'content',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '信息ID',
+                    field: 'productid'
+                }, {
+                    width: '60',
+                    title: '用户ID',
+                    field: 'userid',
+                    sortable: true
+                }, {
+                    width: '80',
+                    title: '用户名',
+                    field: 'username',
+                    sortable: true
+                }, {
+                    width: '80',
+                    title: '昵称',
+                    field: 'nickname',
+                    sortable: true
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width: 200,
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-ok\'" onclick="tuiJianNoFun(\'{0}\');" >不通过</a>', row.id);
+
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-remove\'" onclick="tuiJianOkFun(\'{0}\');" >OK</a>', row.id);
+                        
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-ok' });
+                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-edit' });
+                }
+            });
+
+            dataGridType2 = $('#dataGridType2').datagrid({
+                url: 'json/review.json',
+                method: 'GET',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    width: '100',
+                    title: '评论ID',
+                    field: 'id',
+                    sortable: true
+                }, {
+                    width: '200',
+                    title: '内容',
+                    field: 'content',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '信息ID',
+                    field: 'productid'
+                }, {
+                    width: '60',
+                    title: '用户ID',
+                    field: 'userid',
+                    sortable: true
+                }, {
+                    width: '80',
+                    title: '用户名',
+                    field: 'username',
+                    sortable: true
+                }, {
+                    width: '80',
+                    title: '昵称',
+                    field: 'nickname',
+                    sortable: true
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width: 200,
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-ok\'" onclick="shaiDanNoFun(\'{0}\');" >不通过</a>', row.id);
+
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-remove\'" onclick="shaiDanOkFun(\'{0}\');" >OK</a>', row.id);
+
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-ok' });
+                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-edit' });
+                }
+            });
+        });
+
+        //推荐类不通过操作
+        function tuiJianNoFun(id) {
+            if (id == undefined) {
+                var rows = dataGridType1.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGridType1.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+
+        }
+
+        //推荐类OK操作
+        function tuiJianOkFun(id) {
+            if (id == undefined) {
+                var rows = dataGridType1.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGridType1.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+
+        }
+
+        //晒单类不通过操作
+        function shaiDanNoFun(id) {
+            if (id == undefined) {
+                var rows = dataGridType2.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGridType2.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+
+        }
+
+        //晒单类OK操作
+        function shaiDanOkFun(id) {
+            if (id == undefined) {
+                var rows = dataGridType2.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGridType2.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+
+        }
+
+    </script>
+</body>
+</html>

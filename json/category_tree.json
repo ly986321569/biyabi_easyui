@@ -1,0 +1,42 @@
+﻿[
+  {
+    "id": 1,
+    "text": "促销活动",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 2,
+    "text": "公告",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 7,
+    "text": "购物攻略",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 8,
+    "text": "国内精选",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  }
+]

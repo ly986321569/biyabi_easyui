@@ -1,0 +1,79 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $('#promotionAddForm').form({
+            url : '/promotion/add',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="promotionAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>标题</td>
+                    <td colspan="3"><input name="proName" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" maxlength="24"> (不能超过12个汉字或者等同长度的24个字母)</td>
+                </tr>
+                <tr>
+                    <td>排序</td>
+                    <td><input name="orderBy" value="0" class="easyui-numberspinner" style="width: 112px; height: 29px;" required="required"></td>
+                    <td>电商</td>
+                    <td><input name="mallName" type="text" class="easyui-textbox" value=""></td>
+                </tr>
+                <tr>
+                    <td>开始</td>
+                    <td><input name="startTime" class="easyui-datebox" value=""></td>
+                    <td>结束</td>
+                    <td><input name="endTime" class="easyui-datebox" value=""></td>
+                </tr>
+                <!--建议新增功能：热门活动定时上下架功能 begin-->
+                <tr>
+                    <td>上架时间</td>
+                    <td><input name="shelveTime" class="easyui-datebox" value=""></td>
+                    <td>下架时间</td>
+                    <td><input name="off-shelveTime" class="easyui-datebox" value=""></td>
+                </tr>
+                <!--建议新增功能：热门活动定时上下架功能 end-->
+                <tr>
+                    <td>网址</td>
+                    <td colspan="3"><input name="proWebsite" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" style="width:375px;"></td>
+                </tr>
+                <tr>
+                    <td>类型</td>
+                    <td><label><input type="radio" name="promotionsType" value="1">热门</label></td>
+                    <td>国家</td>
+                    <td>
+                        <label><input type="radio" name="infoNation" value="1">国内</label>
+                        <label><input type="radio" name="infoNation" value="2">海淘</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>选择图片<br/>（长宽2:1） </td>
+                    <td colspan="2">
+                        <img src="static/images/default_item.jpg" alt="" width="100" />
+                    </td>
+                    <td>
+                        <input class="easyui-filebox" name="file1" data-options="prompt:'选择图片'">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

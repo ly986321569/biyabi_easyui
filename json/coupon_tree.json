@@ -1,0 +1,42 @@
+﻿[
+  {
+    "id": 1,
+    "text": "优惠码标题1",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 2,
+    "text": "优惠码标题2",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 3,
+    "text": "优惠码标题3",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  },
+  {
+    "id": 4,
+    "text": "优惠码标题4",
+    "state": "open",
+    "checked": false,
+    "attributes": null,
+    "children": null,
+    "iconCls": null,
+    "pid": null
+  }
+]

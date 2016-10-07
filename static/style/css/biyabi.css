@@ -1,0 +1,37 @@
+*{font-size:12px;}
+body {font-family:helvetica,tahoma,verdana,sans-serif;padding:20px;font-size:13px;margin:0;}
+h2 {font-size:18px;font-weight:bold;margin:0;margin-bottom:15px;}
+
+.grid {border: 1px solid #eeeeee;font: 12px arial,helvetica,sans-serif;}
+.grid td {font: 100% arial,helvetica,sans-serif;height: 24px;padding: 5px;}
+.grid {border-collapse: collapse;width: 100%;}
+.grid th {background: none repeat scroll 0 0 #E7F3FE;border: 1px solid #eeeeee;height: 27px;line-height: 27px;padding-left: 5px;}
+.grid td {border: 1px solid #eeeeee;padding-left: 5px;}
+
+/*#layout_west_tree li ul li div{padding:5px 5px 3px 5px;}*/
+#layout_west_tree li div{padding:5px 5px 3px 10px;}
+
+#header{overflow:hidden;height:80px;background:#fff ;line-height:80px;color:#fff;font-family:Verdana,微软雅黑,黑体}
+.header{background: url(../images/logo_login.png) no-repeat left;margin:0 0 0 20px; width: 220px; height: 80px; float: left;}
+.header-title{line-height:80px;font-size:18px;margin:0;color: #333;font-family: "Microsoft YaHei";font-weight:400;}
+#common_b{overflow:hidden;height:70px;line-height:70px;color:#fff;font-family:Verdana,微软雅黑,黑体}
+#common{overflow:hidden;height:60px;background:#eee;line-height:60px;color:#fff;font-family:Verdana,微软雅黑,黑体}
+
+.light-info{background:#FFFEE6;color:#8F5700;padding:12px;}
+.light-tip{width:16px;height:16px;margin-right:8px;float:left;}
+
+/*自定义导航栏样式*/
+.clearfix:before {content: " "; display: table;}
+.clearfix:after{content: " ";display: table;clear: both;}
+.b-top{}
+.b-tabnav{height:40px;width:100%;overflow:hidden;background:#F61420;}
+.b-tabnav>ul{list-style:none;margin:0;padding:0;}
+.b-tabnav>ul>li{float:left;padding:6px 0 0 8px;height:34px;}
+.b-tabnav a{display:inline-block;padding:6px 10px 12px 10px; color:#fff;text-decoration:none;height:16px;}
+.b-tabnav>ul>li.current a{background:#fff;color:#CE0C16;border-top-left-radius:2px;border-top-right-radius:2px;}
+.b-tabnav>ul>li.current a:hover{background:#fff;color:#CE0C16;}
+.b-tabnav>ul>li a:hover{background:#D5101A;color:#fff;}
+
+.b-tabcontent{height:100%;padding:0;margin:0;list-style:none;}
+.b-tabcontent .b-tabitem{display:none;height:100%;}
+.b-tabcontent .b-tabitem.current{display:block;}
