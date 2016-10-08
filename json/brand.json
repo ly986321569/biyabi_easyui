@@ -1,0 +1,29 @@
+﻿{
+  "total": 3,
+  "rows": [
+    {
+      "id": 123,
+      "brandLogo": "http://pic.biyabi.com/brand_logo/newbalance.png",
+      "brandChineseName": "新百伦",
+      "brandEngName": "New Balance",
+      "countryname": "美国",
+      "introduction": "New Balance于1906年William J. Riley先生在美国马拉松之城波士顿成立，现已成为众多成功企业家和政治领袖爱用的品牌，在美国及许多国家被誉为“总统慢跑鞋”，“慢跑鞋之王”。"
+    },
+    {
+      "id": 134,
+      "brandLogo": "http://pic.biyabi.com/brand_logo/newbalance.png",
+      "brandChineseName": "新百伦",
+      "brandEngName": "New Balance",
+      "countryname": "美国",
+      "introduction": "New Balance于1906年William J. Riley先生在美国马拉松之城波士顿成立，现已成为众多成功企业家和政治领袖爱用的品牌，在美国及许多国家被誉为“总统慢跑鞋”，“慢跑鞋之王”。"
+    },
+    {
+      "id": 234,
+      "brandLogo": "http://pic.biyabi.com/brand_logo/newbalance.png",
+      "brandChineseName": "新百伦",
+      "brandEngName": "New Balance",
+      "countryname": "美国",
+      "introduction": "New Balance于1906年William J. Riley先生在美国马拉松之城波士顿成立，现已成为众多成功企业家和政治领袖爱用的品牌，在美国及许多国家被誉为“总统慢跑鞋”，“慢跑鞋之王”。"
+    }
+  ]
+}

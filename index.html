@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <link rel="shortcut icon" href="http://123.207.96.81:8080/backend/static/style/images/favicon.ico" />
     <!-- [my97日期时间控件] -->
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
     <!-- [jQuery] -->
     <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
     <!-- [EasyUI] -->
@@ -310,7 +310,7 @@
 </head>
 <body class="panel-noscroll">
     <div id="loading" style="position: fixed;top: -50%;left: -50%;width: 200%;height: 200%;background: #fff;z-index: 100;overflow: hidden;">
-        <img src="http://123.207.96.81:8080/backend/static/style/images/ajax-loader.gif" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;" />
+        <img src="static/style/images/ajax-loader.gif" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;margin: auto;" />
     </div>
     <div class="b-top">
         <div class="clearfix">
@@ -376,14 +376,6 @@
                 <div data-options="region:'west',split:true" title="菜单" style="width: 160px; overflow: hidden;overflow-y:auto; padding:0px">
                     <div class="easyui-accordion  i_accordion_menu" fit="true" border="false">
                         <div title="商品管理" selected="true" style="overflow: auto;">
-                            <!--<a href="javascript:addTab('商品信息管理','http://123.207.96.81:8080/backend/user/manager','menu_icon_service')">
-                                <span class="menu_icon_service"></span>
-                                <span>商品信息管理</span>
-                            </a>
-                            <a href="javascript:addTab('商品促销管理','http://123.207.96.81:8080/backend/organization/manager','menu_icon_datadeal')">
-                                <span class="menu_icon_datadeal"></span>
-                                <span>商品促销管理</span>
-                            </a>-->
                             <a href="javascript:addTab('新建信息','createProduct.html','menu_icon_datadeal')">
                                 <span class="menu_icon_datadeal"></span>
                                 <span>新建信息</span>
@@ -408,9 +400,17 @@
                                 <span class="menu_icon_datadeal"></span>
                                 <span>热门专题</span>
                             </a>
-                            <a href="javascript:addTab('品牌专题','brandspecial.html','menu_icon_datadeal')">
+                            <a href="javascript:addTab('品牌专场','brandspecial.html','menu_icon_datadeal')">
                                 <span class="menu_icon_datadeal"></span>
-                                <span>品牌专题</span>
+                                <span>品牌专场</span>
+                            </a>
+                            <a href="javascript:addTab('导入品牌','brand.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>导入品牌</span>
+                            </a>
+                            <a href="javascript:addTab('晒单审核','shaidan.html','menu_icon_datadeal')">
+                                <span class="menu_icon_datadeal"></span>
+                                <span>晒单审核</span>
                             </a>
                             
                             

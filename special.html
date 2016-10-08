@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <link rel="shortcut icon" href="static/style/images/favicon.ico" />
     <!-- [my97日期时间控件] -->
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
     <!-- [jQuery] -->
     <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
     <!-- [EasyUI] -->
     <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
     <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
     <script type="text/javascript">
         var basePath = "http://123.207.96.81:8080/backend";
     </script>
@@ -33,21 +33,21 @@
             <div style="margin:5px">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript: addFun();">添加</a>
             </div>
-            <div style="margin:5px">
+            <div style="margin:10px">
                 标题: <input class="easyui-textbox" type="text" id="txttitle" value="" />
-                开始时间: <input class="easyui-datebox" style="width:80px">
+                <label style="margin-left:30px;">开始时间: </label><input class="easyui-datebox" style="width:80px">
                 ~ <input class="easyui-datebox" style="width:80px">
-                状态: 
+                <label style="margin-left:30px;">状态: </label>
                 <select class="easyui-combobox" name="" style="width:100px">
                     <option value="0">显示</option>
                     <option value="1">隐藏</option>
                     <option value="2">删除</option>
                 </select>
             </div>
-            <div style="margin:5px">
+            <div style="margin:10px">
                 结束时间: <input class="easyui-datebox" style="width:80px">
                 ~ <input class="easyui-datebox" style="width:80px">
-                父级专题:
+                <label style="margin-left:30px;">父级专题:</label>
                 <select class="easyui-combobox" name="serspecialtype" style="width:100px">
                     <option value="">全部</option>
                     <option value="1">潮流放映室</option>
@@ -58,7 +58,7 @@
                     <option value="6">酷玩博物馆</option>
                     <option value="7">吃货欲望号</option>
                 </select>
-                <a href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-search" style="margin-left:30px;">搜索</a>
             </div>
         </div>
     </div>

@@ -45,8 +45,34 @@
                 width: 215px;
             }
 
-        .english-content {
-            margin: 0 0 15px 0;
+        .img-list {
+            /*display:inline-block;*/
+            float:left;
+            list-style:none;
+            padding:0;
+            margin:0;
+        }
+        .img-list li {
+            padding:0;
+            margin:0;
+        }
+        .img-list li img {
+            height:120px;
+        }
+        .btn-upload-img {
+            float:left;
+            display:inline-block;
+            width:120px;
+            height:120px;
+            line-height:120px;
+            text-align:center;
+            font-size:40px;
+            text-decoration:none;
+            color:#00b9ff;
+            border:3px dashed #00b9ff;
+        }
+        .btn-upload-img:hover {
+            background:#c9f0ff;
         }
     </style>
 </head>
@@ -159,7 +185,7 @@
             </div>
             <div class="form-row" style="padding-bottom:15px;">
                 <label class="title">商品标签</label>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="purchasingTagAdd" onclick="">添加</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" id="purchasingTagAdd" style="width:82px;" onclick="">添加</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" onclick="">一键补齐数据</a>
             </div>
             <div class="purchasingTagForm">
@@ -178,8 +204,24 @@
         </div>
 
         <div class="form-container clearfix">
-
+            <div class="form-row">
+                <label class="title">小编评语</label>
+            </div>
+            <input class="easyui-textbox" data-options="multiline:true" value="" style="width:620px;height:100px">
         </div>
+
+        <div class="form-container clearfix" style="padding:15px 0;">
+            <ul class="img-list">
+                <li><img src="static/images/default_item.jpg" alt="" /></li>
+            </ul>
+            <a href="javascript:;" class="btn-upload-img">+</a>
+        </div>
+        <div>
+            <a href="javascript:;" class="easyui-linkbutton" style="width:120px;height:40px;">提交</a>
+        </div>
+
+        <!--加载编辑器的容器-->
+        <script id="content" name="content" type="text/plain"></script>
     </form>
 
     <!--配置文件-->
@@ -187,33 +229,29 @@
     <!--编辑器源码文件-->
     <script type="text/javascript" src="static/ueditor/ueditor.all.js"></script>
     <script type="text/javascript">
-        //var ue = UE.getEditor('content'),
-        //    ueEn = UE.getEditor('englishcontent', {
-        //        initialFrameHeight: 100,
-        //        toolbars: [
-        //    [
-        //        'pasteplain', //纯文本粘贴模式
-        //        'removeformat', //清除格式
-        //        '|', //分隔线
-        //        'forecolor', //字体颜色
-        //        'bold', //加粗
-        //        'italic', //斜体
-        //        'underline', //下划线
-        //        '|', //分隔线
-        //        'justifyleft', //居左对齐
-        //        'justifyright', //居右对齐
-        //        'justifycenter', //居中对齐
-        //        'insertorderedlist', //有序列表
-        //        'insertunorderedlist', //无序列表
-        //        'emotion', //表情
-        //        'link', //超链接
-        //        'unlink', //取消链接
-        //        '|', //分隔线
-        //        'source', //源代码
-        //        'fullscreen' //全屏
-        //    ]
-        //        ]
-        //    });  //海淘英文内容
+        //调用ueditor图片上传
+        var _editor = UE.getEditor("content");
+        _editor.ready(function () {
+            //_editor.setDisabled();
+            _editor.hide();
+            _editor.addListener("beforeInsertImage", function (t, arg) {
+                //$("#image_").attr("value", arg[0].src);
+                //$("#preview").attr("src", arg[0].src);
+                //$("#up").text("重新上传");
+            });
+        });
+        //图片上传框弹出方法
+        function upImage() {
+            var myImage = _editor.getDialog("insertimage");
+            myImage.open();
+        }
+
+        $(".btn-upload-img").on("click", function () {
+            upImage();
+        })
+
+
+
         $(function () {
             //选择品牌字母加载品牌
             $("#brandLetterName").combobox({

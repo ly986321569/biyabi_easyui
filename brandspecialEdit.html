@@ -29,7 +29,7 @@
             <table class="grid">
                 <tr>
                     <td>标题</td>
-                    <td><input name="posttitle" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" style="width:200px;"></td>
+                    <td><input name="posttitle" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" style="width:170px;"></td>
                     <td>编辑名</td>
                     <td>olivia1992</td>
                 </tr>
@@ -40,6 +40,15 @@
                 <tr>
                     <td>排序</td>
                     <td><input name="postorderby" value="0" class="easyui-numberspinner" style="width: 112px; height: 29px;" required="required"></td>
+                    <td>类型</td>
+                    <td>
+                        <select class="easyui-combobox" name="postspecialtype" style="width:120px;">
+                            <option value="1">默认</option>
+                            <option value="2">推荐</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td>状态</td>
                     <td>
                         <select class="easyui-combobox" name="postdeteletype" style="width:120px;">
@@ -48,37 +57,10 @@
                             <option value="0">删除</option>
                         </select>
                     </td>
-                </tr>
-                <tr>
                     <td>定时显示</td>
                     <td>
-                        <label><input type="checkbox" name="postpushshow">是</label>
+                        <label><input type="checkbox" name="postpushshow">是 </label>
                         <input class="easyui-datetimebox" name="postpushtime" value="" />
-                    </td>
-                    <td>父级专题</td>
-                    <td>
-                        <select class="easyui-combobox" name="specialtype" style="width:120px;">
-                            <option value="1">潮流放映室</option>
-                            <option value="2">颜控王国</option>
-                            <option value="3">母婴速递</option>
-                            <option value="4">男人观</option>
-                            <option value="5">生活意象派</option>
-                            <option value="6">酷玩博物馆</option>
-                            <option value="7">吃货欲望号</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>类型</td>
-                    <td>
-                        <select class="easyui-combobox" name="postspecialtype" style="width:120px;">
-                            <option value="1">默认</option>
-                            <option value="2">推荐</option>
-                        </select>
-                    </td>
-                    <td>是否推送</td>
-                    <td>
-                        <label><input type="checkbox" name="postpushsend" value="1" />是</label>
                     </td>
                 </tr>
                 <tr>
