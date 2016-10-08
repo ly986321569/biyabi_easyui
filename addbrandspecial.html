@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <link rel="shortcut icon" href="static/style/images/favicon.ico" />
     <!-- [my97日期时间控件] -->
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
     <!-- [jQuery] -->
     <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
     <!-- [EasyUI] -->
     <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
     <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://123.207.96.81:8080/backend/static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
     <script type="text/javascript">
         var basePath = "http://123.207.96.81:8080/backend";
     </script>
@@ -62,8 +62,12 @@
                     <label class="title">重复信息 </label> 无
                 </div>
                 <div class="form-row">
+                    <label class="title">标题</label><input class="easyui-textbox" type="text" name="postInfoTitle" value="" maxlength="500" />
+                    <label class="title">规格</label><input class="easyui-textbox" type="text" name="Specifications" value="" />
+                </div>
+                <div class="form-row">
                     <label class="title">国家</label>
-                    <select class="easyui-combobox" data-options="editable:false" name="" style="width:215px;">
+                    <select class="easyui-combobox" data-options="editable:false" name="infoCountry" style="width:215px;">
                         <option value="">无</option>
                         <option value="90">美国</option>
                         <option value="11">日本</option>
@@ -75,21 +79,8 @@
                     </select>
                     <label class="title">电商</label><input class="easyui-textbox" type="text" readonly="readonly" name="mallName" value="" />
                 </div>
-
-
-
-
                 <div class="form-row">
-                    <label class="title">标题</label><input class="easyui-textbox" type="text" name="postInfoTitle" value="" maxlength="500" />
-                    <label class="title">规格</label><input class="easyui-textbox" type="text" name="Specifications" value="" />
-                </div>
-                <div class="form-row">
-                    <label class="title">价格</label><input class="easyui-textbox" type="text" name="commodityPrice" value="" />
-                    <label class="title">推荐人</label><input class="easyui-textbox" type="text" name="nickname" value="" />
-                </div>
-                <div class="form-row">
-                    <label class="title">电商</label><input class="easyui-textbox" type="text" name="mallName" value="" />
-                    <!--name不能为 tagName，否则ueditor富文本出现冲突异常-->
+                    <label class="title">价格</label><input class="easyui-textbox" type="text" name="commodityPrice" value="" disabled="disabled" />
                     <label class="title">标签</label><input class="easyui-textbox" type="text" name="tagName1" value="" />(逗号分隔)
                 </div>
                 <div class="form-row">
@@ -130,46 +121,24 @@
                     </select>
                 </div>
                 <div class="form-row">
-                    <label class="title">类型</label>
-                    <label><input type="radio" name="infoType" value="1" onclick="return NoHaitaoHandle();" disabled="disabled">推荐</label>
-                    <label><input type="radio" name="infoType" value="2" />发现</label>
-                    <label><input type="radio" name="infoType" value="5" />海淘</label>
-                    <label><input type="checkbox" name="isTop" value="1" />同时置顶</label>
-                    <label class="title">显示</label>
-                    <label><input type="radio" name="homeShow" disabled="disabled" value="1" checked="checked" />首页</label>
-                    <label><input type="radio" name="homeShow" disabled="disabled" value="2" />关闭首页</label>（选择海淘时有效）
-                </div>
-                <div class="form-row">
-                    <label class="title">国家</label>
-                    <label><input type="radio" name="infoNation" value="1" />国内</label>
-                    <label><input type="radio" name="infoNation" value="2" />国外</label>
-                    <select class="easyui-combobox" name="infoCountry" style="width:120px;">
+                    <label class="title">专题信息</label>
+                    <select class="easyui-combobox" name="" style="width:215px;">
                         <option value="">无</option>
-                        <option value="1">美国</option>
+                        <option value="813">有机护肤，肌肤天然防护罩</option>
                     </select>
-                    <label class="title">奖励</label>
-                    积分 <input class="easyui-textbox" type="text" readonly="readonly" name="addScore" value="10" style="width:40px;" />
-                    金币 <input class="easyui-textbox" type="text" readonly="readonly" name="addGold" value="0" style="width:40px;" />
+                    <label class="title">专场信息</label>
+                    <select class="easyui-combobox" name="" style="width:215px;">
+                        <option value="0">无</option>
+                        <option value="405">DHC专场 健康辅助小能手</option>
+                    </select>
                 </div>
                 <div class="form-row">
-                    <label class="title">代购</label>
-                    <label style="width: 215px;display: inline-block;"><input type="checkbox" name="isPurchasing" value="" /> 是否代购</label>
-                    <label class="title">专题</label>
-                    <label><input type="checkbox" name="isSpecialInfo" value="" />专题信息</label>
-                </div>
-                <div class="form-row">
-                    <label class="title">定时</label>
-                    <label><input type="checkbox" name="IsPushTimer" value="" /> 是否定时发送</label>
-                    <input class="easyui-datetimebox" name="addTimer" value="" style="width:120px;" />
-                    <label class="title">优惠绑定</label>
-                    <!--<select multiple="multiple" name="giftvalue">
-                        <option value="">请选择优惠码标题</option>
-                    </select>-->
-                    <input class="easyui-combotree" data-options="url:'json/coupon_tree.json',method:'get',lines:true,multiple:true" id="giftvalue" name="giftvalue" style="width: 140px; height: 29px;" />
-                </div>
-                <div class="form-row">
+                    <label class="title">商品重量</label><input class="easyui-textbox" type="text" name="" value="0" />
                     <label class="title">分类</label>
                     <input class="easyui-combotree" data-options="url:'json/category_tree.json',method:'get',lines:true,multiple:true" id="catName" name="catName" style="width: 140px; height: 29px;" />
+                </div>
+                <div class="form-row">
+                    <label class="title">直达链接</label><input class="easyui-textbox" type="text" name="" value="" style="width:530px;" />
                 </div>
             </div>
             <div class="form-right" style="float:left;">
@@ -181,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-container purchasing-container" style="display:none;background:#FFFEF6;">
+        <div class="form-container purchasing-container" style="background:#FFFEF6;">
             <!--代购的表单 begin-->
             <div class="form-row" style="padding-top: 30px;border-top: 1px solid #d7d7d7;">
                 <label class="title">预估价格</label>
@@ -208,51 +177,8 @@
             <!--代购的表单 end-->
         </div>
 
-        <div class="form-container haitao-container" style="display:none;">
-            <!--海淘类型的表单 begin-->
-            <div class="form-row" style="padding-top: 30px;border-top: 1px solid #d7d7d7;">
-                <label class="title">英文标题</label>
-                <input class="easyui-textbox" type="text" name="englishTitle" value="" />
-            </div>
-            <div class="form-row">
-                <label class="title">英文价格</label>
-                <input class="easyui-textbox" type="text" name="englishPrice" value="" />
-            </div>
-            <!--海淘类型的表单 end-->
-            <!--海淘类型的英文内容 begin-->
-            <div class="english-content">
-                <div class="form-row">
-                    <label class="title">英文内容</label>
-                </div>
-                <!--加载编辑器的容器-->
-                <script id="englishcontent" name="englishcontent" type="text/plain">
-                    英文内容
-                </script>
-            </div>
-            <!--海淘类型的英文内容 end-->
-        </div>
+        <div class="form-container clearfix">
 
-        <div class="form-container">
-            <!--加载编辑器的容器-->
-            <script id="content" name="content" type="text/plain">
-                这里写你的初始化内容
-            </script>
-        </div>
-
-        <div class="form-container" style="padding:15px;background:#FFFEF6;">
-            <div class="form-row">
-                直达链接 <input class="easyui-textbox" type="text" name="redirectUrl" value="" />
-            </div>
-
-            <div class="form-row">
-                名称：<input class="easyui-textbox" multiline="true" name="commodityUrlName" style="width:100px;height:120px">
-                url：<input class="easyui-textbox" multiline="true" name="commodityUrl" style="width:700px;;height:120px">
-            </div>
-            <div class="form-row">
-                <!--<input type="submit" value="提交" />-->
-                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="" style="width:100px;">提交</a>
-                <label><input type="checkbox" name="updatePush" value="1" />提交时推送</label>
-            </div>
         </div>
     </form>
 
@@ -261,55 +187,34 @@
     <!--编辑器源码文件-->
     <script type="text/javascript" src="static/ueditor/ueditor.all.js"></script>
     <script type="text/javascript">
-        var ue = UE.getEditor('content'),
-            ueEn = UE.getEditor('englishcontent', {
-                initialFrameHeight: 100,
-                toolbars: [
-            [
-                'pasteplain', //纯文本粘贴模式
-                'removeformat', //清除格式
-                '|', //分隔线
-                'forecolor', //字体颜色
-                'bold', //加粗
-                'italic', //斜体
-                'underline', //下划线
-                '|', //分隔线
-                'justifyleft', //居左对齐
-                'justifyright', //居右对齐
-                'justifycenter', //居中对齐
-                'insertorderedlist', //有序列表
-                'insertunorderedlist', //无序列表
-                'emotion', //表情
-                'link', //超链接
-                'unlink', //取消链接
-                '|', //分隔线
-                'source', //源代码
-                'fullscreen' //全屏
-            ]
-                ]
-            });  //海淘英文内容
+        //var ue = UE.getEditor('content'),
+        //    ueEn = UE.getEditor('englishcontent', {
+        //        initialFrameHeight: 100,
+        //        toolbars: [
+        //    [
+        //        'pasteplain', //纯文本粘贴模式
+        //        'removeformat', //清除格式
+        //        '|', //分隔线
+        //        'forecolor', //字体颜色
+        //        'bold', //加粗
+        //        'italic', //斜体
+        //        'underline', //下划线
+        //        '|', //分隔线
+        //        'justifyleft', //居左对齐
+        //        'justifyright', //居右对齐
+        //        'justifycenter', //居中对齐
+        //        'insertorderedlist', //有序列表
+        //        'insertunorderedlist', //无序列表
+        //        'emotion', //表情
+        //        'link', //超链接
+        //        'unlink', //取消链接
+        //        '|', //分隔线
+        //        'source', //源代码
+        //        'fullscreen' //全屏
+        //    ]
+        //        ]
+        //    });  //海淘英文内容
         $(function () {
-            $("input[name=infoType]").on("click", function () {
-                if ($(this).val() == 2) {
-                    //不是海淘时显示首页置为不可用
-                    $("input[name=homeShow]").attr("disabled", "disabled");
-                    $(".haitao-container").hide();
-                } else if ($(this).val() == 5) {
-                    //不是海淘时显示首页置为可用
-                    $("input[name=homeShow]").removeAttr("disabled");
-                    $(".haitao-container").show();
-                }
-            });
-            $("input[name=isPurchasing]").on("click", function () {
-                if ($(this).prop("checked")) {
-                    //勾选则显示代购相关表单
-                    $(".purchasing-container").show();
-                } else {
-                    //不勾选则隐藏代购相关表单
-                    $(".purchasing-container").hide();
-                }
-            })
-
             //选择品牌字母加载品牌
             $("#brandLetterName").combobox({
                 onChange: function (newval, oldval) {
