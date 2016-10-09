@@ -24,6 +24,21 @@
     <link rel="stylesheet" type="text/css" href="static/icommon.css" />
     <script src="static/easyui/datagrid-detailview.js"></script>
     <title>评论审核</title>
+    <style>
+        .image-list {
+            padding:0;
+            margin:10px 0 0;
+            list-style:none;
+        }
+        .image-list li {
+            margin:0 10px 10px 0;
+            float:left;
+            text-align:center;
+        }
+        .image-list li img {
+            height:200px;
+        }
+    </style>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
@@ -54,10 +69,10 @@
                 }, {
                     width: '120',
                     title: '首图',
-                    field: 'image',
+                    field: 'images',
                     sortable: true
                     , formatter: function (value, row, index) {
-                        return '<img src="' + value + '" height="50" />';
+                        return '<img src="' + value[0] + '" height="50" style="padding:5px;" />';
                     }
                 }, {
                     width: '200',
@@ -75,13 +90,13 @@
                     field: 'time'
                 }, {
                     width: '60',
-                    title: '商品',
+                    title: '商品ID',
                     field: 'product',
                     sortable: true
                 }, {
                     field: 'action',
                     title: '操作',
-                    width: 400,
+                    width: 220,
                     formatter: function (value, row, index) {
                         var str = '';
                         str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-jingxuan" data-options="plain:true,iconCls:\'icon-remove\'" onclick="jingxuanFun(\'{0}\');" >精选</a>', row.id);
@@ -96,6 +111,18 @@
                     $('.easyui-linkbutton-jingxuan').linkbutton({ text: '精选', plain: true, iconCls: 'icon-ok' });
                     $('.easyui-linkbutton-ok').linkbutton({ text: '通过', plain: true, iconCls: 'icon-ok' });
                     $('.easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-del' });
+                },
+                view: detailview,
+                detailFormatter: function (rowIndex, rowData) {
+                    var returnStr = '';
+                    returnStr += '<div style="font-size:14px;color:#666;font-family:\'Microsoft YaHei\'"><span style="margin:0 10px 0 0;font-size:16px;color:#F60;">内容：</span>' + rowData.content + '</div>';
+                    returnStr += '<ul class="image-list">';
+                    for (var i = 0; i < rowData.images.length; i++) {
+                        returnStr += '<li><a target="_blank" href="' + rowData.images[i] + '"><img src="' + rowData.images[i] + '"></a></li>';
+                    }
+                    returnStr += '<li style="height:0;overflow:hidden;float:none;clear:both;"></li></ul>';
+
+                    return returnStr;
                 }
             });
         });
@@ -108,7 +135,20 @@
             } else {
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
-
+            parent.$.modalDialog({
+                title: '精选',
+                width: 470,
+                height: 400,
+                href: 'shaidanJingxuan.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#shaidanJingxuanForm');
+                        f.submit();
+                    }
+                }]
+            });
         }
 
         //通过操作
@@ -119,6 +159,20 @@
             } else {
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
+            parent.$.modalDialog({
+                title: '通过',
+                width: 470,
+                height: 400,
+                href: 'shaidanok.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#shaidanOkForm');
+                        f.submit();
+                    }
+                }]
+            });
 
         }
 
@@ -130,6 +184,20 @@
             } else {
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
+            parent.$.modalDialog({
+                title: '不通过',
+                width: 470,
+                height: 300,
+                href: 'shaidanno.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#shaidanNoForm');
+                        f.submit();
+                    }
+                }]
+            });
 
         }
     </script>

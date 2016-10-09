@@ -1,0 +1,64 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#shaidanJingxuanForm').form({
+            url: '/shaidan/jingxuan',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<style>
+    .image-list>img{
+        margin:0 5px 5px 0;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;overflow-y: auto;padding: 3px;">
+        <form id="shaidanJingxuanForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>封面图(从左1往右数数)</td>
+                    <td>
+                        <select class="easyui-combobox" name="mainImage" style="width:120px;">
+                            <option value="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg">第1张</option>
+                            <option value="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093112_6297_7582.jpg">第2张</option>
+                            <option value="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_9022_7852.jpg">第3张</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="image-list">
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093112_6297_7582.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_9022_7852.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                        <img src="http://pic.biyabi.com/shareshopping_image/2016/9/18/20160918093127_8866_4237.jpg" alt="" width="100" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

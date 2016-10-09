@@ -28,7 +28,7 @@
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
-        <div class="easyui-tabs" style="width:100%;height:500px;">
+        <div class="easyui-tabs" data-options="tabWidth:80" style="width:100%;height:500px;">
             <div title="推荐" style="padding:10px">
                 <table id="dataGridType1" data-options="fit:true,border:false"></table>
             </div>
@@ -98,17 +98,17 @@
                     formatter: function (value, row, index) {
                         var str = '';
 
-                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-ok\'" onclick="tuiJianNoFun(\'{0}\');" >不通过</a>', row.id);
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-ok\'" onclick="tuiJianOkFun(\'{0}\');" >OK</a>', row.id);
 
                         str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
-                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-remove\'" onclick="tuiJianOkFun(\'{0}\');" >OK</a>', row.id);
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-remove\'" onclick="tuiJianNoFun(\'{0}\');" >不通过</a>', row.id);
                         
                         return str;
                     }
                 }]],
                 onLoadSuccess: function (data) {
-                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-ok' });
-                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-edit' });
+                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-ok' });
+                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-remove' });
                 }
             });
 
@@ -159,18 +159,15 @@
                     width: 200,
                     formatter: function (value, row, index) {
                         var str = '';
-
-                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-ok\'" onclick="shaiDanNoFun(\'{0}\');" >不通过</a>', row.id);
-
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-ok\'" onclick="shaiDanOkFun(\'{0}\');" >OK</a>', row.id);
                         str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
-                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-ok" data-options="plain:true,iconCls:\'icon-remove\'" onclick="shaiDanOkFun(\'{0}\');" >OK</a>', row.id);
-
+                        str += $.formatString('<a href="javascript:void(0)" class="review-easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-remove\'" onclick="shaiDanNoFun(\'{0}\');" >不通过</a>', row.id);
                         return str;
                     }
                 }]],
                 onLoadSuccess: function (data) {
-                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-ok' });
-                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-edit' });
+                    $('.review-easyui-linkbutton-ok').linkbutton({ text: 'OK', plain: true, iconCls: 'icon-ok' });
+                    $('.review-easyui-linkbutton-no').linkbutton({ text: '不通过', plain: true, iconCls: 'icon-remove' });
                 }
             });
         });
