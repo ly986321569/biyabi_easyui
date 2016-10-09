@@ -138,7 +138,14 @@
                     <label class="title">代购</label>
                     <label style="width: 215px;display: inline-block;"><input type="checkbox" name="isPurchasing" value="" /> 是否代购</label>
                     <label class="title">专题</label>
-                    <label><input type="checkbox" name="isSpecialInfo" value="" />专题信息</label>
+                    <label><input type="checkbox" name="isSpecialInfo" value="" />是</label>
+                    <label id="special-combobox" style="visibility:hidden;">
+                        <select name="specialID" class="easyui-combobox" style="width:180px;">
+                            <option value="0">无</option>
+                            <option value="368">包屁衫专场，宝宝内衣秀</option>
+                            <option value="371">高性价比亲民腕表推荐 经典永不过时</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="form-row">
                     <label class="title">定时</label>
@@ -334,6 +341,15 @@
                 $.parser.parse(targetObj);  //js动态添加元素时出现的样式失效，重新渲染这个特定的组件
                 //$(".purchasingForm>:first").find('input[name=purchasingChecked]').hide();
             });
+
+            //显示专题信息下拉框
+            $("[name=isSpecialInfo]").on("click", function () {
+                if ($(this).prop("checked")) {
+                    $("#special-combobox").css("visibility", "visible");
+                } else {
+                    $("#special-combobox").css("visibility", "hidden");
+                }
+            })
         })
     </script>
 </body>
