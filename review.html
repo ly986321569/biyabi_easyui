@@ -64,7 +64,7 @@
                     title: '标题',
                     field: 'title',
                     sortable: true, formatter: function (value, row, index) {
-                        return '<a href="javascript:parent.addTab(\'' + value +'\',\'http://www.biyabi.com\',\'menu_icon_datadeal\')" >' + value + '</a>';
+                        return '<a href="javascript:parent.addTab(\'' + value +'\',\''+ row.link+'\',\'menu_icon_datadeal\')" >' + value + '</a>';
                         //href = "javascript:addTab('" + value +"','createProduct.html','menu_icon_datadeal')"
                     }
                 }, {

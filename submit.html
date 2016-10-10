@@ -1,0 +1,137 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="static/icommon.css" />
+    <script src="static/easyui/datagrid-detailview.js"></script>
+    <title>爆料列表</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <table id="dataGrid" data-options="fit:true,border:false"></table>
+    </div>
+
+    <script type="text/javascript">
+        var dataGrid;
+        $(function () {
+            dataGrid = $('#dataGrid').datagrid({
+                url: '/json/submit.json',  //请求json文件需要加method为get，否则405错误
+                method: 'GET',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    //columns: [[{
+                    width: '100',
+                    title: '信息ID',
+                    field: 'id',
+                    sortable: true
+                }, {
+                    width: '120',
+                    title: '标题',
+                    field: 'title',
+                    sortable: true
+                }, {
+                    width: '120',
+                    title: '链接',
+                    field: 'link',
+                    sortable: true
+                    , formatter: function (value, row, index) {
+                        return '<a target="_blank" href="' + value + '" >' + value + '</a>';
+                    }
+                }, {
+                    width: '120',
+                    title: '昵称',
+                    field: 'nickname',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '时间',
+                    field: 'time'
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width: 150,
+                    formatter: function (value, row, index) {
+                        var str = '';
+                        str += $.formatString('<a href="javascript:parent.addTab(\'编辑信息\',\'updateProduct.html?id=' + row.id + '\',\'menu_icon_datadeal\')" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-edit\'" >编辑</a>', row.id);
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-no" data-options="plain:true,iconCls:\'icon-del\'" onclick="noFun(\'{0}\');" >不采用</a>', row.id);
+
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                    $('.easyui-linkbutton-no').linkbutton({ text: '不采用', plain: true, iconCls: 'icon-del' });
+                },
+                view: detailview,
+                detailFormatter: function (rowIndex, rowData) {
+                    var returnStr = '<div class="clearfix">';
+                    returnStr += '<div style="float:left;width: 500px;padding:10px;font-size:14px;color:#666;font-family:\'Microsoft YaHei\'">';
+                    returnStr += '<span style="margin:0 10px 0 0;font-size:16px;color:#F60;">内容：</span>' + rowData.content + '</div>';
+
+                    returnStr += '<div style="float:left;width:280px;"><ul style="list-style:none;">';
+                    returnStr += '<li>来源：' + rowData.source + '</li>';
+                    returnStr += '<li>活动：' + rowData.activity + '</li>';
+                    returnStr += '<li>地区：' + rowData.area + '</li>';
+                    returnStr += '<li>特色：' + rowData.special + '</li>';
+                    returnStr += '</ul></div></div>';
+
+                    return returnStr;
+                }
+            });
+        });
+
+        //不采用操作
+        function noFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '不采用',
+                width: 480,
+                height: 300,
+                href: 'submitno.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#submitNoForm');
+                        f.submit();
+                    }
+                }]
+            });
+
+        }
+    </script>
+</body>
+</html>
