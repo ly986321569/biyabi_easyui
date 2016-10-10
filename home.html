@@ -26,13 +26,65 @@
     <title>统计</title>
     <style>
         .editor-info {
-            list-style:none;
-            padding:0;
-            margin:0;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
         .editor-info > li {
+            float:left;
+            margin:0 30px 0 0;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .editor-info > li span {
+            font-size: 14px;
+        }
+        .filter-box {
+            padding:0 0 0 10px;
+        }
+        .filter-box ul {
+            list-style:none;
+            margin:0;
+            padding:0;
+        }
+        .filter-box ul,
+        .filter-box label {
+            float:left;
+        }
+        .filter-box label {
             padding:5px 10px;
-            font-size:20px;
+        }
+        .filter-box ul li {
+            float:left;
+            margin:0 10px 5px 0;
+        }
+        .filter-box a {
+            display:inline-block;
+            padding:5px 10px;
+            background:#f2f2f2;
+            color:#333;
+            text-decoration:none;
+            transition:background .2s ease-in-out;
+        }
+        .filter-box a:hover {
+            background:#b6b6b6;
+        }
+        .time-filter{
+            margin:20px 0 10px;
+        }
+        .time-filter li.current a {
+            color:#fff;
+            background:#404040;
+        }
+        .time-filter li.current a:hover {
+            background:#404040;
+        }
+        .type-filter li.current a {
+            color:#fff;
+            background:#f61420;
+        }
+        .type-filter li.current a:hover {
+            background:#f61420;
         }
     </style>
 </head>
@@ -44,36 +96,73 @@
                 <ul class="clearfix editor-info">
                     <li>编辑名：<span>13660713994</span></li>
                     <li>用户名：<span>13660713994</span></li>
+                    <li>昵称：<span>younear</span></li>                    
                     <li>等级：<span>1</span></li>
                     <li>权限：<span>4</span></li>
                 </ul>
             </div>
-            <div style="margin:10px">
-                时间：
-                <ul>
-                    <li class="current"><a href="javascript:void(0);">该月度</a></li>
-                    <li><a href="javascript:void(0);">上月度</a></li>
-                    <li><a href="javascript:void(0);">所有</a></li>
-                    <li><a href="javascript:void(0);">定时任务</a></li>
-                </ul>
-                类型：
-                <ul>
-                    <li class="current"><a href="javascript:void(0);">首页（1）</a></li>
-                    <li><a href="javascript:void(0);">发现（1）</a></li>
-                    <li><a href="javascript:void(0);">海淘（1）</a></li>
-                    <li><a href="javascript:void(0);">品牌（1）</a></li>
-                </ul>
-                <ul>
-                    <li class="current"><a href="javascript:void(0);">普通产品（1）</a></li>
-                    <li><a href="javascript:void(0);">品牌产品（1）</a></li>
-                </ul>
+            <div style="margin:10px" class="filter-box">
+                <div class="time-filter clearfix">
+                    <label>时间：</label>
+                    <ul class="clearfix">
+                        <li class="current"><a href="javascript:void(0);" data-time="1">该月度</a></li>
+                        <li><a href="javascript:void(0);" data-time="2">上月度</a></li>
+                        <li><a href="javascript:void(0);" data-time="3">所有</a></li>
+                        <li><a href="javascript:void(0);" data-time="4">定时任务</a></li>
+                    </ul>
+                </div>
+                <div class="type-filter clearfix">
+                    <label>类型：</label>
+                     <ul class="clearfix type-filter-1">
+                        <li class="current"><a href="javascript:void(0);" data-type="1">首页（1）</a></li>
+                        <li><a href="javascript:void(0);" data-type="2">发现（1）</a></li>
+                        <li><a href="javascript:void(0);" data-type="5">海淘（1）</a></li>
+                        <li><a href="javascript:void(0);" data-type="7">品牌（1）</a></li>
+                    </ul>
+                    <ul class="clearfix type-filter-2" style="display:none;">
+                        <li class="current"><a href="javascript:void(0);" data-infotype="0">普通产品（1）</a></li>
+                        <li><a href="javascript:void(0);" data-infotype="1">品牌产品（1）</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
         var dataGrid;
+        var time = "", type = "", infotype=""; //筛选参数，时间、类型、定时任务下的信息类型
         $(function () {
+            //点击时间筛选
+            $(".time-filter a").on("click", function () {
+                var $this = $(this);
+                $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
+                var time = $this.data("time");   //获得时间参数
+                if (time == "4") {
+                    $(".type-filter-1").hide();
+                    $(".type-filter-2").show();
+                } else {
+                    $(".type-filter-1").show();
+                    $(".type-filter-2").hide();
+                }
+                getFilterData(time, type, infotype);
+            });
+
+            //点击类型筛选
+            $(".type-filter-1 a").on("click", function () {
+                var $this = $(this);
+                $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
+                type = $this.data("type");   //获得时间参数
+                getFilterData(time, type, infotype);
+            });
+
+            //点击类型筛选（定时任务下的类型）
+            $(".type-filter-2 a").on("click", function () {
+                var $this = $(this);
+                $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
+                infotype = $this.data("infotype");   //获得时间参数
+                getFilterData(time, type ,infotype);
+            });
+
             dataGrid = $('#dataGrid').datagrid({
                 url: 'json/product.json',
                 method: "GET",
@@ -96,7 +185,7 @@
                         return '<img src="' + value + '" width="50" />';
                     }
                 }, {
-                    width: '200',
+                    width: '300',
                     title: '标题',
                     field: 'title',
                     sortable: true
@@ -122,6 +211,46 @@
                 }
             });
         });
+
+        function getFilterData(time, type, infotype) {
+            dataGrid = $('#dataGrid').datagrid({
+                url: 'json/product.json?time=' + time + '&type=' + type + '&infotype=' + infotype,
+                method: "GET",
+                toolbar: '#tb',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    width: '60',
+                    title: '图片',
+                    field: 'image',
+                    sortable: true,
+                    formatter: function (value, row, index) {
+                        return '<img src="' + value + '" width="50" />';
+                    }
+                }, {
+                    width: '300',
+                    title: '标题',
+                    field: 'title',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '价格',
+                    field: 'price',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '添加时间',
+                    field: 'createtime'
+                }]]
+            });
+        }
     </script>
 </body>
 </html>
