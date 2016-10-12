@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/style/css/order.css" />
+    <title>订单管理</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="w">
+            <div class="search-box">
+                <div class="clearfix">
+                    订单状态:
+                    <select class="form-control" name="ordertypeid" id="ordertypeid">
+                        <option selected="selected" value="0">全部</option>
+                        <option value="1">未付款</option>
+                        <option value="2">已付款</option>
+                        <option value="4">待发货</option>
+                        <option value="5">已发货</option>
+                        <option value="6">交易成功</option>
+                        <option value="7">交易关闭</option>
+                    </select>
+                    <input name="searchordertxt" type="text" id="searchordertxt" class="form-control" placeholder="订单号" title="订单号查询">
+                    <input name="searchnametxt" type="text" id="searchnametxt" class="form-control" placeholder="收货人" title="收货人查询">
+                    <input name="searchaccounttxt" type="text" id="searchaccounttxt" class="form-control" placeholder="用户账号" title="用户账号查询">
+                    <input name="searchphonetxt" type="text" id="searchphonetxt" class="form-control" placeholder="联系电话" title="联系电话查询">
+                    <input name="busnametxt" type="text" id="busnametxt" class="form-control" placeholder="商城名" title="商城名查询">
+                    <input name="titlekeyword" type="text" id="titlekeyword" class="form-control" placeholder="标题模糊查询" title="标题模糊查询">
+                    邮寄方式：
+                    <select class="form-control" name="transporttype" id="transporttype">
+                        <option selected="selected" value="0">全部</option>
+                        <option value="1">转运</option>
+                        <option value="2">直邮</option>
+                    </select>
+                    标记：
+                    <select class="form-control" name="traderremarktype" id="traderremarktype">
+                        <option selected="selected" value="100">不限</option>
+                        <option value="0">未备注</option>
+                        <option value="1">红色</option>
+                        <option value="2">黄色</option>
+                        <option value="3">绿色</option>
+                        <option value="4">蓝色</option>
+                        <option value="5">粉色</option>
+                    </select>
+                    <input name="traderremark" type="text" id="traderremark" class="form-control" placeholder="商家备注模糊查询" title="商家备注模糊查询">
+                    <select class="form-control" name="transportCompanyUrl" id="transportCompanyUrl">
+                        <option selected="selected" value="">请选择转运公司</option>
+                        <option value="cnq1">海淘1号仓</option>
+                        <option value="4px">转运四方</option>
+                    </select>
+                    <input class="btn btn-danger" name="searchID" type="button" id="searchID" value="按条件搜索" title="关联条件:订单状态、订单号、收货人、商城名称(当订单号不为空时，其他条件都无效)">
+                </div>
+            </div>
+            <table class="td-void order-tb">
+                <colgroup>
+                    <col class="number-col">
+                    <col class="amount-col">
+                    <col class="status-col">
+                    <col class="operate-col">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="product-info-txt ac">商品信息</div>
+                            <div class="quantity-txt ac">数量/单价</div>
+                            <div class="weight-txt ac">重量/体积</div>
+                        </th>
+                        <th>支付金额</th>
+                        <th>交易状态</th>
+                        <th>交易操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="sep-row"><td colspan="4"></td></tr>
+                    <tr class="tr-th">
+                        <td colspan="4">
+                            <div>
+                                <span class="order-time">2016/10/11 9:57:30</span>
+                                <label>订单号：</label><span>20215602</span>
+                                <label>商城名：</label><span>Pharmacy Online</span>
+                                <label>收件人：</label><span>宋佳艳</span>
+                                <label>联系电话：</label><span>13567354127</span>
+                                <label>转运方式：</label><span class="text-danger">身份证线 海淘1号仓</span>
+                            </div>
+                            <div class="flag-box">
+                                <label style="margin-left:10px;">收货地址：</label><span>浙江-嘉兴-平湖 城南新城39号</span>
+                                <span class="flag flag_green_current" title="系统自动接单" typeval="3" orderid="20215565"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="tr-product">
+                        <td>
+                            <div class="product-box clearfix">
+                                <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
+                                    <img alt="" class="productimg" src="http://pic.biyabi.com/MainImage/2016/10/08/1480555/1480555_1475900858_0.jpg">
+                                </a>
+                                <div class="desc">
+                                    <a class="cinfotitle" href="http://go.biyabi.com/to/496412/" target="_blank">Levi's 李维斯 Rip Stop Zip Front 男士连帽夹克</a>
+                                    <span class="infotag text-danger">Navy,2XL</span>
+                                </div>
+                                <div class="quantity ac">
+                                    <p class="cinfo_q">1</p>
+                                    <p class="cinfo_p">AUD 16.95</p>
+                                </div>
+                                <div class="weight ac">
+                                    <p class="cinfo_w">0.100kg</p>
+                                    <p class="cinfo_v">1.000L</p>
+                                    <p>&nbsp;</p>
+                                    <p><a href="javascript:void(0);" class="cancelgoods">取消单品</a></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="td-price ac">
+                            <p><span class="text-danger">￥371.17</span></p>
+                            <p>商家本土运费：￥0.00</p>
+                            <p>国际邮费:￥50.00</p>
+                            <p>税费:￥0.00</p>
+                            <p><span class="text-success">优惠金额：￥50.00</span></p>
+                        </td>
+                        <td class="td-status ac">
+                            <p>待发货</p>
+                            <a href="http://trader.biyabi.com/OrderDetail/?orderid=20215560" target="_blank">订单详情</a>
+                        </td>
+                        <td class="td-operation ac">
+                            <p><a class="btn btn-default btn-sm btn-operation" optype="3" orderid="20215560">转运预报</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" optype="4" orderid="20215560">代购失败</a></p>
+                            <p class="text-muted">日亚海淘攻略iPhone 3.4.0 </p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="sep-row"><td colspan="4"></td></tr>
+                    <tr class="tr-th">
+                        <td colspan="4">
+                            <div>
+                                <span class="order-time">2016/10/11 9:57:30</span>
+                                <label>订单号：</label><span>20215602</span>
+                                <label>商城名：</label><span>Pharmacy Online</span>
+                                <label>收件人：</label><span>宋佳艳</span>
+                                <label>联系电话：</label><span>13567354127</span>
+                                <label>转运方式：</label><span class="text-danger">身份证线 海淘1号仓</span>
+                            </div>
+                            <div class="flag-box">
+                                <label style="margin-left:10px;">收货地址：</label><span>浙江-嘉兴-平湖 城南新城39号</span>
+                                <span class="flag flag_green_current" title="系统自动接单" typeval="3" orderid="20215565"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="tr-product">
+                        <td>
+                            <div class="product-box clearfix">
+                                <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
+                                    <img alt="" class="productimg" src="http://pic.biyabi.com/MainImage/2016/10/08/1480555/1480555_1475900858_0.jpg">
+                                </a>
+                                <div class="desc">
+                                    <a class="cinfotitle" href="http://go.biyabi.com/to/496412/" target="_blank">Levi's 李维斯 Rip Stop Zip Front 男士连帽夹克</a>
+                                    <span class="infotag text-danger">Navy,2XL</span>
+                                </div>
+                                <div class="quantity ac">
+                                    <p class="cinfo_q">1</p>
+                                    <p class="cinfo_p">AUD 16.95</p>
+                                </div>
+                                <div class="weight ac">
+                                    <p class="cinfo_w">0.100kg</p>
+                                    <p class="cinfo_v">1.000L</p>
+                                    <p>&nbsp;</p>
+                                    <p><a href="javascript:void(0);" class="cancelgoods">取消单品</a></p>
+                                </div>
+                            </div>
+                            <div class="product-box clearfix">
+                                <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
+                                    <img alt="" class="productimg" src="http://pic.biyabi.com/MainImage/2016/09/19/1415048/1415048_1474220168_0.jpg">
+                                </a>
+                                <div class="desc">
+                                    <a class="cinfotitle" href="http://go.biyabi.com/to/496412/" target="_blank">Swisse,瑞思,澳洲蔓越莓精华片 女性必备</a>
+                                    <span class="infotag text-danger">Navy,2XL</span>
+                                </div>
+                                <div class="quantity ac">
+                                    <p class="cinfo_q">1</p>
+                                    <p class="cinfo_p">AUD 16.95</p>
+                                </div>
+                                <div class="weight ac">
+                                    <p class="cinfo_w">0.100kg</p>
+                                    <p class="cinfo_v">1.000L</p>
+                                    <p>&nbsp;</p>
+                                    <p><a href="javascript:void(0);" class="cancelgoods">取消单品</a></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="td-price ac">
+                            <p><span class="text-danger">￥371.17</span></p>
+                            <p>商家本土运费：￥0.00</p>
+                            <p>国际邮费:￥50.00</p>
+                            <p>税费:￥0.00</p>
+                            <p><span class="text-success">优惠金额：￥50.00</span></p>
+                        </td>
+                        <td class="td-status ac">
+                            <p>待发货</p>
+                            <a href="http://trader.biyabi.com/OrderDetail/?orderid=20215560" target="_blank">订单详情</a>
+                        </td>
+                        <td class="td-operation ac">
+                            <p><a class="btn btn-default btn-sm btn-operation" optype="3" orderid="20215560">转运预报</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" optype="4" orderid="20215560">代购失败</a></p>
+                            <p class="text-muted">日亚海淘攻略iPhone 3.4.0 </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".btn-operation").on("click", function () {
+                var $this = $(this);
+                var orderid = $this.attr("orderid");
+                //$("#hid_orderid").val(orderid);
+
+                var optype = $this.attr("optype");
+                // 我要接单
+                if (optype == 1) {
+                    $.ajax({
+                        type: "POST",
+                        dataType:"json",
+                        url: "/handler/SelectTransportHandler.ashx?orderid=" + orderid,
+                        success: function (res) {
+                            //if (res.is_success == "1") {
+                            //    $("#divAcceptOrder").show().css({ "left": ol - con.left - 230 + "px", "top": os - con.top + 24 + "px" });
+                            //    $("#ul_transfer").html(res.html_transfer);
+                            //    BindCheckClick();
+                            //}
+                            //if (res.is_success == "2") {
+                            //    $("#td_status_" + orderid).html(res.html_status);
+                            //    $("#td_op_" + orderid).html(res.html_op);
+                            //    BindClick($("#td_op_" + orderid));
+                            //}
+                            //if (res.msg != "") {
+                            //    alert(res.msg);
+                            //}
+                        }
+                    });
+
+                    //$("#divNotAcceptOrder").hide();
+                    //$("#divFailOrder").hide();
+                }
+                    // 我不接单
+                else if (optype == 2) {
+                    $("#divNotAcceptOrder").show().css({ "left": ol - con.left - 230 + "px", "top": os - con.top + 24 + "px" });
+                    $("#divAcceptOrder").hide();
+                    $("#divFailOrder").hide();
+
+                    var cha = offset.top + $("#divNotAcceptOrder").find("ul").height() - offset_sum.top + 70;
+                    if (cha > 0) {
+                        $(".rightcontdiv").css("height", $(".rightcontdiv").height() + cha);
+                    }
+                }
+                    // 转运预报
+                else if (optype == 3) {
+                    //window.location.href = "/forecast/?orderid=" + orderid;
+                    window.open("/forecast/?orderid=" + orderid);
+                }
+                    // 代购失败
+                else if (optype == 4) {
+                    //$("#divFailOrder").show().css({ "left": ol - con.left - 230 + "px", "top": os - con.top + 24 + "px" });
+                    //$("#divAcceptOrder").hide();
+                    //$("#divNotAcceptOrder").hide();
+
+                    //var cha = offset.top + $("#divFailOrder").find("ul").height() - offset_sum.top + 70;
+                    //if (cha > 0) {
+                    //    $(".rightcontdiv").css("height", $(".rightcontdiv").height() + cha);
+                    //}
+                }
+                    // 直邮预报
+                else if (optype == 5) {
+                    window.open("/forecast/?type=zhiyou&orderid=" + orderid + "&team=" + $.GetRandom());
+                }
+            })
+        })
+    </script>
+</body>
+</html>

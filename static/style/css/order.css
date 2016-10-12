@@ -1,0 +1,305 @@
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #F61420;
+    border-color: #F61420;
+}
+
+    .btn-danger:hover, .btn-danger:focus, .btn-danger.focus, .btn-danger:active {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #ac2925;
+    }
+
+.btn-default {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+    .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active {
+        color: #F61420;
+        background-color: #fff;
+        border-color: #F61420;
+    }
+
+.form-control {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    /*width: 100%;*/
+    height: 30px;
+    padding: 4px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+    .form-control:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    }
+
+.text-danger {
+    color: #FF0000;
+}
+
+.text-success {
+    color: #00803d;
+}
+
+.w {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 1080px;
+    min-height: 500px;
+    background-color: #fff;
+    font-size: 14px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.w p {
+    margin: 0;
+    padding: 0;
+}
+
+.ac {
+    text-align: center;
+}
+.search-box .form-control{
+    margin:0 15px 10px 0;
+}
+.search-box .btn{
+    padding:4px 12px;
+}
+table {
+    border-collapse: collapse;
+}
+.order-tb {
+    width: 100%;
+}
+.order-tb .number-col {
+    width: 611px;
+}
+.order-tb .amount-col {
+    width: 180px;
+}
+
+.order-tb .status-col {
+    width: 120px;
+}
+
+.order-tb thead {
+    background: #f1f1f1;
+    border: 1px solid #e5e5e5;
+}
+
+    .order-tb thead th {
+        font-weight: 400;
+        font-size: 14px;
+        color: #333;
+        line-height: 30px;
+    }
+/*备注类型小旗子*/
+.flag-box{
+    position:relative;
+}
+.flag {
+    width: 16px;
+    height: 16px;
+    background: url(../../images/flag.png) no-repeat;
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.flag_green, .flag_green_current {
+    background-position: 0 -54px;
+}
+
+.product-info-txt {
+    display: inline-block;
+    width: 301px;
+}
+
+.quantity-txt,
+.weight-txt {
+    display: inline-block;
+    width: 150px;
+}
+
+.order-tb .sep-row {
+    height: 20px;
+}
+
+.order-tb .tr-th {
+    background: #f7f7f7;
+    line-height: 24px;
+    border: 1px solid #e5e5e5;
+}
+
+    .order-time, .order-tb .tr-th label {
+        margin-left: 30px;
+        color: #aaa;
+    }
+
+.order-time {
+    margin-left: 10px;
+}
+
+.productimg-box {
+    float: left;
+    display: table-cell;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+    .productimg-box img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+.product-box .desc {
+    float: left;
+    width: 218px;
+}
+
+.desc a, .desc span {
+    display: block;
+    height: 40px;
+    overflow: hidden;
+    line-height: 20px;
+}
+
+.desc a {
+    color: #333;
+    text-decoration: none;
+}
+
+    .desc a:hover {
+        color: #F61420;
+        text-decoration: underline;
+    }
+
+.quantity, .weight {
+    float: left;
+    width: 150px;
+}
+
+    .weight a {
+        color: #888;
+        text-decoration: none;
+    }
+
+        .weight a:hover {
+            color: #333;
+        }
+/*表格单元格边框*/
+.tr-product td:first-of-type,
+.tr-product td:nth-of-type(2),
+.tr-product td:nth-of-type(3) {
+    border: 1px solid #d5d5d5;
+    border-width: 0 0 1px 1px;
+}
+
+.tr-product td:nth-of-type(4) {
+    border: 1px solid #d5d5d5;
+    border-width: 0 1px 1px 1px;
+}
+/*商品超过2个，从第二个开始顶部加上边框*/
+.tr-product td .product-box {
+    padding: 10px 5px;
+    border-top: 1px solid #e5e5e5;
+}
+
+    .tr-product td .product-box:first-of-type {
+        border: 0 none;
+    }
+
+.td-price, .td-status, .td-operation {
+    position: relative;
+    padding: 10px 0;
+    vertical-align: top;
+}
+
+    .td-price p,
+    .td-status p,
+    .td-operation p {
+        margin: 0 0 6px;
+    }
+
+    .td-status a {
+        color: #333;
+        text-decoration: none;
+    }
+
+        .td-status a:hover {
+            color: #F61420;
+            text-decoration: underline;
+        }
+
+.text-muted {
+    color: #888;
+}
+
+.td-operation .text-muted {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+}

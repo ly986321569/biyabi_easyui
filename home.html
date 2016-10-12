@@ -138,6 +138,8 @@
                 $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
                 var time = $this.data("time");   //获得时间参数
                 if (time == "4") {
+                    type = "";   //定时任务，则置type为空
+                    infotype = "";
                     $(".type-filter-1").hide();
                     $(".type-filter-2").show();
                 } else {
@@ -151,7 +153,8 @@
             $(".type-filter-1 a").on("click", function () {
                 var $this = $(this);
                 $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
-                type = $this.data("type");   //获得时间参数
+                type = $this.data("type");   //获得类型参数
+                infotype = "";  //信息类型置为空
                 getFilterData(time, type, infotype);
             });
 
@@ -159,7 +162,8 @@
             $(".type-filter-2 a").on("click", function () {
                 var $this = $(this);
                 $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
-                infotype = $this.data("infotype");   //获得时间参数
+                infotype = $this.data("infotype");   //获得信息类型参数
+                type = "";  //类型置为空
                 getFilterData(time, type ,infotype);
             });
 
