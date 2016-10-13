@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+
+    <!--订单管理样式-->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/order.css" />
+    <title>订单详情</title>
+    <style>
+        .common-box {
+            margin:0 0 15px 0;
+            border:1px solid #eee;
+        }
+        .common-box .box-header {
+            background:#eee;
+        }
+        .common-box .box-header h4 {
+            font-size:14px;
+            margin:0;
+            padding: 10px;
+        }
+        .common-box .box-header h4 small{
+            font-weight:400;
+            font-size:14px;
+        }
+        
+        .common-box .box-main.has-padding {
+            margin:0 0 0 50px;
+            padding:10px;
+        }
+        
+        .common-box .box-main p {
+            line-height:24px;
+        }
+    </style>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="w">
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>订单详情</h4>
+                </div>
+                <div class="box-main has-padding">
+                    <p>
+                        <span>订单编号：</span><span>20215560</span>
+                        <span>国外电商：</span><a href="http://haitao.biyabi.com/mall/amazon">美国亚马逊</a>
+                    </p>
+                    <p>
+                        <i class="icon icon-checked"></i>
+                        <span>待发货</span>
+                    </p>
+                    <p>商家备注：系统自动接单</p>
+                </div>
+            </div>
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>配送信息</h4>
+                </div>
+                <div class="box-main has-padding">
+                    <p>收货人：吕华剑</p>
+                    <p>联系电话：13778215060</p>
+                    <p>送货地址：四川 德阳 旌阳 翠屏山路6号CLD未来城 （邮编：618000）</p>
+                    <p>身份证号码：510602197502207018</p>
+                    <p>身份证正面：http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_4370_6048.jpg</p>
+                    <p>身份证背面：http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_6866_5042.jpg</p>
+                </div>
+            </div>
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>物流状态<small>（转运公司：海淘1号仓）</small></h4>
+                </div>
+                <div class="box-main has-padding">
+                    2016-10-12 18:28:11 等待商家（美国亚马逊）发货（预计在3天内发货）
+                </div>
+            </div>
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>订单信息</h4>
+                </div>
+                <div class="box-main">
+                    <table class="td-void orderdetail-tb">
+                        <colgroup>
+                            <col class="number-col">
+                            <col class="price-col">
+                            <col class="quantity-col">
+                            <col class="weight-col">
+                            <col class="volume-col">
+                            <col class="status-col">
+                        </colgroup>
+                        <thead class="ac">
+                            <tr>
+                                <th>
+                                    商品信息
+                                </th>
+                                <th>
+                                    单价
+                                </th>
+                                <th>
+                                    数量
+                                </th>
+                                <th>
+                                    重量
+                                </th>
+                                <th>
+                                    体积
+                                </th>
+                                <th>
+                                    状态
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="ac">
+                                <td style="text-align:left;">
+                                    <div class="product-box clearfix">
+                                        <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
+                                            <img alt="" class="productimg" src="http://pic.biyabi.com/MainImage/18412/18412_1471959129.jpg">
+                                        </a>
+                                        <div class="desc">
+                                            <a class="cinfotitle" href="http://go.biyabi.com/to/496412/" target="_blank">Stuhrling Original 斯图灵 男款127A.3315C2 镂空机械表</a>
+                                            <span class="infotag text-danger">Navy,2XL</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>USD 166.08</td>
+                                <td>1</td>
+                                <td>0.430kg</td>
+                                <td>1.000L	</td>
+                                <td>待发货</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+        })
+    </script>
+</body>
+</html>

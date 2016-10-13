@@ -99,6 +99,7 @@
 }
 
 .w {
+    margin:10px 0 0 10px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -118,8 +119,13 @@
 .ac {
     text-align: center;
 }
-.search-box .form-control{
+.search-box .form-control,
+.search-box .btn{
     margin:0 15px 10px 0;
+}
+.search-box .form-control{
+    width:80px;
+    padding:2px;
 }
 .search-box .btn{
     padding:4px 12px;
@@ -127,7 +133,8 @@
 table {
     border-collapse: collapse;
 }
-.order-tb {
+.order-tb,
+.orderdetail-tb {
     width: 100%;
 }
 .order-tb .number-col {
@@ -152,6 +159,27 @@ table {
         color: #333;
         line-height: 30px;
     }
+
+/*订单详情页的商品信息表格样式*/
+.orderdetail-tb .number-col {
+    width: 368px;
+}
+.orderdetail-tb .price-col,
+.orderdetail-tb .quantity-col,
+.orderdetail-tb .volume-col,
+.orderdetail-tb .status-col{
+    width: 128px;
+}
+.orderdetail-tb thead {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+.orderdetail-tb thead th {
+    font-weight: 400;
+    font-size: 14px;
+    color: #333;
+    line-height: 30px;
+}
 /*备注类型小旗子*/
 .flag-box{
     position:relative;
@@ -196,9 +224,12 @@ table {
         margin-left: 30px;
         color: #aaa;
     }
-
+    
+.order-chk {
+    margin:3px 0 0 10px;
+}
 .order-time {
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 .productimg-box {
@@ -214,10 +245,13 @@ table {
         max-width: 80px;
         max-height: 80px;
     }
-
+    
 .product-box .desc {
     float: left;
     width: 218px;
+}
+.orderdetail-tb .product-box .desc {
+    width:280px;
 }
 
 .desc a, .desc span {
@@ -298,8 +332,35 @@ table {
     color: #888;
 }
 
-.td-operation .text-muted {
+.flag-box .text-muted {
     position: absolute;
-    right: 5px;
+    right:40px;
     bottom: 0;
+}
+#orderRemarkForm td {
+    padding:5px;
+}
+.rflag {
+    width: 16px;
+    height: 16px;
+    background: url(../../images/flag.png) no-repeat;
+    display: inline-block;
+    position: relative;
+    margin: 0px 5px;
+    top: 2px;
+}
+.rflag_red {
+    background-position: 0px -18px;
+}
+.rflag_yellow {
+    background-position: 0 -36px;
+}
+.rflag_green {
+    background-position: 0 -54px;
+}
+.rflag_blue {
+    background-position: 0 -72px;
+}
+.rflag_megenta {
+    background-position: 0 -90px;
 }
