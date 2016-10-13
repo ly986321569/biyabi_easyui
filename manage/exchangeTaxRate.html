@@ -1,0 +1,65 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="../static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
+    <title>修改汇率</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="w">
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>修改汇率</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <select class="easyui-combobox" id="Currency" style="height:30px;">
+                            <option value="5" selected="selected">人民币元--CNY</option>
+                            <option value="82">美元--USD</option>
+                            <option value="11">日元--JPY</option>
+                            <option value="149">澳大利亚元--AUD</option>
+                            <option value="52">欧元--EUR</option>
+                            <option value="150">新西兰元--NZD</option>
+                            <option value="65">英镑--GBP</option>
+                        </select>
+                        <input class="easyui-textbox" type="text" name="ExchangeRate" value="" style="height:30px;" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">修改</a>
+                    </div>
+                    <div class="form-row">
+                        <input class="easyui-filebox" name="" value="" style="height:30px;" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:100px;height:30px;">上传真实汇率</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+    </script>
+</body>
+</html>

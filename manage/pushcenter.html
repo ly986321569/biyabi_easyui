@@ -22,6 +22,7 @@
     <!-- [扩展样式] -->
     <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
     <title>推送中心</title>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
@@ -29,37 +30,124 @@
         <div class="easyui-tabs" data-options="fit:true,tabWidth:80" style="width:100%;height:auto;">
             <div title="短信" style="padding:10px">
                 <h4 class="text-danger">(短信内容不能超过500个字符)</h4>
+                <form id="pushSmsForm" method="post">
+                    <table class="grid">
+                        <tr>
+                            <td width="60">手机号码：</td>
+                            <td>
+                                <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="SmsNum" value="" style="width:400px;height:120px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60">短信内容：</td>
+                            <td>
+                                <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="SmsContent" value="" maxlength="500" style="width:400px;height:120px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="60"></td>
+                            <td>
+                                <a href="javascript:void(0);" class="easyui-linkbutton btnPushSms" onclick="" style="width:60px;height:30px;">发送</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div title="移动客户端" style="padding:10px">
+                <h4 class="text-danger">推送网页时请加上http://，例如http://www.biyabi.com</h4>
+                <div style="margin:0 0 15px;">
+                    <select class="form-control" id="SelectType">
+                        <option value="content1" selected="selected">别名</option>
+                        <option value="content2">标签</option>
+                        <option value="content3">全体</option>
+                    </select>
+                    <select class="form-control" id="PushType">
+                        <option value="1" selected="selected">物流更新</option>
+                        <option value="2">消息</option>
+                        <option value="3">订单状态改变</option>
+                        <option value="4">专题列表页</option>
+                        <option value="5">专题详情页</option>
+                        <option value="6">用户优惠券列表</option>
+                        <option value="100">网页</option>
+                        <option value="-1">商品详情页</option>
+                    </select>
+                    <input class="form-control" type="text" name="input" id="input" placeholder="请输入订单ID">
+                </div>
                 <table class="grid">
-                    <tr>
-                        <td width="60">手机号码：</td>
+                    <tr class="target-row">
+                        <td width="100">
+                            <span class="user-or-tag">用户ID(逗号分隔)</span>
+                        </td>
                         <td>
-                            <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="SmsNum" value="" style="width:400px;height:120px;" />
+                            <div class="client-userid">
+                                <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="ClientUserID" value="" style="width:400px;height:120px;" />
+                            </div>
+                            <div class="client-tag" style="display:none;">
+                                <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="ClientTag" value="" style="width:400px;height:120px;" />
+                            </div>
                         </td>
                     </tr>
                     <tr>
-                        <td width="60">短信内容：</td>
+                        <td width="100">
+                            安卓标题
+                        </td>
                         <td>
-                            <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="SmsContent" value="" style="width:400px;height:120px;" />
+                            <input class="easyui-textbox" data-options="required:true" type="text" name="ClientAndroidTitle" value="" style="width:400px;height:30px;" />
                         </td>
                     </tr>
                     <tr>
-                        <td width="60"></td>
+                        <td width="100">
+                            安卓内容
+                        </td>
                         <td>
-                            <input class="easyui-linkbutton" type="button" name="" value="发送" />
+                            <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="ClientAndroidContent" value="" style="width:400px;height:120px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100">
+                            苹果内容
+                        </td>
+                        <td>
+                            <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="ClientIOSContent" value="" style="width:400px;height:120px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100"></td>
+                        <td>
+                            <a href="javascript:void(0);" class="easyui-linkbutton btnPushSms" onclick="" style="width:120px;height:30px;">推送移动客户端</a>
                         </td>
                     </tr>
                 </table>
-            </div>
-            <div title="移动客户端" style="padding:10px">
-                
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        var dataGridType1, dataGridType2;
         $(function () {
-
+            $('#pushSmsForm').form({
+                url: '/manage/pushSms',
+                onSubmit: function () {
+                    parent.progressLoad();
+                    var isValid = $(this).form('validate');
+                    if (!isValid) {
+                        parent.progressClose();
+                    }
+                    return isValid;
+                },
+                success: function (result) {
+                    parent.progressClose();
+                    result = $.parseJSON(result);
+                    if (result.success) {
+                        //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                        //parent.$.modalDialog.handler.dialog('close');
+                    } else {
+                        parent.$.messager.alert('错误', result.msg, 'error');
+                    }
+                }
+            });
+            $(".btnPushSms").on("click", function () {
+                $("#pushSmsForm").submit();
+            })
         });
 
     </script>

@@ -1,0 +1,170 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="../static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
+    <title>数据查看</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="w">
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>查看用户复购率</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <select class="easyui-combobox" id="sl" name="sl">
+                            <option value="1" selected="selected">待发货已发货交易成功</option>
+                            <option value="2">已下订单</option>
+                            <option value="3">已付款</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        前一段时间购买的用户：
+                        <input class="easyui-datetimebox" type="text" name="" value="" />
+                        <input class="easyui-datetimebox" type="text" name="" value="" />
+                    </div>
+                    <div class="form-row">
+                        后一段时间再次购买的同批用户：
+                        <input class="easyui-datetimebox" type="text" name="" value="" />
+                        <input class="easyui-datetimebox" type="text" name="" value="" />
+                    </div>
+                    <div class="form-row">
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">查询</a>
+                    </div>
+                    <div class="form-row key-value">
+                        <label>前一段时间购买用户总数：</label><span>0</span>
+                        <label>后一段时间购买的同批用户总数：</label><span>0</span>
+                        <label>复购率：</label><span>0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据订单时间查询客单价</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <select class="easyui-combobox" id="slCustomerPrice" name="slCustomerPrice">
+                            <option value="1" selected="selected">已支付客单价</option>
+                            <option value="2">待发货已发货交易成功客单价</option>
+                        </select>
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                    </div>
+                    <div class="form-row">
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">查询</a>
+                    </div>
+                    <div class="form-row key-value">
+                        <label>订单总金额：</label><span>0</span>
+                        <label>订单总数：</label><span>0</span>
+                        <label>客单价：</label><span>0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据兑换品ID导出用户购买的商品信息（付款的）</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        输入兑换品ID：
+                        <input class="easyui-textbox" type="text" name="strGiftID" id="strGiftID" style="width: 150px;">
+                    </div>
+                    <div class="form-row">
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>导出数据</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <select class="easyui-combobox" id="slDataView" name="slDataView">
+                            <option value="1" selected="selected">每个电商分别的单量和总下单量（付款的）</option>
+                            <option value="2">热门类别（第三级)销量数</option>
+                            <option value="3">销量冠军的产品</option>
+                            <option value="4">根据订单时间导出销量数据</option>
+                            <option value="5">根据发布时间导出爆料数据</option>
+                            <option value="6">根据评论时间导出评论数据</option>
+                            <option value="7">根据发布时间导出编辑数据</option>
+                            <option value="8">根据发布时间导出编辑在商城发布信息数量</option>
+                            <option value="9">根据时间导出统计数据</option>
+                            <option value="10">根据发布时间导出兼职晒单数据</option>
+                            <option value="11">根据订单时间导出日常订单数据</option>
+                            <option value="12">根据订单时间导出客服下单数据</option>
+                            <option value="13">根据订单时间导出运营订单数据</option>
+                        </select>
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeDataView" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeDataView" value="" />
+                    </div>
+                    <div class="form-row">
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#pushSmsForm').form({
+                url: '/manage/pushSms',
+                onSubmit: function () {
+                    parent.progressLoad();
+                    var isValid = $(this).form('validate');
+                    if (!isValid) {
+                        parent.progressClose();
+                    }
+                    return isValid;
+                },
+                success: function (result) {
+                    parent.progressClose();
+                    result = $.parseJSON(result);
+                    if (result.success) {
+                        //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                        //parent.$.modalDialog.handler.dialog('close');
+                    } else {
+                        parent.$.messager.alert('错误', result.msg, 'error');
+                    }
+                }
+            });
+            $(".btnPushSms").on("click", function () {
+                $("#pushSmsForm").submit();
+            })
+        });
+
+    </script>
+</body>
+</html>

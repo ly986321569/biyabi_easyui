@@ -19,33 +19,6 @@
     <!--订单管理样式-->
     <link rel="stylesheet" type="text/css" href="../static/style/css/order.css" />
     <title>订单详情</title>
-    <style>
-        .common-box {
-            margin:0 0 15px 0;
-            border:1px solid #eee;
-        }
-        .common-box .box-header {
-            background:#eee;
-        }
-        .common-box .box-header h4 {
-            font-size:14px;
-            margin:0;
-            padding: 10px;
-        }
-        .common-box .box-header h4 small{
-            font-weight:400;
-            font-size:14px;
-        }
-        
-        .common-box .box-main.has-padding {
-            margin:0 0 0 50px;
-            padding:10px;
-        }
-        
-        .common-box .box-main p {
-            line-height:24px;
-        }
-    </style>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
@@ -75,8 +48,8 @@
                     <p>联系电话：13778215060</p>
                     <p>送货地址：四川 德阳 旌阳 翠屏山路6号CLD未来城 （邮编：618000）</p>
                     <p>身份证号码：510602197502207018</p>
-                    <p>身份证正面：http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_4370_6048.jpg</p>
-                    <p>身份证背面：http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_6866_5042.jpg</p>
+                    <p>身份证正面：<a href="javascript:void(0);" onclick="parent.addTab('身份证正面','http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_4370_6048.jpg','menu_icon_datadeal')">http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_4370_6048.jpg</a></p>
+                    <p>身份证背面：<a href="javascript:void(0);" onclick="parent.addTab('身份证反面','http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_6866_5042.jpg','menu_icon_datadeal')">http://pic.biyabi.com/idcart_image/2016/3/1/20160301145357_6866_5042.jpg</a></p>
                 </div>
             </div>
             <div class="common-box">
@@ -124,7 +97,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="ac">
+                            <tr class="ac product-row">
+                                <td style="text-align:left;">
+                                    <div class="product-box clearfix">
+                                        <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
+                                            <img alt="" class="productimg" src="http://pic.biyabi.com/MainImage/18412/18412_1471959129.jpg">
+                                        </a>
+                                        <div class="desc">
+                                            <a class="cinfotitle" href="http://go.biyabi.com/to/496412/" target="_blank">Stuhrling Original 斯图灵 男款127A.3315C2 镂空机械表</a>
+                                            <span class="infotag text-danger">Navy,2XL</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>USD 166.08</td>
+                                <td>1</td>
+                                <td>0.430kg</td>
+                                <td>1.000L	</td>
+                                <td>待发货</td>
+                            </tr>
+                            <tr class="ac product-row">
                                 <td style="text-align:left;">
                                     <div class="product-box clearfix">
                                         <a class="productimg-box" href="http://haitao.biyabi.com/youhui/496412/" target="_blank">
@@ -144,6 +135,20 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="bg-warning">
+                        <div style="padding:30px;">
+                            <div class="payfee" style="text-align:right;">
+                                <label>共1种商品：</label><strong class="text-danger">￥87.74</strong>
+                                <label>商家本土运费：</label><strong class="text-danger">￥0.00</strong>
+                                <label>国际邮费：</label><strong class="text-danger">￥30.00</strong>
+                                <label>预收关税：</label><strong class="text-danger">￥0.00</strong>
+                            </div>
+                            <div style="text-align:right;">
+                                <label>支付金额：</label><strong class="text-danger">￥87.74</strong>
+                                <a class="btn btn-danger" href="javascript:void(0);">我要预报</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

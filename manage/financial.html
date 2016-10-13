@@ -1,0 +1,158 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="../static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
+    <title>导出财务</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <div class="w">
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据<span class="text-danger">订单时间</span>查询支付成功的订单(有转运单号)(国际邮费)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据<span class="text-danger">支付时间</span>查询支付成功的订单(国际邮费)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>查询交易成功和已发货的订单没有真实邮费的订单数量</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">查询</a>
+                        数量：0
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据<span class="text-danger">订单时间</span>查询已发货和交易成功的存在退款的订单信息(国际邮费退款)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据<span class="text-danger">订单时间</span>查询用户支付信息(支付宝)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据<span class="text-danger">退款时间</span>查询订单退款记录</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        开始时间：
+                        <input class="easyui-datetimebox" type="text" name="dtStartTimeKDJ" value="" />
+                        结束时间：
+                        <input class="easyui-datetimebox" type="text" name="dtEndTimeKDJ" value="" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据订单ID批量导出订单(有转运单号)(暂估邮费确认)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="iOrderIDs" value="" style="width:300px;height:120px;" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>根据转运单号批量导出订单(1号仓运费)</h4>
+                </div>
+                <div class="box-main">
+                    <div class="form-row">
+                        <input class="easyui-textbox" data-options="multiline:true,required:true" type="text" name="strTransportNumbers" value="" style="width:300px;height:120px;" />
+                        <a class="easyui-linkbutton" href="javascript:void(0);" style="width:80px;height:30px;">导出Excel</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+    </script>
+</body>
+</html>

@@ -253,7 +253,7 @@ table {
     width: 218px;
 }
 .orderdetail-tb .product-box .desc {
-    width:276px;
+    width:280px;
 }
 
 .desc a, .desc span {
@@ -329,13 +329,7 @@ table {
             color: #F61420;
             text-decoration: underline;
         }
-/*订单详情商品行*/
-.product-row {
-    border-bottom:1px solid #eee;
-}
-.product-row td {
-    padding:5px;
-}
+
 .text-muted {
     color: #aaa;
 }
@@ -387,7 +381,7 @@ table {
 .idimage-box{display:block;width:100px;height:100px;margin:0 auto;}
 .idimage-box img{max-width:100px;max-height:100px;}
 
-/*订单详情页面样式*/
+/*通用容器，标题灰色背景，容器带边框*/
 .common-box {
     margin:0 0 15px 0;
     border:1px solid #eee;
@@ -400,6 +394,9 @@ table {
     margin:0;
     padding: 10px;
     color:#333;
+}
+.common-box .box-header h4 span {
+    font-size:14px;
 }
 .common-box .box-header h4 small{
     font-weight:400;
@@ -414,6 +411,14 @@ table {
 .common-box .box-main p {
     line-height:24px;
 }
-.bg-warning{
-    background:#fffff0;
+.common-box .box-main .form-row{
+    margin:10px;
+}
+.key-value label{
+    color:#888;
+}
+.key-value span{
+    margin:0 30px 0 0;
+    color:#111;
+    font-weight:700;
 }
