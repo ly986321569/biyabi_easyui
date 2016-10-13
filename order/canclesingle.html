@@ -1,8 +1,8 @@
 ﻿<script type="text/javascript">
-    $(function() {
+    $(function () {
         $('#orderCancleSingleForm').form({
-            url : '/order/canclesingle',
-            onSubmit : function() {
+            url: '/order/canclesingle',
+            onSubmit: function () {
                 progressLoad();
                 var isValid = $(this).form('validate');
                 if (!isValid) {
@@ -10,7 +10,7 @@
                 }
                 return isValid;
             },
-            success : function(result) {
+            success: function (result) {
                 progressClose();
                 result = $.parseJSON(result);
                 if (result.success) {
@@ -28,17 +28,27 @@
         <form id="orderCancleSingleForm" method="post">
             <table class="grid">
                 <tr>
-                    <td>
-                        要取消的商品：
-                        Healthy care天然羊毛脂维生素E霜100G
-                        属性：Healthy Care Natural Lanolin & Vitamin E Cream 100g
-                        单价：AUD 3.99数量：1单品重量：0.200kg单品体积：1.000L
-                        退款金额：￥22.44
+                    <td colspan="2">
+                        <p><strong>要取消的商品：</strong></p>
+                        <p>Healthy care天然羊毛脂维生素E霜100G</p>
+                        <p>属性：Healthy Care Natural Lanolin & Vitamin E Cream 100g</p>
+                        <p>
+                            <label>单价：</label><span class="text-danger">AUD 3.99</span>
+                            <label>数量：</label><span>1</span>
+                            <label>单品重量：</label><span>0.200kg</span>
+                            <label>单品体积：</label><span>1.000L</span>
+                        </p>
+                        <p><strong class="text-danger">退款金额：￥22.44</strong></p>
                     </td>
                 </tr>
                 <tr>
-                    <td>备注内容：</td>
-                    <td><input name="introduction" type="text" class="easyui-textbox easyui-validatebox span2" value="" style="width:400px;height:100px"></td>
+                    <td colspan="2">
+                        <p class="text-danger">请在用户同意取消商品代购后再操作</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>取消商品代购的理由：</td>
+                    <td><input name="cancelreasontxt" type="text" class="easyui-textbox easyui-validatebox span2" value="" style="width:350px;height:30px"></td>
                 </tr>
             </table>
         </form>

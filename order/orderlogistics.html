@@ -1,0 +1,114 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $('#orderLogisticsForm').form({
+            url : '/order/logistics',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="orderLogisticsForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td style="text-align: right;">订单ID：</td>
+                    <td>
+                        <input class="easyui-textbox" type="text" id="txtOrderID" style="width: 250px;" readonly="readonly" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">订单状态：</td>
+                    <td>
+                        <select class="easyui-combobox" id="txtOrderStatus">
+                            <option value="1">未付款</option>
+                            <option value="2">已付款</option>
+                            <option value="3">已接单</option>
+                            <option value="4">待发货</option>
+                            <option value="5">已发货</option>
+                            <option value="6">交易成功</option>
+                            <option value="7">交易关闭</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">订单商品ID：</td>
+                    <td>
+                        <input class="easyui-textbox" type="text" id="txtOrdersCommodityID" style="width: 250px;" readonly="readonly" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">国外物流公司：</td>
+                    <td>
+
+                        <select class="easyui-combobox" id="txtFremdness">
+                            <optgroup label="直邮快递">
+                                <option value=""></option>
+                                <option value="shunfeng">shunfeng</option>
+                                <option value="ucs">ucs</option>
+                                <option value="ecmscn">ecmscn</option>
+                                <option value="dhl">dhl</option>
+                                <option value="ups">ups</option>
+                                <option value="usps">usps</option>
+                                <option value="fedex">fedex</option>
+                                <option value="auspost">auspost</option>
+                                <option value="yiex">yiex</option>
+                                <option value="ems">ems</option>
+                            </optgroup>
+                            <optgroup label="其他快递">
+                                <option value="ontrac">ontrac</option>
+                                <option value="tntpostcn">tntpostcn</option>
+                                <option value="yamato">yamato</option>
+                                <option value="japanposten">japanposten</option>
+                                <option value="sagawa">sagawa</option>
+                                <option value="zhaijibian">zhaijibian</option>
+                                <option value="japanpost">japanpost</option>
+                            </optgroup>
+                            <optgroup label="未知快递">
+                                <option value="wndirect usa">wndirect usa</option>
+                                <option value="p2p">p2p</option>
+                                <option value="tnt post group">tnt post group</option>
+                                <option value="西濃運輸">西濃運輸</option>
+                                <option value="メール便">メール便</option>
+                                <option value="4px">转运四方</option>
+                                <option value="hs code">hs code</option>
+                                <option value="Epacket">Epacket</option>
+                            </optgroup>
+                        </select>
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">国外物流单号：</td>
+                    <td>
+                        <input class="easyui-textbox" type="text" id="txtFremdnessNumber" style="width: 250px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;">转运单号：</td>
+                    <td>
+                        <input class="easyui-textbox" type="text" id="txtTransportNumber" style="width: 250px;" />
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>

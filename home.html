@@ -30,62 +30,76 @@
             padding: 0;
             margin: 0;
         }
-        .editor-info > li {
-            float:left;
-            margin:0 30px 0 0;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
-        .editor-info > li span {
-            font-size: 14px;
-        }
+
+            .editor-info > li {
+                float: left;
+                margin: 0 30px 0 0;
+                padding: 5px 10px;
+                font-size: 14px;
+            }
+
+                .editor-info > li span {
+                    font-size: 14px;
+                }
+
         .filter-box {
-            padding:0 0 0 10px;
+            padding: 0 0 0 10px;
         }
-        .filter-box ul {
-            list-style:none;
-            margin:0;
-            padding:0;
+
+            .filter-box ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .filter-box ul,
+            .filter-box label {
+                float: left;
+            }
+
+            .filter-box label {
+                padding: 5px 10px;
+            }
+
+            .filter-box ul li {
+                float: left;
+                margin: 0 10px 5px 0;
+            }
+
+            .filter-box a {
+                display: inline-block;
+                padding: 5px 10px;
+                background: #f2f2f2;
+                color: #333;
+                text-decoration: none;
+                transition: background .2s ease-in-out;
+            }
+
+                .filter-box a:hover {
+                    background: #b6b6b6;
+                }
+
+        .time-filter {
+            margin: 20px 0 10px;
         }
-        .filter-box ul,
-        .filter-box label {
-            float:left;
-        }
-        .filter-box label {
-            padding:5px 10px;
-        }
-        .filter-box ul li {
-            float:left;
-            margin:0 10px 5px 0;
-        }
-        .filter-box a {
-            display:inline-block;
-            padding:5px 10px;
-            background:#f2f2f2;
-            color:#333;
-            text-decoration:none;
-            transition:background .2s ease-in-out;
-        }
-        .filter-box a:hover {
-            background:#b6b6b6;
-        }
-        .time-filter{
-            margin:20px 0 10px;
-        }
-        .time-filter li.current a {
-            color:#fff;
-            background:#404040;
-        }
-        .time-filter li.current a:hover {
-            background:#404040;
-        }
+
+            .time-filter li.current a {
+                color: #fff;
+                background: #404040;
+            }
+
+                .time-filter li.current a:hover {
+                    background: #404040;
+                }
+
         .type-filter li.current a {
-            color:#fff;
-            background:#f61420;
+            color: #fff;
+            background: #f61420;
         }
-        .type-filter li.current a:hover {
-            background:#f61420;
-        }
+
+            .type-filter li.current a:hover {
+                background: #f61420;
+            }
     </style>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
@@ -96,7 +110,7 @@
                 <ul class="clearfix editor-info">
                     <li>编辑名：<span>13660713994</span></li>
                     <li>用户名：<span>13660713994</span></li>
-                    <li>昵称：<span>younear</span></li>                    
+                    <li>昵称：<span>younear</span></li>
                     <li>等级：<span>1</span></li>
                     <li>权限：<span>4</span></li>
                 </ul>
@@ -113,7 +127,7 @@
                 </div>
                 <div class="type-filter clearfix">
                     <label>类型：</label>
-                     <ul class="clearfix type-filter-1">
+                    <ul class="clearfix type-filter-1">
                         <li class="current"><a href="javascript:void(0);" data-type="1">首页（1）</a></li>
                         <li><a href="javascript:void(0);" data-type="2">发现（1）</a></li>
                         <li><a href="javascript:void(0);" data-type="5">海淘（1）</a></li>
@@ -130,7 +144,7 @@
 
     <script type="text/javascript">
         var dataGrid;
-        var time = "", type = "", infotype=""; //筛选参数，时间、类型、定时任务下的信息类型
+        var time = "", type = "", infotype = ""; //筛选参数，时间、类型、定时任务下的信息类型
         $(function () {
             //点击时间筛选
             $(".time-filter a").on("click", function () {
@@ -164,7 +178,7 @@
                 $this.parents("li").addClass("current").siblings("li").removeClass("current");  //点击显示选中该项
                 infotype = $this.data("infotype");   //获得信息类型参数
                 type = "";  //类型置为空
-                getFilterData(time, type ,infotype);
+                getFilterData(time, type, infotype);
             });
 
             dataGrid = $('#dataGrid').datagrid({
@@ -192,7 +206,11 @@
                     width: '300',
                     title: '标题',
                     field: 'title',
-                    sortable: true
+                    sortable: true,
+                    formatter: function (value, row, index) {
+                        return '<a href="javascript:void(0);" target="_blank" onclick="parent.addTab(\'' + value + '\',\'' + row.link + '\', \'menu_icon_datadeal\')">' + value + '</a>';
+                        
+                    }
                 }, {
                     width: '60',
                     title: '价格',

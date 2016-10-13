@@ -107,7 +107,7 @@
                     <tr class="tr-th">
                         <td colspan="4">
                             <div>
-                                <input class="order-chk" type="checkbox" name="chkorder" value="" />
+                                <input class="order-chk" type="checkbox" name="chkorder" value="20215602" />
                                 <span class="order-time">2016/10/11 9:57:30</span>
                                 <label>订单号：</label><span>20215602</span>
                                 <label>商城名：</label><span>Pharmacy Online</span>
@@ -118,7 +118,7 @@
                             <div class="flag-box">
                                 <label style="margin-left:10px;">收货地址：</label><span>浙江-嘉兴-平湖 城南新城39号</span>
                                 <p class="text-muted">美亚海淘攻略iPhone 3.4.1 </p>
-                                <span class="flag flag_green_current" title="系统自动接单" typeval="3" orderid="20215565" onclick="remarkFun('20215565')"></span>
+                                <span class="flag flag_green_current" title="系统自动接单" onclick="remarkFun('20215562')"></span>
                             </div>
                         </td>
                     </tr>
@@ -154,8 +154,10 @@
                             <a href="javascript:void(0);" onclick="javascript: parent.addTab('订单20215560详情', '/order/orderdetail.html?orderid=20215560', 'menu_icon_datadeal');" target="_blank">订单详情</a>
                         </td>
                         <td class="td-operation ac">
-                            <p><a class="btn btn-default btn-sm btn-operation" onclick="javascript: parent.addTab('转运预报', '/forecast/?orderid=20215602', 'menu_icon_datadeal');">转运预报</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="editFun('20215602')">编辑</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="forecastFun('20215602')">转运预报</a></p>
                             <p><a class="btn btn-default btn-sm btn-operation" onclick="cancleOrderFun('20215602');">代购失败</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="logisticsFun('20215602');">修改物流</a></p>
                             <p><a class="btn btn-default btn-sm btn-operation" onclick="transfer2ZhiyouFun('20215602')">转运转换直邮</a></p>
                         </td>
                     </tr>
@@ -166,7 +168,7 @@
                     <tr class="tr-th">
                         <td colspan="4">
                             <div>
-                                <input class="order-chk" type="checkbox" name="chkorder" value="" />
+                                <input class="order-chk" type="checkbox" name="chkorder" value="20215602" />
                                 <span class="order-time">2016/10/11 9:57:30</span>
                                 <label>订单号：</label><span>20215602</span>
                                 <label>商城名：</label><span>Pharmacy Online</span>
@@ -177,7 +179,7 @@
                             <div class="flag-box">
                                 <label style="margin-left:10px;">收货地址：</label><span>浙江-嘉兴-平湖 城南新城39号</span>
                                 <p class="text-muted">日亚海淘攻略iPhone 3.4.0 </p>
-                                <span class="flag flag_green_current" title="系统自动接单" typeval="3" orderid="20215565"></span>
+                                <span class="flag flag_green_current" title="系统自动接单" onclick="remarkFun('20215605')"></span>
                             </div>
                         </td>
                     </tr>
@@ -234,18 +236,32 @@
                             <a href="javascript:void(0);" onclick="javascript: parent.addTab('订单20215561详情', '/order/orderdetail.html?orderid=20215560', 'menu_icon_datadeal');" target="_blank">订单详情</a>
 </td>
                         <td class="td-operation ac">
-                            <p><a class="btn btn-default btn-sm btn-operation" optype="3" orderid="20215561">转运预报</a></p>
-                            <p><a class="btn btn-default btn-sm btn-operation" optype="4" orderid="20215561">代购失败</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="editFun('20215605')">编辑</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="forecastFun('20215605')">转运预报</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="cancleOrderFun('20215605');">代购失败</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="logisticsFun('20215605');">修改物流</a></p>
+                            <p><a class="btn btn-default btn-sm btn-operation" onclick="transfer2ZhiyouFun('20215605')">转运转换直邮</a></p>
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <div id="pn"></div>
         </div>
     </div>
 
     <script type="text/javascript">
         $(function () {
-
+            //分页控件
+            $("#pn").pagination({
+                total: 114,
+                pageSize: 10,
+                pageList: [10,20,50,100],
+                layout: ['list', 'sep', 'first', 'prev', 'links', 'next', 'last', 'sep', 'refresh'],
+                onSelectPage: function(pageNumber, pageSize){
+                    $.messager.alert("提示","第" + pageNumber + "页，每页" + pageSize +"条");
+                }
+            })
         })
 
 
@@ -296,7 +312,7 @@
                 title: '取消单品——订单' + id,
                 width: 500,
                 height: 400,
-                top: 200,
+                top: 100,
                 href: '/order/canclesingle.html?id=' + id,
                 buttons: [{
                     text: '确定',
@@ -320,6 +336,71 @@
                 }
             })
         }
+
+        //编辑订单（部分字段/身份证信息）
+        function editFun(id) {
+            //parent.$.modalDialog({
+            $.modalDialog({
+                title: '编辑——订单' + id,
+                width: 500,
+                height: 420,
+                top: 200,
+                href: '/order/orderedit.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = $.modalDialog.handler.find('#orderEditForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //修改订单物流
+        function logisticsFun(id) {
+            //parent.$.modalDialog({
+            $.modalDialog({
+                title: '修改物流——订单' + id,
+                width: 400,
+                height: 300,
+                top: 200,
+                href: '/order/orderlogistics.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = $.modalDialog.handler.find('#orderLogisticsForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //转运预报
+        function forecastFun(id) {
+            //parent.$.modalDialog({
+            $.modalDialog({
+                title: '转运预报——订单' + id,
+                width: 400,
+                height: 300,
+                top: 200,
+                href: '/order/orderforecast.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = $.modalDialog.handler.find('#orderForecastForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        
+
+        
+        
     </script>
 </body>
 </html>

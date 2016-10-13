@@ -1,0 +1,142 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#orderForecastForm').form({
+            url: '/order/forecast',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="orderForecastForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>
+                        订单ID：
+                    </td>
+                    <td>
+                        20216222
+                    </td>
+                    <td>
+                        代购商：
+                    </td>
+                    <td>
+                        美宝坊
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        用户名：
+                    </td>
+                    <td>
+                        15967148046
+                    </td>
+                    <td>
+                        订单时间：
+                    </td>
+                    <td>
+                        2016/10/13 10:35:17
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        订单状态：
+                    </td>
+                    <td>
+                        待发货
+                    </td>
+                    <td>
+                        商家备注：
+                    </td>
+                    <td>
+                        系统自动接单
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        收货人：
+                    </td>
+                    <td>
+                        <input class="easyui-textbox" data-options="required:true" type="text" name="Contacts" value="吕姗姗" />
+                    </td>
+                    <td>
+                        手机号码：
+                    </td>
+                    <td>
+                        <input class="easyui-textbox" data-options="required:true" type="text" name="MobilePhone" value="15967148046" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        身份证号码：
+                    </td>
+                    <td colspan="3">
+                        <input class="easyui-textbox" data-options="required:true" type="text" name="IDCardNumber" value="33068119970410902X" style="width:380px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        地区：
+                    </td>
+                    <td colspan="3">
+                        <select class="easyui-combobox" data-options="required:true">
+                            <option value="">请选择省</option>
+                        </select>
+                        <select class="easyui-combobox" data-options="required:true">
+                            <option value="">请选择市</option>
+                        </select>
+                        <select class="easyui-combobox" data-options="required:true">
+                            <option value="">请选择区</option>
+                        </select>
+                        详细：<input class="easyui-textbox" data-options="required:true" type="text" name="" value="浙江工商大学下沙校区钱江湾生活区23幢503" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>身份证正面：</p>
+                        <p>(点击图片修改)</p>
+                    </td>
+                    <td class="ac">
+                        <a class="idimage-box" href="javascript:void(0);">
+                            <label style="cursor:pointer;">
+                                <img src="http://pic.biyabi.com/idcart_image/2016/10/12/20161012102422_7026_3612.jpg" alt="身份证正面图" />
+                                <input type="file" name="zm" value="" style="width:0;height:0;overflow:hidden;visibility:hidden;" />
+                            </label>
+                        </a>
+                        <a href="javascript:void(0);" onclick="parent.addTab('身份证正面', 'http://pic.biyabi.com/idcart_image/2016/10/12/20161012102422_7026_3612.jpg', 'menu_icon_datadeal')">查看大图</a>
+                    </td>
+                    <td>
+                        <p>身份证反面：</p>
+                        <p>(点击图片修改)</p>
+                    </td>
+                    <td class="ac">
+                        <a class="idimage-box" href="javascript:void(0);">
+                            <label style="cursor:pointer;">
+                                <img src="http://pic.biyabi.com/idcart_image/2016/10/12/20161012102422_7494_6827.jpg" alt="身份证反面图" />
+                                <input type="file" name="fm" value="" style="width:0;height:0;overflow:hidden;visibility:hidden;" />
+                            </label>
+                        </a>
+                        <a href="javascript:void(0);" onclick="parent.addTab('身份证反面', 'http://pic.biyabi.com/idcart_image/2016/10/12/20161012102422_7494_6827.jpg', 'menu_icon_datadeal')">查看大图</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
