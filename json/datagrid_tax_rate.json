@@ -1,0 +1,23 @@
+﻿{
+  "total": 3,
+  "rows": [
+    {
+      "id": 1,
+      "CNY": "1",
+      "category": "人民币元--CNY",
+      "exchangerate": "1"
+    },
+    {
+      "id": 2,
+      "CNY": "1",
+      "category": "美元--USD",
+      "exchangerate": "7.3404"
+    },
+    {
+      "id":3,
+      "CNY": "1",
+      "category": "日元--JPY",
+      "exchangerate": "0.0726"
+    }
+  ]
+}

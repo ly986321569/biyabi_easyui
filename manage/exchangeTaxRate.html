@@ -18,7 +18,7 @@
         var basePath = "http://123.207.96.81:8080/backend";
     </script>
     <!-- [扩展JS] -->
-    <script type="text/javascript" src="static/extJs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
     <!-- [扩展样式] -->
     <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
@@ -33,7 +33,19 @@
                     <h4>修改汇率</h4>
                 </div>
                 <div class="box-main">
-                    <div class="form-row">
+                    <table id="dg"></table>
+
+                    <div id="tb" style="height:auto">
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">添加</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">移除</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">保存更改</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">放弃更改</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">获取更改</a>
+                    </div>
+
+
+                    <!--原商家后台页面方式-->
+                    <!--<div class="form-row">
                         <select class="easyui-combobox" id="Currency" style="height:30px;">
                             <option value="5" selected="selected">人民币元--CNY</option>
                             <option value="82">美元--USD</option>
@@ -49,7 +61,7 @@
                     <div class="form-row">
                         <input class="easyui-filebox" name="" value="" style="height:30px;" />
                         <a class="easyui-linkbutton" href="javascript:void(0);" style="width:100px;height:30px;">上传真实汇率</a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -57,9 +69,138 @@
 
     <script type="text/javascript">
         $(function () {
-
+            $("#dg").datagrid({
+                toolbar: '#tb',
+                url: '../json/datagrid_tax_rate.json',
+                method: 'get',
+                onClickRow: onClickRow,
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                sortName: 'id',
+                sortOrder: 'asc',
+                iconCls: 'icon-edit',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                autoSave: true,
+                fitColumns:true,
+                columns: [[{
+                    width: '60',
+                    title: '汇率ID',
+                    field: 'id',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '人民币',
+                    field: 'CNY',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '货币类型',
+                    field: 'category',
+                    sortable: true
+                }, {
+                    width: '60',
+                    title: '货币汇率',
+                    field: 'exchangerate',
+                    sortable: true,
+                    align: 'right',
+                    editor: {
+                        type: 'numberbox',
+                        options: {
+                            precision: 5
+                        }
+                    }
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width: 100,
+                    formatter: function (value, row, index) {
+                        var str = '<span style="color:#666;">点击单元格修改</span>';
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.special-easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                }
+                //,
+                //onAfterEdit: function (rowIndex, rowData, changes) {
+                //    console.info(rowData);
+                //    $.ajax({
+                //        url: 'xxxxxx', data: rowData, type: 'POST', complete: function (xhr) {
+                //            //alert(xhr.responseText)
+                //        }
+                //    });
+                //    editRow = undefined;
+                //}
+            })
         });
 
+        var editIndex = undefined;
+        function endEditing() {
+            if (editIndex == undefined) { return true }
+            if ($('#dg').datagrid('validateRow', editIndex)) {
+                //var ed = $('#dg').datagrid('getEditor', { index: editIndex, field: 'productid' });
+                //var productname = $(ed.target).combobox('getText');
+               // $('#dg').datagrid('getRows')[editIndex]['productname'] = productname;
+                $('#dg').datagrid('endEdit', editIndex);
+                editIndex = undefined;
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function onClickRow(index) {
+            if (editIndex != index) {
+                if (endEditing()) {
+                    $('#dg').datagrid('selectRow', index)
+							.datagrid('beginEdit', index);
+                    editIndex = index;
+                } else {
+                    $('#dg').datagrid('selectRow', editIndex);
+                }
+            }
+        }
+        function append() {
+            if (endEditing()) {
+                $('#dg').datagrid('appendRow', { status: 'P' });
+                editIndex = $('#dg').datagrid('getRows').length - 1;
+                $('#dg').datagrid('selectRow', editIndex)
+						.datagrid('beginEdit', editIndex);
+            }
+        }
+        function removeit() {
+            if (editIndex == undefined) { return }
+            $('#dg').datagrid('cancelEdit', editIndex)
+					.datagrid('deleteRow', editIndex);
+            editIndex = undefined;
+        }
+        function accept() {
+            if (endEditing()) {
+                $('#dg').datagrid('acceptChanges');
+            }
+        }
+        function reject() {
+            $('#dg').datagrid('rejectChanges');
+            editIndex = undefined;
+        }
+        function getChanges() {
+            var rows = $('#dg').datagrid('getChanges');
+            console.info(rows);
+            $.ajax({
+                url: '/taxrate/update',
+                type: 'POST',
+                dataType:'json',
+                data: rows,
+                success: function (data) {
+
+                }
+            })
+
+            alert(rows.length + ' rows are changed!');
+        }
     </script>
 </body>
 </html>
