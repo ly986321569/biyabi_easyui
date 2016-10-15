@@ -27,24 +27,25 @@
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
-        <div class="w">
-            <div class="common-box">
-                <div class="box-header">
-                    <h4>派送优惠码给指定用户</h4>
-                </div>
-                <div class="box-main">
-                    <table id="dg"></table>
-                </div>
+        <div class="easyui-panel" title="派送优惠码给指定用户" style="padding: 10px;" closable="false" collapsible="true">
+            <div style="padding: 5px;margin-bottom: 5px;">
+                用户名：<input class="easyui-textbox" type="text" id="strUserName" name="strUserName" value="" data-options="required:true" style="width:320px;height:30px;" />
+                <a class="easyui-linkbutton" href="javascript:void(0);" onclick="sendSingleFun();" style="width:80px;height:30px;">派送</a>
+            </div>
+            <div style="padding: 5px;background: #fffff6;">
+                <p>注意：每次派送优惠券总数不要超过150张（人数*派送数量）。</p>
+                用户ID：<input class="easyui-textbox" type="text" id="strUserIDs" name="strUserIDs" value="" data-options="multiline:true,required:true" style="width:320px;height:60px;" />
+                <a id="btnSendAll" class="easyui-linkbutton" href="javascript:void(0);" onclick="sendAllFun();" style="width:80px;height:30px;">批量派送</a>
             </div>
         </div>
+        <table id="dg" data-options="border:false"></table>
     </div>
 
     <script type="text/javascript">
         $(function () {
             $("#dg").datagrid({
-                url: '../json/datagrid_gift.json',
+                url: '../json/datagrid_giftrepayuser.json',
                 method: 'get',
-                //onClickRow: onClickRow,
                 striped: true,
                 rownumbers: true,
                 pagination: true,
@@ -58,8 +59,6 @@
                 fitColumns: true,
                 columns: [[{
                     field: 'ck', checkbox: true
-                }, {
-                    field: 'iGiftID', title: 'ID', width: 80
                 }, {
                     field: 'strGiftName', title: '兑换品', width: 200
                 }, {
@@ -80,24 +79,6 @@
                     field: 'strDiscounts', title: '折扣', width: 100, align: 'center'
                 }, {
                     field: 'giftType', title: '兑换类型', width: 100, align: 'center', formatter: function (value, rowData, rowIndex) {
-                        if (value == "0") {
-                            return "不管";
-                        }
-                        if (value == "1") {
-                            return "国内优惠券";
-                        }
-                        if (value == "2") {
-                            return "礼品卡";
-                        }
-                        if (value == "3") {
-                            return "实物";
-                        }
-                        if (value == "5") {
-                            return "奖励（钱）";
-                        }
-                        if (value == "6") {
-                            return "国外电商公码";
-                        }
                         if (value == "7") {
                             return "红包";
                         }
@@ -115,15 +96,6 @@
                         }
                         else if (value == "3") {
                             return "过期";
-                        }
-                    }
-                }, {
-                    field: 'bShowFlag', title: '显示状态', width: 100, align: 'center', formatter: function (value, rowData, rowIndex) {
-                        if (value == true) {
-                            return "显示";
-                        }
-                        else if (value == false) {
-                            return "不显示";
                         }
                     }
                 }, {
@@ -149,53 +121,17 @@
                         else if (value == "4") {
                             return "限用户";
                         }
+
                     }
                 }, {
                     field: 'dtStartTime', title: '开始时间', width: 150, align: 'center'
                 }, {
                     field: 'dtEndTime', title: '结束时间', width: 150, align: 'center'
-                }]],
+                }
+                ]],
                 onLoadSuccess: function (data) {
                     $('.special-easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
-                },
-                toolbar: [{
-                    id: 'btnDelete',
-                    text: '删除',
-                    iconCls: 'icon-remove',
-                    handler: function () {
-                        //删除的代码逻辑
-                        deleteModels();
-                    }
-                }, {
-                    id: 'btnEdit',
-                    text: '修改',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        updateModel();
-                    }
-                }, {
-                    id: 'btnUpdateShowFlag1',
-                    text: '修改显示',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        btnUpdateShowFlag1();
-                    }
-                }, {
-                    id: 'btnUpdateShowFlag0',
-                    text: '修改不显示',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        btnUpdateShowFlag0();
-                    }
-                }, {
-                    id: 'btnCreateCoupon',
-                    text: '生成优惠券',
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        btnCreateCoupon();
-                    }
                 }
-                ]
             });
 
             //删除
@@ -272,7 +208,7 @@
                 strGiftIDs = strGiftIDs.substring(0, strGiftIDs.length - 1);
                 $.messager.confirm('提示', '是否确定修改为不显示？', function (r) {
                     if (r) {
-                        $.post("Gift/UpdateShowFlag0", {"strGiftIDs": strGiftIDs }, function (data) {
+                        $.post("Gift/UpdateShowFlag0", { "strGiftIDs": strGiftIDs }, function (data) {
                             var json = $.parseJSON(data);
                             if (json.result == "true") {
                                 $("#dg").datagrid("clearSelections");
@@ -342,6 +278,111 @@
                 });
             }
         });
+
+        //派送
+        function sendSingleFun() {
+            var bool = true;
+            var getSelections = $("#dg").datagrid("getSelections");
+            if (getSelections.length > 1 || getSelections.length == 0) {
+                $.messager.alert("错误提示", "请选中一行数据!", "error");
+                return false;
+            }
+
+            $.ajaxSettings.async = false;  //设置getJson同步
+
+            $.getJSON("Gift_RepayUser/isExistUserName", { "strUserName": $("#strUserName").val() }, function (data) {
+                if (data.result == "false") {
+                    $.messager.alert('错误提示', '用户名不存在', 'error');
+                    bool = false;
+                }
+                else {
+                    //  $("#isExistInfoTitle").css({ "display": "none" });
+                    bool = true;
+                }
+
+            });
+            $.ajaxSettings.async = true;  //设置getJson异步
+            if (bool == false) {//如果bool为false才返回，true继续往下走
+
+                return false;   //不能在异步方法里面return，不起作用
+            }
+
+
+            $.messager.prompt("提示", "请输入派送的数量", function (val) {
+
+                if (val != undefined) {  //如果用户点击确定
+                    var reg = /^\d+$/;
+                    if (reg.test(val)) {
+                        //派送
+                        var data = $("#dg").datagrid("getSelected");  //获取选中的数据
+
+                        $.post("Gift_RepayUser/addGiftRepayUser?strUserName=" + $("#strUserName").val() + "&num=" + val, data, function (data) {
+                            data = $.parseJSON(data);
+                            if (data.result == "false") {
+                                $.messager.alert('错误提示', '派送不成功！', 'error');
+
+                            }
+                            else {
+                                $.messager.alert('错误提示', '派送成功！', 'info');
+
+                            }
+                        });
+                    }
+                }
+                else {//用户点击取消
+
+                }
+            });
+
+
+
+        };
+
+        //批量派送
+        function sendAllFun() {
+            //防止重复提交
+            if ($("#btnSendAll").attr("disabled")) {
+                return false;
+            }
+
+            var getSelections = $("#dg").datagrid("getSelections");
+            if (getSelections.length > 1 || getSelections.length == 0) {
+                $.messager.alert("错误提示", "请选中一行数据!", "error");
+                return false;
+            }
+            if ($("#strUserIDs").val().length == 0) {
+                $.messager.alert("错误提示", "请输入用户ID!", "error");
+                return false;
+            }
+
+            $.messager.prompt("提示", "请输入派送的数量", function (val) {
+
+                if (val != undefined) {  //如果用户点击确定
+                    var reg = /^\d+$/;
+                    if (reg.test(val)) {
+                        //派送
+                        var data = $("#dg").datagrid("getSelected");  //获取选中的数据
+                        $("#btnSendAll").attr("disabled", "disabled");
+                        $.post("Gift_RepayUse/sendAllbyUserIDs", { "iGiftID": data.iGiftID, "strUserIDs": $("#strUserIDs").val(), "num": val }, function (data) {
+                            data = $.parseJSON(data);
+                            if (data.result == "false") {
+                                $.messager.alert('错误提示', '派送不成功！', 'error');
+
+                            }
+                            else {
+                                $.messager.alert('错误提示', '派送成功！', 'info');
+
+                            }
+                            $("#btnSendAll").removeAttr("disabled");
+                        });
+                    }
+                }
+                else {//用户点击取消
+
+                }
+            });
+
+        };
     </script>
 </body>
 </html>
