@@ -23,19 +23,20 @@
     <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
     <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
-    <title>优惠码管理</title>
+    <title>派送优惠码给指定用户</title>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
-        <div class="easyui-panel" title="添加操作" style="padding: 10px;" iconcls="icon-save" closable="false" collapsible="true">
-            <a class="easyui-linkbutton" href="javascript:void(0);" onclick="addMallCodeFun();">添加电商公码</a>
-            <a class="easyui-linkbutton" href="javascript:void(0);" onclick="addCouponCodeFun();">添加红包</a>
-            <a class="easyui-linkbutton" href="javascript:void(0);" onclick="addBiyabiCodeFun();">添加比呀比优惠码</a>
-            <a class="easyui-linkbutton" href="javascript:void(0);" onclick="addInlandMallCodeFun();">添加国内优惠码</a>
-            <a class="easyui-linkbutton" href="javascript:void(0);" onclick="addGiftBagFun();">添加礼包</a>
+        <div class="w">
+            <div class="common-box">
+                <div class="box-header">
+                    <h4>派送优惠码给指定用户</h4>
+                </div>
+                <div class="box-main">
+                    <table id="dg"></table>
+                </div>
+            </div>
         </div>
-
-        <table id="dg" data-options="border:false"></table>
     </div>
 
     <script type="text/javascript">
@@ -43,17 +44,18 @@
             $("#dg").datagrid({
                 url: '../json/datagrid_gift.json',
                 method: 'get',
+                //onClickRow: onClickRow,
                 striped: true,
                 rownumbers: true,
                 pagination: true,
                 singleSelect: false,
-                idField: 'iGiftID',
-                sortName: 'iGiftID',
+                idField: 'id',
+                sortName: 'id',
                 sortOrder: 'asc',
                 pageSize: 20,
                 pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
                 autoSave: true,
-                //fitColumns: true,
+                fitColumns: true,
                 columns: [[{
                     field: 'ck', checkbox: true
                 }, {
@@ -196,8 +198,6 @@
                 ]
             });
 
-
-
             //删除
             function deleteModels() {
                 var getSelections = $("#dg").datagrid("getSelections");
@@ -212,7 +212,7 @@
                 strGiftIDs = strGiftIDs.substring(0, strGiftIDs.length - 1);
                 $.messager.confirm('提示', '是否确定删除？', function (r) {
                     if (r) {
-                        $.post("Gift/del", { "strGiftIDs": strGiftIDs }, function (data) {
+                        $.post("Gift/del", { "method": "deleteGift", "strGiftIDs": strGiftIDs }, function (data) {
                             var json = $.parseJSON(data);
                             if (json.result == "true") {
                                 $("#dg").datagrid("clearSelections");
@@ -272,7 +272,7 @@
                 strGiftIDs = strGiftIDs.substring(0, strGiftIDs.length - 1);
                 $.messager.confirm('提示', '是否确定修改为不显示？', function (r) {
                     if (r) {
-                        $.post("Gift/UpdateShowFlag0", { "strGiftIDs": strGiftIDs }, function (data) {
+                        $.post("Gift/UpdateShowFlag0", {"strGiftIDs": strGiftIDs }, function (data) {
                             var json = $.parseJSON(data);
                             if (json.result == "true") {
                                 $("#dg").datagrid("clearSelections");
@@ -294,24 +294,23 @@
                     $.messager.alert("错误提示", "请选中一行数据!", "error");
                     return false;
                 }
-                var id = getSelections[0].iGiftID;
-                $.modalDialog({
-                    title: '编辑——优惠券码' + id,
-                    width: 520,
-                    height: 560,
-                    top: 100,
-                    href: '/manage/giftedit.html?id=' + id,
-                    buttons: [{
-                        text: '确定',
-                        handler: function () {
-                            //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                            var f = $.modalDialog.handler.find('#giftEditForm');
-                            f.submit();
-                        }
-                    }]
-                });
+                var data = getSelections[0];
+                if ($("#divUpdate #myframe").length != 0) {
+                    $("#divUpdate #myframe").remove();
+                }
+                $('#divUpdate').append("<iframe id='myframe' name='myframe' src='Gift_Update.aspx'  width='100%' height='500'  frameborder='0'></iframe>");
+                if (myframe.attachEvent) {
+                    myframe.attachEvent("onload", function () {
+                        myframe.window.loadGiftData(data);
+                    });
+                }
+                else {
+                    myframe.onload = function () {
+                        myframe.window.loadGiftData(data);
+                    }
+                }
+                $('#divUpdate').dialog("open");
             }
-
 
             //生成优惠券
             function btnCreateCoupon() {
@@ -343,103 +342,6 @@
                 });
             }
         });
-
-
-        //添加电商公码
-        function addMallCodeFun() {
-            $.modalDialog({
-                title: '添加电商公码',
-                width: 520,
-                height: 620,
-                top: 50,
-                href: '/manage/addMallCode.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = $.modalDialog.handler.find('#addMallCodeForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
-        //添加红包
-        function addCouponCodeFun() {
-            $.modalDialog({
-                title: '添加红包',
-                width: 520,
-                height: 580,
-                top: 50,
-                href: '/manage/addCouponCode.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = $.modalDialog.handler.find('#addCouponCodForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
-        //添加比呀比优惠码
-        function addBiyabiCodeFun() {
-            $.modalDialog({
-                title: '添加比呀比优惠码',
-                width: 520,
-                height: 620,
-                top: 50,
-                href: '/manage/addBiyabiCode.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = $.modalDialog.handler.find('#addBiyabiCodeForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
-        //添加国内优惠码
-        function addInlandMallCodeFun() {
-            $.modalDialog({
-                title: '添加国内优惠码',
-                width: 520,
-                height:420,
-                top: 100,
-                href: '/manage/addInlandMallCode.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = $.modalDialog.handler.find('#addInlandMallCodeForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
-        //添加礼包
-        function addGiftBagFun() {
-            $.modalDialog({
-                title: '添加礼包',
-                width: 520,
-                height: 260,
-                top: 100,
-                href: '/manage/addGiftBag.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        //$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = $.modalDialog.handler.find('#addGiftBagForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
     </script>
 </body>
 </html>

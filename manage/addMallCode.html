@@ -1,0 +1,165 @@
+﻿<style type="text/css">
+    #tb-add-mall tr {
+        margin-top: 15px;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .td1 {
+        height: 25px;
+        width: 80px;
+        text-align: right;
+    }
+
+    .td2 {
+        height: 25px;
+        text-align: left;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#addMallCodeForm').form({
+            url: '/gift/addMallCode',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="addMallCodeForm" method="post">
+            <table id="tb-add-mall" class="grid" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="td1">兑换品名称：</td>
+                    <td colspan="3" class="td2">
+                        <input type="text" id="strGiftName" name="strGiftName" class="easyui-textbox easyui-validatebox" data-options="required:true" style="width: 400px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">兑换内容：</td>
+                    <td colspan="3" class="td2">
+                        <input id="strGiftContent" name="strGiftContent" class="easyui-textbox easyui-validatebox" data-options="multiline:true,required:true" style="width:400px;height:80px;"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="td1">开始时间：</td>
+                    <td class="td2">
+                        <input type="text" id="dtStartTime" name="dtStartTime" class="easyui-datetimebox" data-options="required:true,showSeconds: false" style="width:120px;"/>
+                    </td>
+                    <td class="td1">结束时间：</td>
+                    <td class="td2">
+                        <input type="text" id="dtEndTime" name="dtEndTime" class="easyui-datetimebox" data-options="required:true,showSeconds: false" style="width: 120px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">兑换类型：</td>
+                    <td class="td2">
+                        <select class="easyui-combobox" id="btGiftType" name="btGiftType" style="width: 120px;">
+                            <option value="1">国内优惠券</option>
+                            <option value="6" selected="selected">国外电商公码</option>
+                            <option value="7">红包</option>
+                            <option value="8">比呀比优惠券</option>
+                        </select>
+                    </td>
+                    <td class="td1">商城名称：</td>
+                    <td class="td2">
+                        <input type="text" id="strMallName" name="strMallName" class="easyui-textbox easyui-validatebox" data-options="required:true,validType:'isNum'" style="width: 120px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">国外优惠码：</td>
+                    <td class="td2">
+                        <input type="text" id="strCouponCode" name="strCouponCode" class="easyui-textbox easyui-validatebox" data-options="required:true,validType:'isNum'" style="width: 120px;" />
+                    </td>
+                    <td class="td1">兑换品总数：</td>
+                    <td class="td2">
+                        <input type="text" id="intGiftTotal" name="intGiftTotal" value="1" class="easyui-textbox easyui-validatebox" data-options="required:true,validType:'isNum'" style="width: 120px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">最大兑换数：</td>
+                    <td class="td2">
+                        <input type="text" id="intMaxExchangeCount" name="intMaxExchangeCount" value="1" class="easyui-textbox easyui-validatebox" data-options="required:true,validType:'isNum'" style="width: 120px;" />
+                    </td>
+                    <td class="td1">优惠类型：</td>
+                    <td class="td2">
+                        <select class="easyui-combobox" id="btGiftMold" name="btGiftMold" style="width: 120px;">
+                            <option value="1" selected="selected">满减</option>
+                            <option value="2">折扣</option>
+                            <option value="3">指定金额</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">优惠额度：</td>
+                    <td colspan="3" class="td2">
+                        <input type="text" id="strDiscounts" name="strDiscounts" class="easyui-textbox easyui-validatebox" data-options="required:true" style="width: 120px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">优惠额度写法说明：</td>
+                    <td colspan="3" class="td2">
+                        <div style="padding:10px;font-size: 12px;background:#fffff6; color: #BF8400; border: 1px dashed #AAAAAA;">
+                            <div>满减优惠额度逗号应该是英文输入法的逗号','</div>
+                            <div>选择满减，满300减50时，优惠额度写300,50</div>
+                            <div>选择折扣，打九折，优惠额度写0.9</div>
+                            <div>选择指定金额，减30块，优惠额度写30</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">优惠目标：</td>
+                    <td class="td2">
+                        <select class="easyui-combobox" id="btGiftTarget" name="btGiftTarget" style="width: 120px;">
+                            <option value="1">转运费</option>
+                            <option value="2" selected="selected">订单</option>
+                        </select>
+                    </td>
+                    <td class="td1">优惠客户端：</td>
+                    <td class="td2">
+                        <select class="easyui-combobox" id="intGiftClient" name="intGiftClient" style="width: 120px;">
+                            <option value="1">全部</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">优惠范围：</td>
+                    <td colspan="3" class="td2">
+                        <select class="easyui-combobox" id="intGiftRange" name="intGiftRange" style="width: 120px;">
+                            <option value="1" selected="selected">全站</option>
+                            <option value="2">限品类</option>
+                            <option value="3">限单品</option>
+                            <option value="4">限用户</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="td1">备注：</td>
+                    <td colspan="3" class="td2">
+                        <input class="easyui-textbox" id="strGiftRemark" name="strGiftRemark" data-options="multiline:true" style="width:400px;height:60px;"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

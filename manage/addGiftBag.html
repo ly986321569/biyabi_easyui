@@ -1,0 +1,86 @@
+﻿<style type="text/css">
+    #tb-add-giftbag tr {
+        margin-top: 15px;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .td1 {
+        height: 25px;
+        width: 80px;
+        text-align: right;
+    }
+
+    .td2 {
+        height: 25px;
+        text-align: left;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $('#addGiftBagForm').form({
+            url: '/gift/addGiftBag',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    //parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
+        <form id="addGiftBagForm" method="post">
+            <table id="tb-add-giftbag" class="grid" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="td1">兑换品编号集合：</td>
+                    <td class="td2">
+                        <input type="text" id="strGiftIDs" name="strGiftIDs" class="easyui-textbox easyui-validatebox" data-options="required:true" style="width:120px;" />
+                    </td>
+                    <td class="td1">礼包总数：</td>
+                    <td class="td2">
+                        <input type="text" id="iTotal" name="iTotal" class="easyui-textbox easyui-validatebox" data-options="required:true" style="width:120px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="td1">开始时间：</td>
+                    <td class="td2">
+                        <input type="text" id="dtStartTime" name="dtStartTime" class="easyui-datetimebox" data-options="required:true,showSeconds: false" style="width:120px;"/>
+                    </td>
+                    <td class="td1">结束时间：</td>
+                    <td class="td2">
+                        <input type="text" id="dtEndTime" name="dtEndTime" class="easyui-datetimebox" data-options="required:true,showSeconds: false" style="width: 120px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">礼包类型：</td>
+                    <td colspan="3" class="td2">
+                        <input type="text" id="strBrank" name="strBrank" class="easyui-textbox" data-options="required:true" style="width: 120px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">备注：</td>
+                    <td colspan="3" class="td2">
+                        <input class="easyui-textbox" id="strGiftRemark" name="strGiftRemark" data-options="multiline:true" style="width:400px;height:40px;"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
