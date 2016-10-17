@@ -1,0 +1,609 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [my97日期时间控件] -->
+    <script type="text/javascript" src="../static/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var basePath = "http://123.207.96.81:8080/backend";
+    </script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <link rel="stylesheet" type="text/css" href="../static/style/css/manage.css" />
+    <title>
+        比呀比_图形展示页面
+    </title>
+
+    <script src="Pic/jquery-easyui-1.2.6/jquery-1.7.2.min.js"></script>
+
+    <script src="Pic/build/source/echarts.js"></script>
+    <!--Echarts-->
+    <!--easyui-->
+    <link href="Pic/jquery-easyui-1.2.6/themes/icon.css" rel="stylesheet" />
+    <link href="Pic/jquery-easyui-1.2.6/themes/default/easyui.css" rel="stylesheet" />
+    <script src="Pic/jquery-easyui-1.2.6/jquery.easyui.min.js"></script>
+    <script src="Pic/jquery-easyui-1.2.6/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+    <form name="form1" method="post" action="./Echarts.aspx" id="form1">
+        订单状态:
+        <select name="OrderStatus" id="OrderStatus">
+            <option selected="selected" value="">全部</option>
+            <option value="1">未付款</option>
+            <option value="2">已付款</option>
+            <option value="3">已接单</option>
+            <option value="4">待发货</option>
+            <option value="5">已发货</option>
+            <option value="6">交易成功</option>
+            <option value="7">交易关闭</option>
+        </select>
+        查询条件:
+        <select name="SelectValue" id="SelectValue">
+            <option selected="selected" value="0">全部</option>
+            <option value="1">商家名</option>
+            <option value="2">商城名</option>
+        </select>
+        <input type="text" name="txtInput" id="txtInput" />
+        开始时间：<input type="text" name="txtStartTime" id="txtStartTime" class="easyui-datetimebox" showseconds="false" style="width: 150px;" />
+        结束时间：<input type="text" name="txtEndTime" id="txtEndTime" class="easyui-datetimebox" showseconds="false" style="width: 150px;" />
+        <input id="btnSearch" type="button" value="查询" />
+        <input id="btnReset" type="button" value="重置" /><br />
+        <div id="OrderCloseSum" style="margin-top: 20px;">
+        </div>
+        <div id="OrderUserCancelAfterPaySum" style="margin-top: 10px;">
+        </div>
+    </form>
+
+    <div id="ChartIndex1" style="height: 400px; border: 1px solid #dddddd; margin: 10px auto;"></div>
+    <div id="ChartIndex2" style="height: 400px; border: 1px solid #dddddd; margin: 10px auto;"></div>
+    <div id="ChartIndex3" style="height: 400px; border: 1px solid #dddddd; margin: 10px auto;"></div>
+    <script type="text/javascript">
+        ///刚开始加载页面，会有有三个图表
+        //require.config({
+        //    paths: {
+        //        echarts: 'Pic/build/dist' //引用资源文件夹路径，注意路径
+        //    }
+        //});
+        //require(
+        //    [
+        //        'echarts',
+        //        'echarts/chart/bar',
+        //        'echarts/chart/line'
+
+        //    ],
+        //    function (ec) {
+        //        var myChart1 = ec.init(document.getElementById('ChartIndex1'));
+
+        //        var myChart2 = ec.init(document.getElementById('ChartIndex2'));
+
+        //        var myChart3 = ec.init(document.getElementById('ChartIndex3'));
+
+
+        //        var ecConfig = require('echarts/config');
+        //        var option = {
+        //            title: {
+        //                text: '',
+        //                x: "center"
+        //            },
+        //            tooltip: {
+        //                trigger: 'axis'
+        //            },
+        //            legend: {
+        //                data: [],
+        //                y: "bottom"
+
+        //            },
+        //            toolbox: {
+        //                show: true,
+        //                feature: {
+        //                    mark: { show: true },
+        //                    dataView: { show: true, readOnly: false },
+        //                    magicType: { show: true, type: ['line', 'bar'] },
+        //                    restore: { show: true },
+        //                    saveAsImage: { show: true }
+        //                }
+        //            },
+        //            xAxis: [{
+        //                type: 'category',
+        //                data: []
+        //            }],
+        //            yAxis: [{
+        //                type: 'value'
+        //            }],
+        //            series: []
+        //        };
+
+        //        // 载入动画---------------------
+        //        myChart1.showLoading({
+        //            text: '正在努力的读取数据中...',    //loading话术
+        //        });
+        //        myChart2.showLoading({
+        //            text: '正在努力的读取数据中...',    //loading话术
+        //        });
+        //        myChart3.showLoading({
+        //            text: '正在努力的读取数据中...',    //loading话术
+        //        });
+
+
+
+        //        ///1、订单状态
+        //        $.ajax({
+        //            url: "Echarts.aspx",
+        //            data: { "ChartIndex": "1" },
+        //            dataType: "json",
+        //            success: function (data) {
+        //                //数据接口成功返回
+        //                //后台需要返回以下结构的json数据
+        //                //data = {
+        //                //    "legen": ["访问量", "订单数"],
+        //                //    "axis": ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        //                //    "series": [
+        //                //        [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+        //                //        [4.0, 2.9, 6.0, 21.2, 50.6, 56.7, 115.6, 102.2, 62.6, 20.0, 9.4, 3.3]
+        //                //    ]
+        //                //};
+
+        //                var legendData = [];
+        //                var xAxisData = [];
+        //                var seriesData = [];
+
+        //                if (data != null && data["series"].length > 0) {
+
+        //                    // legendData = data["legen"];
+        //                    legendData = ['订单数'];
+        //                    xAxisData = data["axis"];
+        //                    //   for (var i = 0, len = data["series"].length; i < len; i++) {
+        //                    //  alert(legendData[i]);
+        //                    seriesData.push({
+        //                        "name": legendData[0],
+        //                        "type": "line",
+        //                        "data": data["series"]
+        //                    });
+
+        //                    // }
+        //                }
+        //                option.title.text = "订单状态图表";
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart1.setOption(option);
+        //                myChart1.setSeries(seriesData);
+        //            },
+        //            error: function () {
+        //                //数据接口异常处理
+        //                var legendData = [''];
+        //                var xAxisData = [''];
+        //                var seriesData = [
+        //                        {
+        //                            name: '',
+        //                            type: 'line',
+        //                            data: [0]
+        //                        }
+        //                ];
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart1.setOption(option);
+        //                myChart1.setSeries(seriesData);
+
+        //            },
+        //            complete: function () {
+        //                //不管数据接口成功或异常，都终于载入提示
+        //                //停止动画载入提示
+        //                myChart1.hideLoading();
+        //            }
+
+        //        });       //异步到这里
+
+
+        //        ///2、电商订单状态
+        //        $.ajax({
+        //            url: "Echarts.aspx",
+        //            data: { "ChartIndex": "2" },
+        //            dataType: "json",
+        //            success: function (data) {
+
+        //                var legendData = [];
+        //                var xAxisData = [];
+        //                var seriesData = [];
+
+        //                if (data != null && data["series"].length > 0) {
+
+        //                    legendData = ['订单数'];
+        //                    xAxisData = data["axis"];
+
+        //                    seriesData.push({
+        //                        "name": legendData[0],
+        //                        "type": "line",
+        //                        "data": data["series"]
+        //                    });
+
+        //                }
+        //                option.title.text = "电商订单状态图表";
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart2.setOption(option);
+        //                myChart2.setSeries(seriesData);
+        //            },
+        //            error: function () {
+        //                //数据接口异常处理
+        //                var legendData = [''];
+        //                var xAxisData = [''];
+        //                var seriesData = [
+        //                        {
+        //                            name: '',
+        //                            type: 'line',
+        //                            data: [0]
+        //                        }
+        //                ];
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart2.setOption(option);
+        //                myChart2.setSeries(seriesData);
+
+        //            },
+        //            complete: function () {
+        //                //不管数据接口成功或异常，都终于载入提示
+        //                //停止动画载入提示
+        //                myChart2.hideLoading();
+        //            }
+
+        //        });       //异步到这里
+
+
+
+        //        ///3、商家订单状态
+        //        $.ajax({
+        //            url: "Echarts.aspx",
+        //            data: { "ChartIndex": "3" },
+        //            dataType: "json",
+        //            success: function (data) {
+
+        //                var legendData = [];
+        //                var xAxisData = [];
+        //                var seriesData = [];
+
+        //                if (data != null && data["series"].length > 0) {
+
+        //                    legendData = ['订单数'];
+        //                    xAxisData = data["axis"];
+
+        //                    seriesData.push({
+        //                        "name": legendData[0],
+        //                        "type": "line",
+        //                        "data": data["series"]
+        //                    });
+
+        //                }
+        //                option.title.text = "商家订单状态图表";
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart3.setOption(option);
+        //                myChart3.setSeries(seriesData);
+        //            },
+        //            error: function () {
+        //                //数据接口异常处理
+        //                var legendData = [''];
+        //                var xAxisData = [''];
+        //                var seriesData = [
+        //                        {
+        //                            name: '',
+        //                            type: 'line',
+        //                            data: [0]
+        //                        }
+        //                ];
+        //                option.legend.data = legendData;
+        //                option.xAxis[0]["data"] = xAxisData;
+
+        //                myChart3.setOption(option);
+        //                myChart3.setSeries(seriesData);
+
+        //            },
+        //            complete: function () {
+        //                //不管数据接口成功或异常，都终于载入提示
+        //                //停止动画载入提示
+        //                myChart3.hideLoading();
+        //            }
+
+        //        });       //异步到这里
+
+        //    }
+        //);
+        $(function () {
+
+
+            //点击重置按钮
+            $("#btnReset").click(function () {
+                var href = window.location.href;
+                window.location.href = href.substr(0);
+            });
+
+            //id为SelectValue注册改变事件，当选择全部时则清空txtInput
+            $("#SelectValue").change(function () {
+                if ($(this).val() == "0") {
+                    $("#txtInput").val("");
+                    $("#txtInput").attr("disabled", "disabled");
+                }
+                else {
+                    $("#txtInput").removeAttr("disabled");
+                }
+            });
+
+
+            //刚开始进入页面异步加载数据图表
+            OrderCloseType("", "", "", "");
+            OrderUserCancelAfterPaySum("", "", "", "");
+
+
+            getDataChart(1, 'ChartIndex1', '订单状态图表');
+            getDataChart(2, 'ChartIndex2', '商城订单状态图表');
+            getDataChart(3, 'ChartIndex3', '商家订单状态图表');
+
+            $("#txtInput").attr("disabled", "disabled");
+
+
+            ///当点击提价按钮根据选择条件来加载对应的图表数据
+            $("#btnSearch").click(function () {
+
+                var OrderStatus = $("#OrderStatus").val();
+                var SelectValue = $("#SelectValue").val();
+                var txtInput = $("#txtInput").val();
+                var txtStartTime = $("#txtStartTime").datebox('getValue');
+                var txtEndTime = $("#txtEndTime").datebox('getValue');
+
+                OrderCloseType(SelectValue, txtInput, txtStartTime, txtEndTime);
+                OrderUserCancelAfterPaySum(SelectValue, txtInput, txtStartTime, txtEndTime);
+
+
+                if (parseInt(SelectValue) >= 1 && txtInput.length <= 0) {
+                    alert("查询条件：商家名、商城名不允许为空或者请选择条件为全部!!!!");
+                    return false;
+                }
+
+
+                if (OrderStatus == "" && SelectValue == "1" && txtInput.length > 0) {   //当订单状态为全部，选择了商家，则展示图1图2
+
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    $("#ChartIndex3").hide();
+                    getDataChart(1, 'ChartIndex1', '订单状态图表');
+                    getDataChart(2, 'ChartIndex2', '商城订单状态图表');
+                }
+                else if (parseInt(OrderStatus) >= 1 && SelectValue == "1" && txtInput.length > 0) {   //当订单状态为除了全部以外，选择了商家，则展示图2
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    $("#ChartIndex1").hide();
+                    $("#ChartIndex3").hide();
+                    getDataChart(2, 'ChartIndex2', '商城订单状态图表');
+                }
+                else if (OrderStatus == "" && SelectValue == "2" && txtInput.length > 0) {    //当订单状态为全部，选择了商城名，则展示图1图3
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    $("#ChartIndex2").hide();
+                    getDataChart(1, 'ChartIndex1', '订单状态图表');
+                    getDataChart(3, 'ChartIndex3', '商家订单状态图表');
+                }
+                else if (parseInt(OrderStatus) >= 1 && SelectValue == "2" && txtInput.length > 0) {   //当订单状态为除了全部以外，选择了商城名，则展示图3
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    $("#ChartIndex1").hide();
+                    $("#ChartIndex2").hide();
+                    getDataChart(3, 'ChartIndex3', '商家订单状态图表');
+                }
+                else if (OrderStatus == "" && SelectValue == "0") {   //当订单状态为全部,第二个条件选择了全部，则展示图1图2图3
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    getDataChart(1, 'ChartIndex1', '订单状态图表');
+                    getDataChart(2, 'ChartIndex2', '商城订单状态图表');
+                    getDataChart(3, 'ChartIndex3', '商家订单状态图表');
+                }
+                else if (parseInt(OrderStatus) >= 1 && SelectValue == "0") {   //当订单状态为除了全部以外，第二个条件选择了全部，则展示图2图3
+                    $("#ChartIndex1").show();
+                    $("#ChartIndex2").show();
+                    $("#ChartIndex3").show();
+                    $("#ChartIndex1").hide();
+                    getDataChart(2, 'ChartIndex2', '商城订单状态图表');
+                    getDataChart(3, 'ChartIndex3', '商家订单状态图表');
+                }
+
+            });
+        });
+
+
+    </script>
+
+
+    <script>
+
+        //根据时间获取订单关闭状态的总数
+        function OrderCloseType(SelectValue, txtInput, dtStartTime, dtEndTime) {
+            $.post("Echarts.aspx", { "method": "getOrderCloseType", "dtStartTime": dtStartTime, "dtEndTime": dtEndTime, "SelectValue": SelectValue, "txtInput": txtInput }, function (data) {
+                data = $.parseJSON(data);
+                var str = "订单交易关闭状态统计:<br/>";
+                for (var i = 0; i < data.length; i++) {
+                    str += data[i].strOrderCloseType + "=" + data[i].strTotal + ",<br/>";
+                }
+                $("#OrderCloseSum").html(str);
+
+            })
+        }
+
+        //查询用户取消订单中付款的总数
+        function OrderUserCancelAfterPaySum(SelectValue, txtInput, dtStartTime, dtEndTime) {
+            $.post("Echarts.aspx", { "method": "getOrderUserCancelAfterPaySum", "dtStartTime": dtStartTime, "dtEndTime": dtEndTime, "SelectValue": SelectValue, "txtInput": txtInput }, function (data) {
+
+                var str = "用户取消订单中付款的总数为:" + data;
+                $("#OrderUserCancelAfterPaySum").html(str);
+
+            })
+        }
+
+
+        //异步请求
+        //chartIndex:1、2、3分别表示图一，图二，图三
+        //divID图一，图二，图三的ID
+        //chartName给图表的名字
+        function getDataChart(chartIndex, divID, chartName) {
+            require.config({
+                paths: {
+                    echarts: 'Pic/build/dist' //引用资源文件夹路径，注意路径
+                }
+            });
+            require(
+          [
+              'echarts',
+              'echarts/chart/bar',
+              'echarts/chart/line'
+
+          ],
+          function (ec) {
+
+              var OrderStatus = $("#OrderStatus").val();
+              var SelectValue = $("#SelectValue").val();
+              var txtInput = $("#txtInput").val();
+              var txtStartTime = $("#txtStartTime").datebox('getValue');
+              var txtEndTime = $("#txtEndTime").datebox('getValue');
+
+              var myChart = ec.init(document.getElementById(divID));
+
+
+
+              var ecConfig = require('echarts/config');
+              var option = {
+                  title: {
+                      text: '',
+                      x: "center"
+                  },
+                  tooltip: {
+                      trigger: 'axis'
+                  },
+                  legend: {
+                      data: [],
+                      y: "bottom"
+
+                  },
+                  toolbox: {
+                      show: true,
+                      feature: {
+                          mark: { show: true },
+                          dataView: { show: true, readOnly: false },
+                          magicType: { show: true, type: ['line', 'bar'] },
+                          restore: { show: true },
+                          saveAsImage: { show: true }
+                      }
+                  },
+                  xAxis: [{
+                      type: 'category',
+                      data: []
+                  }],
+                  yAxis: [{
+                      type: 'value'
+                  }],
+                  series: []
+              };
+
+              // 载入动画---------------------
+              myChart.showLoading({
+                  text: '正在努力的读取数据中...',    //loading话术
+              });
+
+
+
+
+              $.ajax({
+                  url: "Echarts.aspx",
+                  data: { "method": "getEchartData", "ChartIndex": chartIndex, "OrderStatus": OrderStatus, "SelectValue": SelectValue, "txtInput": txtInput, "txtStartTime": txtStartTime, "txtEndTime": txtEndTime },
+                  dataType: "json",
+                  success: function (data) {
+                      //数据接口成功返回
+                      //后台需要返回以下结构的json数据
+                      //data = {
+                      //    "legen": ["访问量", "订单数"],
+                      //    "axis": ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                      //    "series": [
+                      //        [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+                      //        [4.0, 2.9, 6.0, 21.2, 50.6, 56.7, 115.6, 102.2, 62.6, 20.0, 9.4, 3.3]
+                      //    ]
+                      //};
+
+                      var legendData = [];
+                      var xAxisData = [];
+                      var seriesData = [];
+
+                      if (data != null && data["series"].length > 0) {
+
+                          // legendData = data["legen"];
+                          legendData = ['订单数'];
+                          xAxisData = data["axis"];
+                          //   for (var i = 0, len = data["series"].length; i < len; i++) {
+                          //  alert(legendData[i]);
+                          seriesData.push({
+                              "name": legendData[0],
+                              "type": "line",
+                              "data": data["series"]
+                          });
+
+                          // }
+                      }
+                      option.title.text = chartName;
+                      option.legend.data = legendData;
+                      option.xAxis[0]["data"] = xAxisData;
+
+                      myChart.setOption(option);
+                      myChart.setSeries(seriesData);
+                  },
+                  error: function () {
+                      //数据接口异常处理
+                      var legendData = [''];
+                      var xAxisData = [''];
+                      var seriesData = [
+                              {
+                                  name: '',
+                                  type: 'line',
+                                  data: [0]
+                              }
+                      ];
+                      option.legend.data = legendData;
+                      option.xAxis[0]["data"] = xAxisData;
+
+                      myChart.setOption(option);
+                      myChart.setSeries(seriesData);
+
+                  },
+                  complete: function () {
+                      //不管数据接口成功或异常，都终于载入提示
+                      //停止动画载入提示
+                      myChart.hideLoading();
+                  }
+
+              });       //异步到这里
+
+
+
+          }
+      );
+        }
+    </script>
+</body>
+</html>
