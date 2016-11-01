@@ -1,8 +1,8 @@
 ﻿<script type="text/javascript">
-    $(function() {
-        $('#specialAddForm').form({
-            url : '/special/add',
-            onSubmit : function() {
+    $(function () {
+        $('#productAddForm').form({
+            url: '/product/add',
+            onSubmit: function () {
                 progressLoad();
                 var isValid = $(this).form('validate');
                 if (!isValid) {
@@ -10,7 +10,7 @@
                 }
                 return isValid;
             },
-            success : function(result) {
+            success: function (result) {
                 progressClose();
                 result = $.parseJSON(result);
                 if (result.success) {
@@ -25,15 +25,30 @@
 </script>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',border:false" title="" style="overflow: hidden;padding: 3px;">
-        <form id="specialAddForm" method="post">
+        <form id="productAddForm" method="post">
             <table class="grid">
                 <tr>
-                    <td>标题</td>
-                    <td colspan="3"><input name="posttitle" type="text" class="easyui-textbox easyui-validatebox span2" data-options="required:true" value="" style="width:400px;"></td>
+                    <td>商品名称</td>
+                    <td><input name="name" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    <td>商品副名称</td>
+                    <td><input name="subName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
                 </tr>
                 <tr>
-                    <td>内容</td>
-                    <td colspan="3"><input name="specialContent" type="text" class="easyui-textbox easyui-validatebox span2" data-options="multiline:true,required:true" style="width:400px;height:100px" value=""></td>
+                    <td>价格描述</td>
+                    <td><input name="priceDesc" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    <td>原价</td>
+                    <td><input name="originalPrice" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                </tr>
+                <tr>
+                    <td>原价（RMB）</td>
+                    <td><input name="originalPriceRmb" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    <td>国家</td>
+                    <td>
+                        <select name="country" class="easyui-combobox"  data-options="required:true" style="width:300px;">
+                            <option value="uk">英国</option>
+                            <option value="us">美国</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>排序</td>
@@ -70,6 +85,10 @@
                         <input class="easyui-filebox" name="file1" data-options="prompt:'选择图片'"><br /><br />
                         <label><input type="checkbox" name="postpushsend" value="1" /> 是否推送</label>
                     </td>
+                </tr>
+                <tr>
+                    <td>内容</td>
+                    <td colspan="3"><input name="specialContent" type="text" class="easyui-textbox" data-options="multiline:true,required:true" style="width:400px;height:100px" value=""></td>
                 </tr>
             </table>
         </form>

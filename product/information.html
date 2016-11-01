@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
     <!-- [扩展样式] -->
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
-    <title>商品列表</title>
+    <title>商品资讯列表</title>
 
     <style>
         .product-img-box{
@@ -40,9 +40,9 @@
         <table id="dataGrid" data-options="fit:true,border:false"></table>
         <div id="tb">
             <div style="margin:10px 5px 5px">
-                商品名称: <input class="easyui-textbox" type="text" id="txttitle" value="" />
+                资讯标题: <input class="easyui-textbox" type="text" id="txttitle" value="" />
                 主键ID: <input class="easyui-textbox" type="text" id="txttitle" value="" />
-                商城: <input class="easyui-textbox" type="text" id="txttitle" value="" />
+                商品名称: <input class="easyui-textbox" type="text" id="txttitle" value="" />
 
                 <a href="#" class="easyui-linkbutton" iconCls="icon-search" style="margin-left:30px;">搜索</a>
 
@@ -57,7 +57,7 @@
         var dataGrid;
         $(function () {
             dataGrid = $('#dataGrid').datagrid({
-                url: '../json/product_list.json',
+                url: '../json/product_information_list.json',
                 method: "GET",
                 toolbar: '#tb',
                 striped: true,
@@ -100,31 +100,6 @@
                     width: '100',
                     title: '商品来源',
                     field: 'productType'
-                    //,formatter: function (value, row, index) {
-                    //    switch (value) {
-                    //        case '1':
-                    //            return '推荐';
-                    //            break;
-                    //        case '2':
-                    //            return '发现';
-                    //            break;
-                    //        case '3':
-                    //            return '晒单';
-                    //            break;
-                    //        case '4':
-                    //            return '经验';
-                    //            break;
-                    //        case '5':
-                    //            return '海淘';
-                    //            break;
-                    //        case '6':
-                    //            return '移动';
-                    //            break;
-                    //        case '7':
-                    //            return '专场';
-                    //            break;
-                    //    }
-                    //}
                 }, {
                     width: '100',
                     title: '商品归属品牌',
@@ -137,43 +112,18 @@
                     width: '100',
                     title: '审核状态',
                     field: 'auditStatuses'
-                    //, formatter: function (value, row, index) {
-                    //    switch (value) {
-                    //        case '0':
-                    //            return '<span style="color:#0094AE;">未审核</span>';
-                    //            break;
-                    //        case '1':
-                    //            return '<span style="color:#009335;">审核通过</span>';
-                    //            break;
-                    //        case '2':
-                    //            return '<span style="color:#666;">不通过</span>';
-                    //            break;
-                    //        case '3':
-                    //            return '<span style="color:#B67700;">编辑中</span>';
-                    //            break;
-                    //    }
-                    //}
                 }, {
                     width: '80',
                     title: '是否首页显示',
                     field: 'isHomeShow'
-                    //, formatter: function (value, row, index) {
-                    //    return value == "1" ? '<span style="color:#666;">显示</span>' : '<span style="color:#666;">不显示</span>';
-                    //}
                 }, {
                     width: '80',
                     title: '是否置顶',
                     field: 'isTop'
-                    //, formatter: function (value, row, index) {
-                    //    return value == "1" ? '<span style="color:#666;">置顶</span>' : '<span style="color:#666;">不置顶</span>';
-                    //}
                 }, {
                     width: '80',
                     title: '是否可代购',
                     field: 'isPurchasing'
-                    //, formatter: function (value, row, index) {
-                    //    return value == "1" ? '<span style="color:#666;">代购</span>' : '<span style="color:#666;">不代购</span>';
-                    //}
                 }, {
                     width: '100',
                     title: '特别说明',
@@ -219,14 +169,14 @@
         function addFun() {
             parent.$.modalDialog({
                 title: '添加',
-                width: 1000 ,//fixWidth(0.9, 800),
+                width: 800,  //fixWidth(0.9, 800),
                 height: 600,
-                href: 'product/productAdd.html',
+                href: 'product/informationAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productAddForm');
+                        var f = parent.$.modalDialog.handler.find('#informationAddForm');
                         f.submit();
                     }
                 }]
@@ -245,12 +195,12 @@
                 title: '编辑',
                 width: 500,
                 height: 450,
-                href: 'product/productEdit.html?id=' + id,
+                href: 'product/informationEdit.html?id=' + id,
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productEditForm');
+                        var f = parent.$.modalDialog.handler.find('#informationEditForm');
                         f.submit();
                     }
                 }]
@@ -265,10 +215,10 @@
             } else {//点击操作里面的删除图标会触发这个
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
-            parent.$.messager.confirm('询问', '您是否要删除当前商品？', function (b) {
+            parent.$.messager.confirm('询问', '您是否要删除当前商品资讯？', function (b) {
                 if (b) {
                     progressLoad();
-                    $.post('product/delete', {
+                    $.post('information/delete', {
                         id: id
                     }, function (result) {
                         if (result.success) {
