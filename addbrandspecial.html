@@ -53,8 +53,13 @@
             margin:0;
         }
         .img-list li {
+            position:relative;
             padding:0;
             margin:0;
+        }
+        .img-list .l-btn-icon {
+            right:0;
+            margin-top:0;
         }
         .img-list li img {
             height:120px;
@@ -73,6 +78,27 @@
         }
         .btn-upload-img:hover {
             background:#c9f0ff;
+        }
+        /*修改、删除图片*/
+        .btn-update-img,
+        .btn-delete-img {
+            position:absolute;
+            top:0;
+            opacity:0;
+            -webkit-transition:all 0.5s ease;
+            -moz-transition:all 0.5s ease;
+            transition:all 0.5s ease;
+        }
+        .img-list li:hover .btn-update-img,
+        .img-list li:hover .btn-delete-img {
+            opacity:1;
+        }
+        .btn-update-img {
+            color:#00b9ff;
+        }
+        
+        .btn-delete-img {
+            right:16px;
         }
     </style>
 </head>
@@ -212,7 +238,11 @@
 
         <div class="form-container clearfix" style="padding:15px 0;">
             <ul class="img-list">
-                <li><img src="static/images/default_item.jpg" alt="" /></li>
+                <li>
+                    <img src="static/images/default_item.jpg" alt="" />
+                    <a class="btn-update-img" href="javascript:void(0);">修改</a>
+                    <a class="btn-delete-img" href="javascript:void(0);" title="删除"><i class="l-btn-icon icon-del"></i></a>
+                </li>
             </ul>
             <a href="javascript:;" class="btn-upload-img">+</a>
         </div>
