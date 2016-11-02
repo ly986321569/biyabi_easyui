@@ -32,7 +32,6 @@
         .datagrid-cell-c1-name {
             white-space: normal;
         }
-}
     </style>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
@@ -49,6 +48,8 @@
             </div>
             <div style="margin:5px">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript: addFun();">添加</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-refresh" plain="true" onclick="javascript: refreshFun();">刷新</a>
+                <a href="javascript:parent.addTab('添加商品','product/productAdd2.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加（打开新页面）</a>
             </div>
         </div>
     </div>
@@ -220,7 +221,7 @@
             parent.$.modalDialog({
                 title: '添加',
                 width: 1000 ,//fixWidth(0.9, 800),
-                height: 600,
+                height: fixHeight(1,600), // 600,
                 href: 'product/productAdd.html',
                 buttons: [{
                     text: '确定',
@@ -284,6 +285,10 @@
         function fixWidth(percent, minWidth) {
             //如果百分比小于最小宽度，则用最小宽度
             return (document.body.clientWidth - 5) * percent < minWidth ? minWidth : (document.body.clientWidth - 5) * percent;
+        }
+        function fixHeight(percent, minHeight) {
+            //如果百分比小于最小宽度，则用最小宽度
+            return (document.body.clientHeight - 5) * percent < minHeight ? minHeight : (document.body.clientHeight - 5) * percent;
         }
     </script>
 </body>
