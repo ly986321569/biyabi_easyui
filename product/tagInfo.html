@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <title>标签信息列表</title>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <table id="dataGrid" data-options="fit:true,border:false"></table>
+        <div id="tb">
+            <div style="margin:10px 5px 5px">
+                标签名: <input class="easyui-textbox" type="text" id="tagName" name="tagName" value="" />
+                英文名称: <input class="easyui-textbox" type="text" id="tagEngName" name="tagEngName" value="" />
+                主键ID: <input class="easyui-textbox" type="text" id="tagId" name="tagId" value="" />
+
+                <a href="#" class="easyui-linkbutton btn-search" iconCls="icon-search" style="margin-left:30px;">搜索</a>
+
+            </div>
+            <div style="margin:5px">
+                <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addFun()">添加</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dataGrid;
+        $(function () {
+            dataGrid = $('#dataGrid').datagrid({
+                url: '../json/tag_info_list.json',
+                method: "GET",
+                toolbar: '#tb',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    width: '80',
+                    title: 'id',
+                    field: 'id'
+                }, {
+                    width: '200',
+                    title: '标签url',
+                    field: 'tagUrl'
+                }, {
+                    width: '200',
+                    title: '标签名',
+                    field: 'tabName',
+                    sortable: true
+                }, {
+                    width: '200',
+                    title: '英文名称',
+                    field: 'tagEngName',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '是否首页显示',
+                    field: 'homeShow'
+                }, {
+                    width: '60',
+                    title: '排序',
+                    field: 'sort'
+                }, {
+                    width: '60',
+                    title: '状态',
+                    field: 'statuses'
+                }, {
+                    width: '160',
+                    title: '更新时间',
+                    field: 'updateTime',
+                    sortable: true
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width:260,
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        str += $.formatString('<a href="javascript:void(0);" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'" onclick="editFun(\'{0}\');">编辑</a>', row.id);
+
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-delete" data-options="plain:true,iconCls:\'icon-del\'" onclick="deleteFun(\'{0}\');" >删除</a>', row.id);
+
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                    $('.easyui-linkbutton-delete').linkbutton({ text: '删除', plain: true, iconCls: 'icon-del' });
+                }
+            });
+        });
+
+
+        //添加
+        function addFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 1000,
+                height: 600,
+                href: 'product/tagInfoAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#tagInfoAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //编辑
+        function editFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '编辑',
+                width: 500,
+                height: 450,
+                href: 'product/tagInfoEdit.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#tagInfoEditForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+                
+        //删除
+        function deleteFun(id) {
+            if (id == undefined) {//点击右键菜单才会触发这个
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {//点击操作里面的删除图标会触发这个
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.messager.confirm('询问', '您是否要删除当前标签信息？', function (b) {
+                if (b) {
+                    progressLoad();
+                    $.post('delete', {
+                        id: id
+                    }, function (result) {
+                        if (result.success) {
+                            parent.$.messager.alert('提示', result.msg, 'info');
+                            dataGrid.datagrid('reload');
+                        }
+                        progressClose();
+                    }, 'JSON');
+                }
+            });
+        }
+
+        function fixWidth(percent, minWidth) {
+            //如果百分比小于最小宽度，则用最小宽度
+            return (document.body.clientWidth - 5) * percent < minWidth ? minWidth : (document.body.clientWidth - 5) * percent;
+        }
+    </script>
+</body>
+</html>
