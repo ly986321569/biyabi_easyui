@@ -193,6 +193,8 @@
 
                         str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'" onclick="editFun(\'{0}\');" >编辑</a>', row.id);
 
+                        str += $.formatString('<a href="javascript:parent.addTab(\'编辑sku-'+ row.id +'\',\'product/productSku.html\',\'menu_icon_datadeal\')" class="easyui-linkbutton-edit-sku" data-options="plain:true,iconCls:\'icon-ok\'" >编辑sku</a>', row.id);
+
                         str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
                         str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-delete" data-options="plain:true,iconCls:\'icon-del\'" onclick="deleteFun(\'{0}\');" >删除</a>', row.id);
 
@@ -201,6 +203,7 @@
                 }]],
                 onLoadSuccess: function (data) {
                     $('.easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                    $('.easyui-linkbutton-edit-sku').linkbutton({ text: '编辑SKU', plain: true, iconCls: 'icon-edit' });
                     $('.easyui-linkbutton-delete').linkbutton({ text: '删除', plain: true, iconCls: 'icon-del' });
                 }
             });

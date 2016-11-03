@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
     <!-- [扩展样式] -->
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
-    <title>商品Sku列表</title>
+    <title>商品类别信息列表</title>
 
     <style>
         .product-img-box{
@@ -39,9 +39,9 @@
         <table id="dataGrid" data-options="fit:true,border:false"></table>
         <div id="tb">
             <div style="margin:10px 5px 5px">
-                商品名称: <input class="easyui-textbox" type="text" id="productName" name="productName" value="" />
-                商品前台显示值: <input class="easyui-textbox" type="text" id="showTipsValue" name="showTipsValue" value="" />
-                主键ID: <input class="easyui-textbox" type="text" id="skuId" name="skuId" value="" />
+                类别名: <input class="easyui-textbox" type="text" id="catName" name="catName" value="" />
+                类别英文名: <input class="easyui-textbox" type="text" id="catEngName" name="catEngName" value="" />
+                主键ID: <input class="easyui-textbox" type="text" id="catId" name="catId" value="" />
 
                 <a href="#" class="easyui-linkbutton btn-search" iconCls="icon-search" style="margin-left:30px;">搜索</a>
 
@@ -56,7 +56,7 @@
         var dataGrid;
         $(function () {
             dataGrid = $('#dataGrid').datagrid({
-                url: '../json/product_sku_info_list.json',
+                url: '../json/product_cat_list.json',
                 method: "GET",
                 toolbar: '#tb',
                 striped: true,
@@ -72,45 +72,54 @@
                     field: 'id'
                 }, {
                     width: '80',
-                    title: '商品图片',
-                    field: 'image',
+                    title: '类别图片',
+                    field: 'catImage',
                     formatter: function (value, row, index) {
-                        return '<div class="product-img-box"><img src="' + value + '" alt="' + row.iTitle + '"></div>';
+                        //value为空则返回默认图片
+                        return value == "" ? '<div class="product-img-box"><img src="" alt="' + row.iTitle + '"></div>' : '<div class="product-img-box"><img src="' + value + '" alt="' + row.iTitle + '"></div>';
                     }
                 }, {
-                    width: '200',
-                    title: '商品名称',
-                    field: 'productName',
+                    width: '100',
+                    title: '类别名',
+                    field: 'catName',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '类别英文名',
+                    field: 'catEngName',
                     sortable: true
                 }, {
                     width: '200',
-                    title: '商品前台显示值',
-                    field: 'showTipsValue'
+                    title: '类别url',
+                    field: 'catUrl'
+                }, {
+                    width: '80',
+                    title: '父类名称',
+                    field: 'parentCatName'
                 }, {
                     width: '100',
-                    title: '商品库存',
-                    field: 'stockCount',
-                    align: 'right'
+                    title: '主类别名称',
+                    field: 'proCatName'
                 }, {
                     width: '100',
-                    title: '商品重量',
-                    field: 'weight',
-                    align: 'right'
+                    title: '类别url路径',
+                    field: 'urlPath'
                 }, {
                     width: '100',
-                    title: '商品体积',
-                    field: 'volume',
-                    align: 'right'
+                    title: '名称路径',
+                    field: 'namePath'
                 }, {
                     width: '100',
-                    title: '商品价格',
-                    field: 'price',
-                    align: 'right'
+                    title: '英文名称路径',
+                    field: 'engNamePath'
                 }, {
-                    width: '100',
-                    title: '商品国外配送费',
-                    field: 'fremdnessFee',
-                    align: 'right'
+                    width: '60',
+                    title: '等级',
+                    field: 'levelId'
+                }, {
+                    width: '60',
+                    title: '排序',
+                    field: 'sort'
                 }, {
                     width: '60',
                     title: '状态',
@@ -149,12 +158,12 @@
                 title: '添加',
                 width: 1000,
                 height: 600,
-                href: 'product/productSkuAdd.html',
+                href: 'product/productCatAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productAddForm');
+                        var f = parent.$.modalDialog.handler.find('#productCatAddForm');
                         f.submit();
                     }
                 }]
@@ -173,12 +182,12 @@
                 title: '编辑',
                 width: 500,
                 height: 450,
-                href: 'product/productEdit.html?id=' + id,
+                href: 'product/productCatEdit.html?id=' + id,
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productEditForm');
+                        var f = parent.$.modalDialog.handler.find('#productCatEditForm');
                         f.submit();
                     }
                 }]
@@ -193,7 +202,7 @@
             } else {//点击操作里面的删除图标会触发这个
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
-            parent.$.messager.confirm('询问', '您是否要删除当前商品SKU？', function (b) {
+            parent.$.messager.confirm('询问', '您是否要删除当前商品类别信息？', function (b) {
                 if (b) {
                     progressLoad();
                     $.post('delete', {
