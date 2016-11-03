@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <title>商品资讯列表</title>
+
+    <style>
+        .product-img-box{
+            width:80px;
+            height:80px;
+            display:table-cell;
+            vertical-align:middle;
+            text-align:center;
+        }
+        .product-img-box img{
+            max-width:80px;
+            max-height:80px;
+        }
+        .datagrid-cell-c1-iTitle {
+            white-space: normal;
+        }
+    </style>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <table id="dataGrid" data-options="fit:true,border:false"></table>
+        <div id="tb">
+            <div style="margin:10px 5px 5px">
+                资讯标题: <input class="easyui-textbox" type="text" id="iTitle" name="iTitle" value="" />
+                主键ID: <input class="easyui-textbox" type="text" id="infoId" name="infoId" value="" />
+                关联商品: <input class="easyui-textbox" type="text" id="linkProductName" name="linkProductName" value="" />
+
+                <a href="#" class="easyui-linkbutton btn-search" iconCls="icon-search" style="margin-left:30px;">搜索</a>
+
+            </div>
+            <div style="margin:5px">
+                <a href="javascript:parent.addTab('添加商品资讯','product/producInformationAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var dataGrid;
+        $(function () {
+            dataGrid = $('#dataGrid').datagrid({
+                url: '../json/product_information_list.json',
+                method: "GET",
+                toolbar: '#tb',
+                striped: true,
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                idField: 'id',
+                pageSize: 20,
+                pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
+                columns: [[{
+                    width: '80',
+                    title: 'id',
+                    field: 'id'
+                }, {
+                    width: '80',
+                    title: '资讯图片',
+                    field: 'iImage',
+                    formatter: function (value, row, index) {
+                        return '<div class="product-img-box"><img src="' + value + '" alt="' + row.iTitle + '"></div>';
+                    }
+                }, {
+                    width: '200',
+                    title: '资讯标题',
+                    field: 'iTitle',
+                    sortable: true
+                }, {
+                    width: '100',
+                    title: '关联商品',
+                    field: 'linkProductName'
+                }, {
+                    width: '100',
+                    title: '小编',
+                    field: 'editorName'
+                }, {
+                    width: '100',
+                    title: '回调url',
+                    field: 'redirectUrl'
+                }, {
+                    width: '100',
+                    title: '原url',
+                    field: 'sourceUrl'
+                }, {
+                    width: '100',
+                    title: '信息来源类型',
+                    field: 'productType'
+                }, {
+                    width: '100',
+                    title: '审核状态',
+                    field: 'auditStatuses'
+                }, {
+                    width: '80',
+                    title: '是否首页显示',
+                    field: 'isHomeShow'
+                }, {
+                    width: '80',
+                    title: '是否置顶',
+                    field: 'isTop'
+                }, {
+                    width: '100',
+                    title: '更新时间',
+                    field: 'updateTime',
+                    sortable: true
+                }, {
+                    field: 'action',
+                    title: '操作',
+                    width:260,
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        str += $.formatString('<a href="javascript:parent.addTab(\'编辑资讯-'+ row.id +'\',\'product/productAdd2.html\',\'menu_icon_datadeal\')" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'">编辑</a>', row.id);
+
+                        str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
+                        str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-delete" data-options="plain:true,iconCls:\'icon-del\'" onclick="deleteFun(\'{0}\');" >删除</a>', row.id);
+
+                        return str;
+                    }
+                }]],
+                onLoadSuccess: function (data) {
+                    $('.easyui-linkbutton-edit').linkbutton({ text: '编辑', plain: true, iconCls: 'icon-edit' });
+                    $('.easyui-linkbutton-delete').linkbutton({ text: '删除', plain: true, iconCls: 'icon-del' });
+                }
+            });
+        });
+                
+        //删除
+        function deleteFun(id) {
+            if (id == undefined) {//点击右键菜单才会触发这个
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {//点击操作里面的删除图标会触发这个
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.messager.confirm('询问', '您是否要删除当前商品资讯？', function (b) {
+                if (b) {
+                    progressLoad();
+                    $.post('information/delete', {
+                        id: id
+                    }, function (result) {
+                        if (result.success) {
+                            parent.$.messager.alert('提示', result.msg, 'info');
+                            dataGrid.datagrid('reload');
+                        }
+                        progressClose();
+                    }, 'JSON');
+                }
+            });
+        }
+
+        function fixWidth(percent, minWidth) {
+            //如果百分比小于最小宽度，则用最小宽度
+            return (document.body.clientWidth - 5) * percent < minWidth ? minWidth : (document.body.clientWidth - 5) * percent;
+        }
+    </script>
+</body>
+</html>

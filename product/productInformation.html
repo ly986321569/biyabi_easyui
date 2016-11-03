@@ -29,10 +29,9 @@
             max-width:80px;
             max-height:80px;
         }
-        .datagrid-cell-c1-name {
+        .datagrid-cell-c1-iTitle {
             white-space: normal;
         }
-}
     </style>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
@@ -40,15 +39,15 @@
         <table id="dataGrid" data-options="fit:true,border:false"></table>
         <div id="tb">
             <div style="margin:10px 5px 5px">
-                资讯标题: <input class="easyui-textbox" type="text" id="txttitle" value="" />
-                主键ID: <input class="easyui-textbox" type="text" id="txttitle" value="" />
-                商品名称: <input class="easyui-textbox" type="text" id="txttitle" value="" />
+                资讯标题: <input class="easyui-textbox" type="text" id="iTitle" name="iTitle" value="" />
+                主键ID: <input class="easyui-textbox" type="text" id="infoId" name="infoId" value="" />
+                关联商品: <input class="easyui-textbox" type="text" id="linkProductName" name="linkProductName" value="" />
 
-                <a href="#" class="easyui-linkbutton" iconCls="icon-search" style="margin-left:30px;">搜索</a>
+                <a href="#" class="easyui-linkbutton btn-search" iconCls="icon-search" style="margin-left:30px;">搜索</a>
 
             </div>
             <div style="margin:5px">
-                <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript: addFun();">添加</a>
+                <a href="javascript:parent.addTab('添加商品资讯','product/productInformationAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
             </div>
         </div>
     </div>
@@ -73,41 +72,36 @@
                     field: 'id'
                 }, {
                     width: '80',
-                    title: '商品图片',
-                    field: 'logo',
+                    title: '资讯图片',
+                    field: 'iImage',
                     formatter: function (value, row, index) {
-                        return '<div class="product-img-box"><img src="'+ value +'" alt="'+ row.name + '"></div>';
+                        return '<div class="product-img-box"><img src="' + value + '" alt="' + row.iTitle + '"></div>';
                     }
                 }, {
                     width: '200',
-                    title: '商品名称',
-                    field: 'name',
-                    sortable: true
-                }, {
-                    width: '60',
-                    title: '商品价格',
-                    field: 'originalPrice',
+                    title: '资讯标题',
+                    field: 'iTitle',
                     sortable: true
                 }, {
                     width: '100',
-                    title: '商品归属电商',
-                    field: 'mallName'
+                    title: '关联商品',
+                    field: 'linkProductName'
                 }, {
                     width: '100',
-                    title: '商品归属国家',
-                    field: 'country'
+                    title: '小编',
+                    field: 'editorName'
                 }, {
                     width: '100',
-                    title: '商品来源',
+                    title: '回调url',
+                    field: 'redirectUrl'
+                }, {
+                    width: '100',
+                    title: '原url',
+                    field: 'sourceUrl'
+                }, {
+                    width: '100',
+                    title: '信息来源类型',
                     field: 'productType'
-                }, {
-                    width: '100',
-                    title: '商品归属品牌',
-                    field: 'brandName'
-                }, {
-                    width: '100',
-                    title: '商品归属特色',
-                    field: 'brightName'
                 }, {
                     width: '100',
                     title: '审核状态',
@@ -121,14 +115,6 @@
                     title: '是否置顶',
                     field: 'isTop'
                 }, {
-                    width: '80',
-                    title: '是否可代购',
-                    field: 'isPurchasing'
-                }, {
-                    width: '100',
-                    title: '特别说明',
-                    field: 'specifications'
-                }, {
                     width: '100',
                     title: '更新时间',
                     field: 'updateTime',
@@ -140,7 +126,7 @@
                     formatter: function (value, row, index) {
                         var str = '';
 
-                        str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'" onclick="editFun(\'{0}\');" >编辑</a>', row.id);
+                        str += $.formatString('<a href="javascript:parent.addTab(\'编辑资讯-'+ row.id +'\',\'product/productInformationEdit.html\',\'menu_icon_datadeal\')" class="easyui-linkbutton-edit" data-options="plain:true,iconCls:\'icon-ok\'">编辑</a>', row.id);
 
                         str += '&nbsp;&nbsp;|&nbsp;&nbsp;';
                         str += $.formatString('<a href="javascript:void(0)" class="easyui-linkbutton-delete" data-options="plain:true,iconCls:\'icon-del\'" onclick="deleteFun(\'{0}\');" >删除</a>', row.id);
@@ -153,60 +139,8 @@
                     $('.easyui-linkbutton-delete').linkbutton({ text: '删除', plain: true, iconCls: 'icon-del' });
                 }
             });
-
-            $('#ff').form({
-                url: '',
-                onSubmit: function () {
-                    return $(this).form('validate');
-                },
-                success: function (data) {
-                    $.messager.alert('Info', data, 'info');
-                }
-            });
         });
-
-        //添加
-        function addFun() {
-            parent.$.modalDialog({
-                title: '添加',
-                width: 800,  //fixWidth(0.9, 800),
-                height: 600,
-                href: 'product/informationAdd.html',
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#informationAddForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
-        //编辑
-        function editFun(id) {
-            if (id == undefined) {
-                var rows = dataGrid.datagrid('getSelections');
-                id = rows[0].id;
-            } else {
-                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
-            }
-            parent.$.modalDialog({
-                title: '编辑',
-                width: 500,
-                height: 450,
-                href: 'product/informationEdit.html?id=' + id,
-                buttons: [{
-                    text: '确定',
-                    handler: function () {
-                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#informationEditForm');
-                        f.submit();
-                    }
-                }]
-            });
-        }
-
+                
         //删除
         function deleteFun(id) {
             if (id == undefined) {//点击右键菜单才会触发这个

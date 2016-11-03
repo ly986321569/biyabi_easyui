@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <title>添加商品资讯</title>
+    <style>
+        #productInformationAddForm {
+            min-width: 1000px;
+        }
+
+        #productInformationMainImage {
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+            #productInformationMainImage:hover {
+                border: 1px dashed #39b7e6;
+            }
+        .product-img-box {
+            display:inline-block;
+            width:50px;height:50px;
+            margin:0 10px;
+            text-align:center;
+            vertical-align:middle;
+            border:1px solid #eee;
+        }
+        .product-img-box img {
+            max-width:50px;
+            max-height:50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit:true,border:false">
+        <div data-options="region:'center',border:false" title="" style="padding: 3px;">
+            <form id="productInformationAddForm" method="post">
+                <table class="grid">
+                    <tr>
+                        <td colspan="4">
+                            &nbsp;
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>资讯标题</td>
+                        <td><input id="iTitle" name="iTitle" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                        <td rowspan="6" colspan="2">
+                            <div style="margin:0 0 5px 15px;">选择资讯图片（点击图片可更改）</div>
+                            <img src="http://localhost:9000/backend/static/images/default_item.jpg" id="productInformationMainImage" alt="比呀比默认图片" width="240">
+                            <!--加载编辑器的容器-->
+                            <script id="imgUploader" name="imgUploader" type="text/plain">
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>资讯二级标题</td>
+                        <td><input id="iSubTitle" name="iSubTitle" type="text" class="easyui-textbox" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>关联商品</td>
+                        <td>
+                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="linkProductFun()">关联商品</a>
+                            <div class="product-img-box"><img src="http://pic.biyabi.com/image/2016/6/4/20160604160418_1709_1862.jpg" alt="Manhattan,曼哈顿,婴儿磨牙牙胶 固齿器" /></div>Manhattan,曼哈顿,婴儿磨牙牙胶 固齿器
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>回调url</td>
+                        <td><input id="redirectUrl" name="redirectUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>原url</td>
+                        <td><input id="sourceUrl" name="sourceUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"> </td>
+                    </tr>
+                    <tr>
+                        <td>审核后资讯url</td>
+                        <td>
+                            <input id="iUrl" name="iUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>信息来源类型</td>
+                        <td>
+                            <select id="productType" name="productType" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="1">推荐</option>
+                            </select>
+                        </td>
+                        <td>是否首页显示</td>
+                        <td>
+                            <label><input id="isHomeShow" name="isHomeShow" type="checkbox" value="1">是</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>是否置顶</td>
+                        <td>
+                            <label><input id="isHomeShow" name="isHomeShow" type="checkbox" value="1">是</label>
+                        </td>
+                        <td>是否代购</td>
+                        <td>
+                            <label><input id="isPurchasing" name="isPurchasing" type="checkbox" value="1">是</label>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>审核状态</td>
+                        <td>
+                            <select id="auditStatuses" name="auditStatuses" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="0">未审核</option>
+                                <option value="1">审核通过</option>
+                                <option value="2">不通过</option>
+                                <option value="3">编辑中</option>
+                            </select>
+                        </td>
+                        <td>状态</td>
+                        <td>
+                            <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="1">正常</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <!--加载编辑器的容器-->
+                            <script id="content" name="content" type="text/plain">
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td colspan="3" style="padding:20px 10px;">
+                            <a href="javascript:void(0);" class="easyui-linkbutton" style="width:80px;height:40px;">提交</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+
+    <!--配置文件-->
+    <script type="text/javascript" src="../static/ueditor/ueditor.config.js"></script>
+    <!--编辑器源码文件-->
+    <script type="text/javascript" src="../static/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript">
+        var contentEditor = UE.getEditor("content", {
+            initialFrameHeight: 400
+        });
+
+        contentEditor.ready(function () {
+            contentEditor.getContent();
+        })
+
+        //调用ueditor图片上传
+        var _editor = UE.getEditor("imgUploader");
+        _editor.ready(function () {
+            //_editor.setDisabled();
+            _editor.hide();
+            _editor.addListener("beforeInsertImage", function (t, arg) {
+                //$("#image_").attr("value", arg[0].src);
+                //$("#preview").attr("src", arg[0].src);
+                //$("#up").text("重新上传");
+            });
+        });
+        //图片上传框弹出方法
+        function upImage() {
+            var myImage = _editor.getDialog("insertimage");
+            myImage.open();
+        }
+
+        //关联商品
+        function linkProductFun() {
+            parent.$.modalDialog({
+                title: '关联商品',
+                width: 1000,//fixWidth(0.9, 800),
+                height: 600, //fixHeight(1, 600),
+                href: 'product/linkProduct.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        //parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#linkProductForm');
+                        f.submit();
+                        parent.$.messager.alert("提示", "关联成功");
+                    }
+                }]
+            });
+        }
+
+        $(function () {
+            //商品资讯主图
+            $("#productInformationMainImage").on("click", function () {
+                upImage();
+            })
+
+            $('#productInformationAddForm').form({
+                url: 'productInformation/add',
+                onSubmit: function () {
+                    progressLoad();
+                    var isValid = $(this).form('validate');
+                    if (!isValid) {
+                        progressClose();
+                    }
+                    return isValid;
+                },
+                success: function (result) {
+                    progressClose();
+                    result = $.parseJSON(result);
+                    if (result.success) {
+                        parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                        parent.$.modalDialog.handler.dialog('close');
+                    } else {
+                        parent.$.messager.alert('错误', result.msg, 'error');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
