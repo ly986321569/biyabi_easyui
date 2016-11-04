@@ -1,166 +1,70 @@
 ﻿<style>
-#proMainImage {
-    border:1px solid #eee;
-    cursor:pointer;
+#productSkuAddForm {
+    min-width: 1000px;
 }
-#proMainImage:hover {
-    border:1px dashed #39b7e6;
+.product-img-box {
+    display:inline-block;
+    width:50px;height:50px;
+    margin:0 10px;
+    text-align:center;
+    vertical-align:middle;
+    border:1px solid #eee;
+    overflow:hidden;
+}
+.product-img-box img {
+    max-width:50px;
+    max-height:50px;
 }
 </style>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
-        <form id="productAddForm" method="post">
+        <form id="productSkuAddForm" method="post">
             <table class="grid">
                 <tr>
-                    <td>商品url</td>
-                    <td>
-                        <input name="infoUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;">
-                        <a class="easyui-linkbutton" href="javascript:void(0);" style="margin-left:15px;">检测重复</a>
-                        <span style="margin-left:30px;">重复信息：无</span>
-                    </td>
-                    <td>商品名称</td>
-                    <td><input name="name" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
-                </tr>
-                <tr>
-                    <td>商品副名称</td>
-                    <td><input name="subName" type="text" class="easyui-textbox" value="" style="width:300px;"></td>
-                    <td>价格描述</td>
-                    <td><input name="priceDesc" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
-                </tr>
-                <tr>
-                    <td>原价</td>
-                    <td><input name="originalPrice" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
-                    <td>规格</td>
-                    <td><input name="Specifications" type="text" class="easyui-textbox" value="" style="width:300px;"> </td>
-                </tr>
-                <tr>
-                    <td>标签</td>
-                    <td>
-                        <input name="productTagName" type="text" class="easyui-textbox" value="" style="width:300px;">
-                    </td>
-                    <td>商品来源市场</td>
-                    <td>
-                        <label><input name="productMarket" type="radio" value="1">国内</label>
-                        <label><input name="productMarket" type="radio" value="2">国外</label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>销售状态</td>
-                    <td>
-                        <select name="saleStatuses" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="0">正常</option>
-                            <option value="1">涨价</option>
-                            <option value="2">售罄</option>
-                            <option value="3">过期</option>
-                        </select>
-                    </td>
-                    <td>所属电商</td>
-                    <td>
-                        <select name="mallId" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="1">美国亚马逊</option>
-                            <option value="2">日本亚马逊</option>
-                            <option value="3">6pm</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>品牌字母列表</td>
-                    <td>
-                        <select name="brandLetterName" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
-                    </td>
-                    <td>商品归属品牌</td>
-                    <td>
-                        <select name="brandId" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="1">爱普生</option>
-                            <option value="2">chine</option>
-                            <option value="3">gucci</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>专题信息</td>
-                    <td>
-                        <select name="specialId" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="">无</option>
-                        </select>
-                    </td>
-                    <td>专场信息</td>
-                    <td>
-                        <select name="brandExclusiveID" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="">无</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>分类</td>
+                    <td>关联商品</td>
                     <td colspan="3">
-                        <input class="easyui-combotree" data-options="url:'http://localhost:9000/backend/brandproduct/category/tree',method:'get',lines:true,multiple:true " id="catName" name="catName" style="width: 200px; height: 29px;" />
+                        <input type="hidden" id="productId" name="productId" value="" />
+                        <a href="javascript:void(0);" class="easyui-linkbutton" onclick="linkProductFun()">关联商品</a>
+                        <div class="product-img-box"><img src="http://pic.biyabi.com/image/2016/6/4/20160604160418_1709_1862.jpg" alt="Manhattan,曼哈顿,婴儿磨牙牙胶 固齿器" /></div>Manhattan,曼哈顿,婴儿磨牙牙胶 固齿器
                     </td>
                 </tr>
                 <tr>
-                    <td>预估价格</td>
-                    <td colspan="3">
-                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="PriceQuery();">计算代购价格</a>
-                        <input class="easyui-textbox" type="text" name="priceQueryResult" value="" style="height:28px;" />
+                    <td>商品前台显示文字</td>
+                    <td><input id="showTipsText" name="showTipsText" type="text" class="easyui-textbox" value="" style="width:300px;"></td>
+                    <td>商品前台显示文字原文</td>
+                    <td><input id="showTipBasicText" name="showTipBasicText" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                </tr>
+                <tr>
+                    <td>商品前台显示值</td>
+                    <td><input id="showTipsValue" name="showTipsValue" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    <td>商品库存</td>
+                    <td><input id="stockCount" name="stockCount" type="text" class="easyui-textbox" value="" style="width:300px;"> </td>
+                </tr>
+                <tr>
+                    <td>商品重量</td>
+                    <td>
+                        <input id="weight" name="weight" type="text" class="easyui-textbox" value="" style="width:300px;">
+                    </td>
+                    <td>商品体积</td>
+                    <td>
+                        <input id="volume" name="volume" type="text" class="easyui-textbox" value="" style="width:300px;">
                     </td>
                 </tr>
                 <tr>
-                    <td>商品标签</td>
-                    <td colspan="3">
-                        <a href="javascript:void(0)" class="easyui-linkbutton" id="purchasingTagAdd" style="width:82px;" onclick="">添加</a>
-                        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="">一键补齐数据</a>
-                        <div class="purchasingTagForm" style="margin-top:15px; display:none;"></div>
+                    <td>商品价格</td>
+                    <td>
+                        <input id="price" name="price" type="text" class="easyui-textbox" value="" style="width:300px;">
                     </td>
-                </tr>
-                <tr>
-                    <td>小编评语</td>
-                    <td colspan="3">
-                        <input class="easyui-textbox" data-options="multiline:true" id="editorRemark" name="editorRemark" value="" style="width:620px;height:100px">
+                    <td>商品国外配送费</td>
+                    <td>
+                        <input id="fremdnessFee" name="fremdnessFee" type="text" class="easyui-textbox" value="" style="width:300px;">
                     </td>
                 </tr>
 
                 <tr>
-                    <td>审核状态</td>
+                    <td>sku原tips（用于跟国外数据对接）</td>
                     <td>
-                        <select name="auditStatuses" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="0">未审核</option>
-                            <option value="1">审核通过</option>
-                            <option value="2">不通过</option>
-                            <option value="3">编辑中</option>
-                        </select>
-                    </td>
-                    <td>是否首页显示</td>
-                    <td>
-                        <label><input name="isHomeShow" type="checkbox" value="1">是</label>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>是否置顶</td>
-                    <td>
-                        <label><input name="isHomeShow" type="checkbox" value="1">是</label>
-                    </td>
-                    <td>是否代购</td>
-                    <td>
-                        <label><input name="isPurchasing" type="checkbox" value="1">是</label>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>商品归属特色</td>
-                    <td>
-                        <select name="brightId" class="easyui-combobox" data-options="required:true" style="width:300px;">
-                            <option value="0">高端秀</option>
-                            <option value="1">高端秀</option>
-                            <option value="2">高端秀</option>
-                            <option value="3">高端秀</option>
-                        </select>
+                        <input id="tipsBasic" name="tipsBasic" type="text" class="easyui-textbox" value="" style="width:300px;">
                     </td>
                     <td>状态</td>
                     <td>
@@ -175,75 +79,39 @@
     </div>
 </div>
 
-<!--配置文件-->
-<script type="text/javascript" src="../static/ueditor/ueditor.config.js"></script>
-<!--编辑器源码文件-->
-<script type="text/javascript" src="../static/ueditor/ueditor.all.js"></script>
 <script type="text/javascript">
-    //调用ueditor图片上传
-    var _editor = UE.getEditor("content");
-    _editor.ready(function () {
-        //_editor.setDisabled();
-        _editor.hide();
-        _editor.addListener("beforeInsertImage", function (t, arg) {
-            //$("#image_").attr("value", arg[0].src);
-            //$("#preview").attr("src", arg[0].src);
-            //$("#up").text("重新上传");
-        });
-    });
-    //图片上传框弹出方法
-    function upImage() {
-        var myImage = _editor.getDialog("insertimage");
-        myImage.open();
-    }
-
-    $("#proMainImage").on("click", function () {
-        upImage();
-    })
-
-    $(function () {
-        //商品标签添加
-        $("#purchasingTagAdd").on("click", function () {
-            var addTag = "";
-            addTag += '<div class="form-row addTabContent" style="margin:0;padding-bottom:15px;">';
-            addTag += '<input type="hidden" name="tagId" value="0"/>';
-            addTag += '<label class="title">标签名</label>';
-            addTag += '<input class="easyui-textbox" type="text" name="purchasingCommodityTag" maxlength="100" value="" style="width:200px;height:28px;" />';
-            addTag += '<label style="margin:0 10px 0 15px;">价格</label>';
-            addTag += '<input class="easyui-textbox" type="text" name="purchasingCommodityPrice" maxlength="10" value="" style="width:60px;height:28px;" />';
-            addTag += '<label style="margin:0 10px 0 15px;">重量</label>';
-            addTag += '<input class="easyui-textbox" type="text" name="purchasingCommodityWeight" maxlength="4" value="" style="width:60px;height:28px;" />';
-            addTag += '<label style="margin:0 10px 0 15px;">运费</label>';
-            addTag += '<input class="easyui-textbox" type="text" name="purchasingCommodityFremdnessFee" maxlength="10" value="0" style="width:60px;height:28px;" />';
-            addTag += '</div>';
-
-            //新增标签图片
-            //addTag += "<div class=\"purchasingImage\"><span>标签图片</span><input name=\"purchasingImage\" style=\"width:300px\" type=\"text\"  value=\"\"/><input type='button' value='复制上一个标签图片' name='purchasingChecked' style='width: 150px;'/><input type='button' id='image2' value='选择标签图片' name='imagepurchasing' style='width: 100px;'/></div>";
-            var targetObj = $(".purchasingTagForm").append(addTag).show();
-            $.parser.parse(targetObj);  //js动态添加元素时出现的样式失效，重新渲染这个特定的组件
-            //$(".purchasingForm>:first").find('input[name=purchasingChecked]').hide();
-        });
-
-        $('#productAddForm').form({
-            url: '/product/add',
-            onSubmit: function () {
-                progressLoad();
-                var isValid = $(this).form('validate');
-                if (!isValid) {
-                    progressClose();
+    //关联商品
+    function linkProductFun() {
+        //因为ext.js中的 $.modalDialog方法设置了避免重复弹出，所以此处自定义弹出对话框
+        var options = {
+            title: '关联商品',
+            width: 1000,//fixWidth(0.9, 800),
+            height: 600, //fixHeight(1, 600),
+            href: 'product/linkProduct.html',
+            buttons: [{
+                text: '确定',
+                handler: function () {
+                    //parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                    var f = parent.$.modalDialog.handler.find('#linkProductForm');
+                    f.submit();
+                    parent.$.messager.alert("提示", "关联成功");
                 }
-                return isValid;
+            }]
+        };
+        var opts = $.extend({
+            title: '',
+            width: 840,
+            height: 680,
+            modal: true,
+            onClose: function () {
+                $.modalDialog.handler = undefined;
+                $(this).dialog('destroy');
             },
-            success: function (result) {
-                progressClose();
-                result = $.parseJSON(result);
-                if (result.success) {
-                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
-                    parent.$.modalDialog.handler.dialog('close');
-                } else {
-                    parent.$.messager.alert('错误', result.msg, 'error');
-                }
+            onOpen: function () {
             }
-        });
-    });
+        }, options);
+        opts.modal = true;// 强制此dialog为模式化，无视传递过来的modal参数
+        $('<div/>').dialog(opts);
+
+    }
 </script>

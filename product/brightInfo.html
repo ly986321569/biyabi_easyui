@@ -15,33 +15,15 @@
     <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
     <!-- [扩展样式] -->
     <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
-    <title>商品类别信息列表</title>
-
-    <style>
-        .product-img-box{
-            width:80px;
-            height:80px;
-            display:table-cell;
-            vertical-align:middle;
-            text-align:center;
-        }
-        .product-img-box img{
-            max-width:80px;
-            max-height:80px;
-        }
-        .datagrid-cell-c1-productName {
-            white-space: normal;
-        }
-    </style>
+    <title>特色信息列表</title>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
         <table id="dataGrid" data-options="fit:true,border:false"></table>
         <div id="tb">
             <div style="margin:10px 5px 5px">
-                类别名: <input class="easyui-textbox" type="text" id="catName" name="catName" value="" />
-                类别英文名: <input class="easyui-textbox" type="text" id="catEngName" name="catEngName" value="" />
-                主键ID: <input class="easyui-textbox" type="text" id="catId" name="catId" value="" />
+                特色名称: <input class="easyui-textbox" type="text" id="brightName" name="brightName" value="" />
+                主键ID: <input class="easyui-textbox" type="text" id="brightId" name="brightId" value="" />
 
                 <a href="#" class="easyui-linkbutton btn-search" iconCls="icon-search" style="margin-left:30px;">搜索</a>
 
@@ -56,13 +38,14 @@
         var dataGrid;
         $(function () {
             dataGrid = $('#dataGrid').datagrid({
-                url: '../json/product_cat_list.json',
+                url: '../json/bright_info_list.json',
                 method: "GET",
                 toolbar: '#tb',
                 striped: true,
                 rownumbers: true,
                 pagination: true,
                 singleSelect: true,
+                fitColumns: true,  //真正的自动展开/收缩列的大小，以适应网格的宽度，防止水平滚动。
                 idField: 'id',
                 pageSize: 20,
                 pageList: [10, 20, 30, 40, 50, 100, 200, 300, 400, 500],
@@ -71,51 +54,19 @@
                     title: 'id',
                     field: 'id'
                 }, {
-                    width: '80',
-                    title: '类别图片',
-                    field: 'catImage',
-                    formatter: function (value, row, index) {
-                        //value为空则返回默认图片
-                        return value == "" ? '<div class="product-img-box"><img src="" alt="' + row.iTitle + '"></div>' : '<div class="product-img-box"><img src="' + value + '" alt="' + row.iTitle + '"></div>';
-                    }
+                    width: '200',
+                    title: '特色url',
+                    field: 'brightUrl'
                 }, {
-                    width: '100',
-                    title: '类别名',
-                    field: 'catName',
-                    sortable: true
-                }, {
-                    width: '100',
-                    title: '类别英文名',
-                    field: 'catEngName',
+                    width: '200',
+                    title: '特色名称',
+                    field: 'brightName',
                     sortable: true
                 }, {
                     width: '200',
-                    title: '类别url',
-                    field: 'catUrl'
-                }, {
-                    width: '80',
-                    title: '父类名称',
-                    field: 'parentCatName'
-                }, {
-                    width: '100',
-                    title: '主类别名称',
-                    field: 'proCatName'
-                }, {
-                    width: '100',
-                    title: '类别url路径',
-                    field: 'urlPath'
-                }, {
-                    width: '100',
-                    title: '名称路径',
-                    field: 'namePath'
-                }, {
-                    width: '100',
-                    title: '英文名称路径',
-                    field: 'engNamePath'
-                }, {
-                    width: '60',
-                    title: '等级',
-                    field: 'levelId'
+                    title: '移动平台标识',
+                    field: 'mobileFlag',
+                    sortable: true
                 }, {
                     width: '60',
                     title: '排序',
@@ -125,7 +76,7 @@
                     title: '状态',
                     field: 'statuses'
                 }, {
-                    width: '100',
+                    width: '160',
                     title: '更新时间',
                     field: 'updateTime',
                     sortable: true
@@ -156,14 +107,14 @@
         function addFun() {
             parent.$.modalDialog({
                 title: '添加',
-                width: 600,
-                height: 460,
-                href: 'product/productCatAdd.html',
+                width: 1000,
+                height: 600,
+                href: 'product/brightInfoAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productCatAddForm');
+                        var f = parent.$.modalDialog.handler.find('#brightInfoAddForm');
                         f.submit();
                     }
                 }]
@@ -180,14 +131,14 @@
             }
             parent.$.modalDialog({
                 title: '编辑',
-                width: 500,
-                height: 450,
-                href: 'product/productCatEdit.html?id=' + id,
+                width: 1000,
+                height: 600,
+                href: 'product/brightInfoEdit.html?id=' + id,
                 buttons: [{
                     text: '确定',
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
-                        var f = parent.$.modalDialog.handler.find('#productCatEditForm');
+                        var f = parent.$.modalDialog.handler.find('#brightInfoEditForm');
                         f.submit();
                     }
                 }]
@@ -202,7 +153,7 @@
             } else {//点击操作里面的删除图标会触发这个
                 dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
             }
-            parent.$.messager.confirm('询问', '您是否要删除当前商品类别信息？', function (b) {
+            parent.$.messager.confirm('询问', '您是否要删除当前特色信息？', function (b) {
                 if (b) {
                     progressLoad();
                     $.post('delete', {

@@ -1,0 +1,114 @@
+﻿<style>
+#catImageFile {
+    width:0;height:0;overflow:hidden;visibility:hidden;clip:rect(0px,0px,0px,0px);
+}
+.cat-img-box {
+    display:inline-block;
+    width:100px;height:100px;
+    margin:0 10px;
+    text-align:center;
+    vertical-align:middle;
+    border:1px solid #eee;
+    overflow:hidden;
+    border:1px solid #eee;
+    cursor:pointer;
+}
+.cat-img-box:hover {
+    border:1px dashed #199ed8;
+}
+.cat-img-box img {
+    max-width:100px;
+    max-height:100px;
+}
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="productCatAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td width="100">
+                        类别图片
+                    </td>
+                    <td colspan="3">
+                        <input type="hidden" id="catImage" name="catImage" value="" />
+                        <input type="file" id="catImageFile" name="catImageFile" value="" />
+                        <div class="cat-img-box"><img src="http://pic.biyabi.com/image/2016/6/4/20160604160418_1709_1862.jpg" alt="" /></div>
+                        （点击图片可上传或修改）
+                    </td>
+                </tr>
+                <tr>
+                    <td>类别名</td>
+                    <td><input id="catName" name="catName" type="text" class="easyui-textbox" value="" style="width:160px;"></td>
+                    <td>类别英文名</td>
+                    <td><input id="catEngName" name="catEngName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:160px;"></td>
+                </tr>
+                <tr>
+                    <td>类别url</td>
+                    <td><input id="catUrl" name="catUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:160px;"></td>
+                    <td>父类id</td>
+                    <td>
+                        <select id="parentCatId" name="parentCatId" class="easyui-combobox" style="width:160px;">
+                            <option value="">无</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>主类别id</td>
+                    <td>
+                        <select id="proCatId" name="proCatId" class="easyui-combobox" style="width:160px;">
+                            <option value="">无</option>
+                        </select>
+                    </td>
+                    <td>类别url路径</td>
+                    <td>
+                        <input id="urlPath" name="urlPath" type="text" class="easyui-textbox" value="" style="width:160px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>名称路径</td>
+                    <td>
+                        <input id="namePath" name="namePath" type="text" class="easyui-textbox" value="" style="width:160px;">
+                    </td>
+                    <td>英文名称路径</td>
+                    <td>
+                        <input id="engNamePath" name="engNamePath" type="text" class="easyui-textbox" value="" style="width:160px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>等级</td>
+                    <td>
+                        <input id="levelId" name="levelId" type="text" class="easyui-textbox" value="" style="width:160px;">
+                    </td>
+                    <td>排序</td>
+                    <td>
+                        <input id="sort" name="sort" type="text" class="easyui-textbox" value="" style="width:160px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>移动平台标识</td>
+                    <td>
+                        <select id="mobileFlag" name="mobileFlag" class="easyui-combobox" data-options="required:true" style="width:160px;">
+                            <option value="0">不显示</option>
+                            <option value="1">显示</option>
+                        </select>
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select name="statuses" class="easyui-combobox" data-options="required:true" style="width:160px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".cat-img-box").on("click", function () {
+            $("#catImageFile").click();
+        })
+    })
+</script>
