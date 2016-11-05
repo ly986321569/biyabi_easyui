@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <title>添加/编辑工作台</title>
+
+    <style>
+
+    </style>
+</head>
+<body class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',fit:true,border:false">
+        <a href="javascript:parent.addTab('添加父专题','product/specialparentAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加父专题</a>
+    </div>
+
+    <!--配置文件-->
+    <script type="text/javascript" src="static/ueditor/ueditor.config.js"></script>
+    <!--编辑器源码文件-->
+    <script type="text/javascript" src="static/ueditor/ueditor.all.js"></script>
+
+    <script type="text/javascript">
+        var dataGrid;
+
+        ////添加父专题
+        //function addSpecialParentFun() {
+        //    parent.$.modalDialog({
+        //        title: '添加',
+        //        width: 1000,
+        //        height: 600,
+        //        href: 'product/specialparentAdd.html',
+        //        buttons: [{
+        //            text: '确定',
+        //            handler: function () {
+        //                parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+        //                var f = parent.$.modalDialog.handler.find('#productSkuAddForm');
+        //                f.submit();
+        //            }
+        //        }]
+        //    });
+        //}
+
+        //添加
+        function addFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 1000,
+                height: 600,
+                href: 'product/productSkuAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#productSkuAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //编辑
+        function editFun(id) {
+            if (id == undefined) {
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.modalDialog({
+                title: '编辑',
+                width: 500,
+                height: 450,
+                href: 'product/productEdit.html?id=' + id,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个dataGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#productSkuEditForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+                
+        //删除
+        function deleteFun(id) {
+            if (id == undefined) {//点击右键菜单才会触发这个
+                var rows = dataGrid.datagrid('getSelections');
+                id = rows[0].id;
+            } else {//点击操作里面的删除图标会触发这个
+                dataGrid.datagrid('unselectAll').datagrid('uncheckAll');
+            }
+            parent.$.messager.confirm('询问', '您是否要删除当前商品SKU？', function (b) {
+                if (b) {
+                    progressLoad();
+                    $.post('delete', {
+                        id: id
+                    }, function (result) {
+                        if (result.success) {
+                            parent.$.messager.alert('提示', result.msg, 'info');
+                            dataGrid.datagrid('reload');
+                        }
+                        progressClose();
+                    }, 'JSON');
+                }
+            });
+        }
+
+        function fixWidth(percent, minWidth) {
+            //如果百分比小于最小宽度，则用最小宽度
+            return (document.body.clientWidth - 5) * percent < minWidth ? minWidth : (document.body.clientWidth - 5) * percent;
+        }
+    </script>
+</body>
+</html>
