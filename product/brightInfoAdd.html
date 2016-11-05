@@ -1,0 +1,62 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $('#brightInfoAddForm').form({
+            url : 'add',
+            onSubmit : function() {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success : function(result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="brightInfoAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>特色名称</td>
+                    <td><input id="brightName" name="brightName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:200px;"></td>
+                </tr>
+                <tr>
+                    <td>特色url</td>
+                    <td><input id="brightUrl" name="brightUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:200px;"></td>
+                </tr>
+                <tr>
+                    <td>排序</td>
+                    <td>
+                        <input id="sort" name="sort" class="easyui-numberspinner" style="width:200px;" data-options="min:0" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td>移动平台标识</td>
+                    <td>
+                        <label><input type="checkbox" id="mobileFlag" name="mobileFlag" value="1" />显示</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>状态</td>
+                    <td>
+                        <select name="statuses" class="easyui-combobox" data-options="required:true" style="width:200px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
