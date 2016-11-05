@@ -1,0 +1,199 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <link rel="shortcut icon" href="../static/style/images/favicon.ico" />
+    <!-- [jQuery] -->
+    <script type="text/javascript" src="../static/easyui/jquery.min.js" charset="utf-8"></script>
+    <!-- [EasyUI] -->
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/gray/easyui.css" />
+    <link id="easyuiTheme" rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css" />
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/easyui/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+    <!-- [扩展JS] -->
+    <script type="text/javascript" src="../static/extJs.js" charset="utf-8"></script>
+    <!-- [扩展样式] -->
+    <link rel="stylesheet" type="text/css" href="../static/style/css/biyabi.css" />
+    <link rel="stylesheet" type="text/css" href="../static/icommon.css" />
+    <title>添加电商</title>
+    <style>
+        #productAddForm {
+            min-width: 1000px;
+        }
+
+        #proMainImage {
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+            #proMainImage:hover {
+                border: 1px dashed #39b7e6;
+            }
+    </style>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit:true,border:false">
+        <div data-options="region:'center',border:false" title="" style="padding: 3px;">
+            <form id="productAddForm" method="post">
+                <table class="grid">
+                    <tr>
+                        <td>商城名</td>
+                        <td><input id="mallName" name="mallName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                        <td rowspan="7" colspan="2">
+                            <div style="margin:0 0 5px 15px;">选择图片（点击图片可更改）</div>
+                            <img src="http://localhost:9000/backend/static/images/default_item.jpg" id="proMainImage" alt="比呀比默认图片" width="240">
+                            <!--加载编辑器的容器-->
+                            <script id="imgUploader" name="imgUploader" type="text/plain">
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商城url</td>
+                        <td><input id="mallUrl" name="mallUrl" type="text" class="easyui-textbox" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>英文名称</td>
+                        <td><input id="mallEngName" name="mallEngName" type="text" class="easyui-textbox" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>域名</td>
+                        <td><input id="doMain" name="doMain" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>网址</td>
+                        <td><input id="webSite" name="webSite" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:300px;"></td>
+                    </tr>
+                    <tr>
+                        <td>商城描述</td>
+                        <td><input id="mallDesc" name="mallDesc" type="text" class="easyui-textbox" value="" style="width:300px;"> </td>
+                    </tr>
+                    <tr>
+                        <td>排名</td>
+                        <td>
+                            <input id="mallRank"  name="mallRank" type="text" class="easyui-textbox" value="" style="width:300px;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>首字母</td>
+                        <td>
+                            <select id="letter" name="letter" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </td>
+                        <td>国家</td>
+                        <td>
+                            <select id="country" name="country" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="uk">英国</option>
+                                <option value="us">美国</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>移动平台标识</td>
+                        <td>
+                            <label><input type="checkbox" id="mobileFlag" name="mobileFlag" value="1" />显示</label>
+                        </td>
+                        <td>排序</td>
+                        <td>
+                            <input id="sort" name="sort" class="easyui-numberspinner" style="width:200px;" data-options="min:0" value="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>状态</td>
+                        <td>
+                            <select name="statuses" class="easyui-combobox" data-options="required:true" style="width:300px;">
+                                <option value="1">正常</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </td>
+                        <td>所在地区</td>
+                        <td>
+                            省份：
+                            <select id="province" name="province" class="easyui-combobox" data-options="required:true" style="width:80px;">
+                                <option value="uk">广东</option>
+                                <option value="us">北京</option>
+                            </select>
+                            城市：
+                            <select id="city" name="city" class="easyui-combobox" data-options="required:true" style="width:80px;">
+                                <option value="uk">广东</option>
+                                <option value="us">北京</option>
+                            </select>
+                            区：
+                            <select id="district" name="district" class="easyui-combobox" data-options="required:true" style="width:80px;">
+                                <option value="uk">广东</option>
+                                <option value="us">北京</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td colspan="3" style="padding:20px 10px;">
+                            <button type="submit" class="easyui-linkbutton" style="width:80px;height:30px;">提交</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+
+    <!--配置文件-->
+    <script type="text/javascript" src="../static/ueditor/ueditor.config.js"></script>
+    <!--编辑器源码文件-->
+    <script type="text/javascript" src="../static/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript">
+        //调用ueditor图片上传
+        var _editor = UE.getEditor("imgUploader");
+        _editor.ready(function () {
+            //_editor.setDisabled();
+            _editor.hide();
+            _editor.addListener("beforeInsertImage", function (t, arg) {
+                //$("#image_").attr("value", arg[0].src);
+                //$("#preview").attr("src", arg[0].src);
+                //$("#up").text("重新上传");
+            });
+        });
+        //图片上传框弹出方法
+        function upImage() {
+            var myImage = _editor.getDialog("insertimage");
+            myImage.open();
+        }
+
+        //商品主图
+        $("#proMainImage").on("click", function () {
+            upImage();
+        })
+
+        $(function () {
+            $('#productAddForm').form({
+                url: 'add',
+                onSubmit: function () {
+                    progressLoad();
+                    var isValid = $(this).form('validate');
+                    if (!isValid) {
+                        progressClose();
+                    }
+                    return isValid;
+                },
+                success: function (result) {
+                    progressClose();
+                    result = $.parseJSON(result);
+                    if (result.success) {
+                        parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                        parent.$.modalDialog.handler.dialog('close');
+                    } else {
+                        parent.$.messager.alert('错误', result.msg, 'error');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

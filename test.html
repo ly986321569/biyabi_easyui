@@ -24,6 +24,14 @@
 <body class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',fit:true,border:false">
         <a href="javascript:parent.addTab('添加父专题','product/specialparentAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加父专题</a>
+        <a href="javascript:parent.addTab('添加电商','product/mallAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加电商</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addCountryCurrencyInfoFun()">添加国家币种信息</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addCurrencyRateInfoFun()">添加币种汇率信息</a>
+        <a href="javascript:parent.addTab('添加功能图标信息','common/functionIconInfoAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加功能图标信息</a>
+
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addAreaFun()">添加地域信息</a>
+
+        <a class="easyui-linkbutton" href="javascript:void(0);" onclick="closeCurrentTab()">关闭当前选项卡</a>
     </div>
 
     <!--配置文件-->
@@ -34,23 +42,64 @@
     <script type="text/javascript">
         var dataGrid;
 
-        ////添加父专题
-        //function addSpecialParentFun() {
-        //    parent.$.modalDialog({
-        //        title: '添加',
-        //        width: 1000,
-        //        height: 600,
-        //        href: 'product/specialparentAdd.html',
-        //        buttons: [{
-        //            text: '确定',
-        //            handler: function () {
-        //                parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
-        //                var f = parent.$.modalDialog.handler.find('#productSkuAddForm');
-        //                f.submit();
-        //            }
-        //        }]
-        //    });
-        //}
+        //添加国家币种
+        function addCountryCurrencyInfoFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 500,
+                height: 300,
+                href: 'common/countryCurrencyInfoAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#countryCurrencyInfoAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加币种汇率信息
+        function addCurrencyRateInfoFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 500,
+                height: 300,
+                href: 'common/currencyRateInfoAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#currencyRateInfoAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+        //添加地域信息
+        function addAreaFun() {
+            parent.$.modalDialog({
+                title: '添加',
+                width: 500,
+                height: 300,
+                href: 'common/areaAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#areaAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        
+
+        function closeCurrentTab() {
+            window.parent.$('.b-tabitem.current .index_tabs').tabs("close", "添加/编辑工作台");
+        }
 
         //添加
         function addFun() {
