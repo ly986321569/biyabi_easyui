@@ -1,0 +1,108 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#transferLineAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="transferLineAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>转运线路名称</td>
+                    <td>
+                        <input id="transferLineName" name="transferLineName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>类别</td>
+                    <td>
+                        <select id="catId" name="catId" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司</td>
+                    <td>
+                        <select id="transportCompanyId" name="transportCompanyId" class="easyui-combobox" style="width:220px;">
+                            <option value="1">转运四方</option>
+                            <option value="2">海淘1号仓</option>
+                        </select>
+                    </td>
+                    <td>国家</td>
+                    <td>
+                        <select id="country" name="country" class="easyui-combobox" style="width:220px;">
+                            <option value="1">美国</option>
+                            <option value="2">英国</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>首重</td>
+                    <td>
+                        <input id="firstHeavy" name="firstHeavy" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>首重价格</td>
+                    <td>
+                        <input id="firstHeavyPrice" name="firstHeavyPrice" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>续重</td>
+                    <td>
+                        <input id="continuedHeavy" name="continuedHeavy" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>续重价格</td>
+                    <td>
+                        <input id="continuedHeavyPrice" name="continuedHeavyPrice" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>线路</td>
+                    <td>
+                        <select id="channelId" name="channelId" class="easyui-combobox" style="width:220px;">
+                            <option value="0">邮政线路</option>
+                            <option value="0">邮政线路</option>
+                        </select>
+                    </td>
+                    <td>服务单号</td>
+                    <td>
+                        <input id="serviceCode" name="serviceCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>估算到达时间</td>
+                    <td>
+                        <input id="arrivalTimeRang" name="arrivalTimeRang" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

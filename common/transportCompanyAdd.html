@@ -1,0 +1,78 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#transportCompanyAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="transportCompanyAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>转运公司名称</td>
+                    <td>
+                        <input id="transportCompanyName" name="transportCompanyName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:320px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司url</td>
+                    <td>
+                        <input id="transportCompanyUrl" name="transportCompanyUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:320px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>结算方式</td>
+                    <td>
+                        <input id="settlementType" name="settlementType" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:320px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>公司介绍</td>
+                    <td>
+                        <input id="companyProfile" name="companyProfile" type="text" class="easyui-textbox" data-options="multiline:true" value="" style="width:320px;height:80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否预收税</td>
+                    <td>
+                        <label><input type="checkbox" name="isTax" value="1" />是</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否购买保险</td>
+                    <td>
+                        <label><input type="checkbox" name="isTax" value="1" />是</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>状态</td>
+                    <td>
+                        <select name="statuses" class="easyui-combobox" data-options="required:true" style="width:320px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿<script type="text/javascript">
+    $(function () {
+        //上传图片
+        $('#imageToUpload').on('change', function () {
+            setImgPreview('#imageToUpload', '#preview');
+        });
+    });
+
+</script>
+<style>
+    .bi-single-img-upload {
+
+    }
+    .bi-single-img-upload input[type=file] {
+        display:block;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility:hidden;
+    }
+    .bi-single-img-upload .label-img {
+        display: table-cell;
+        width:100px;
+        height:100px;
+        vertical-align:middle;
+        cursor:pointer;
+        border:1px solid #d7d7d7;
+    }
+    .bi-single-img-upload .label-img:hover {
+        border:1px dashed #1679e5;
+    }
+    #preview {
+        max-width:100px;
+        max-height:100px;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="areaAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>图片预览</td>
+                    <td>
+                        <div class="bi-single-img-upload">
+                            <input type="file" id="imageToUpload" name="imageToUpload" value="" />
+                            <label class="label-img" for="imageToUpload">
+                                <img id="preview" src="../static/images/default_item.jpg" alt="图片预览" />
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

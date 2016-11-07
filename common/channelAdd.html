@@ -1,0 +1,134 @@
+﻿<script type="text/javascript">
+    $(function () {
+        //上传图片
+        $('#iconPath').on('change', function () {
+            setImgPreview('#iconPath', '#preview');
+        });
+
+        $('#channelAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<style>    
+    .bi-single-img-upload input[type=file] {
+        display:block;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility:hidden;
+    }
+    .bi-single-img-upload .label-img {
+        display: table-cell;
+        width:100px;
+        height:100px;
+        vertical-align:middle;
+        cursor:pointer;
+        border:1px solid #d7d7d7;
+    }
+    .bi-single-img-upload .label-img:hover {
+        border:1px dashed #1679e5;
+    }
+    #preview {
+        max-width:100px;
+        max-height:100px;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="channelAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td width="120">线路类型名称</td>
+                    <td colspan="3">
+                        <input id="channelName" name="channelName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:320px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>线路类</td>
+                    <td colspan="3">
+                        <select id="channelTypeName" name="channelTypeName" class="easyui-combobox" style="width:320px;">
+                            <option value="1">标准线路</option>
+                            <option value="2">邮政线路</option>
+                            <option value="3">海运线路</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>线路类型名称</td>
+                    <td colspan="3">
+                        <select id="channelTypeName" name="channelTypeName" class="easyui-combobox" style="width:320px;">
+                            <option value="1">标准线路</option>
+                            <option value="2">邮政线路</option>
+                            <option value="3">海运线路</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>小图标</td>
+                    <td colspan="3">
+                        <div class="bi-single-img-upload">
+                            <input type="file" id="iconPath" name="iconPath" value="" />
+                            <label class="label-img" for="iconPath">
+                                <img id="preview" src="../static/images/default_item.jpg" alt="图片预览" />
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>去到到货时间周期</td>
+                    <td colspan="3">
+                        <input id="arrivalTimeRang" name="arrivalTimeRang" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:320px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否有海外运费</td>
+                    <td width="100">
+                        <label><input type="checkbox" id="isTransportCost" name="isTransportCost" value="1" />是</label>
+                    </td>
+                    <td>是否有本土运费</td>
+                    <td>
+                        <label><input type="checkbox" id="isHomeCost" name="isHomeCost" value="1" />是</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否代缴税</td>
+                    <td>
+                        <label><input type="checkbox" id="isPayTax" name="isPayTax" value="1" />是</label>
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select name="statuses" class="easyui-combobox" data-options="required:true" style="width:120px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td colspan="3">
+                        <input id="remark" name="remark" type="text" class="easyui-textbox" data-options="multiline:true" value="" style="width:320px;height:80px;">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

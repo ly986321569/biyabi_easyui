@@ -519,3 +519,77 @@ $(document).keydown(function (e) {
     if (doPrevent) 
     e.preventDefault(); 
 });
+
+//上传图片
+//参数：imgObj： <input type=file />选择器如id #fileImg
+//参数：prev：预览图片的 <img />标签选择器如id #imgPreview
+function setImgPreview(imgObj, prev) {
+    var docObj = $(imgObj);
+    var imgObjPreview = $(prev);
+
+    //判断是否有选择上传文件
+    var imgPath = docObj.val();
+    if (imgPath == "") {
+        alert("请选择上传图片！");
+        return;
+    }
+    //判断上传文件的后缀名
+    var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+    if (strExtension != 'jpg' && strExtension != 'gif'
+    && strExtension != 'png' && strExtension != 'bmp') {
+        alert("请选择图片文件！");
+        return;
+    }
+
+    var ImgObj = new Image();      //建立一个图像对象 
+    var AllowImgFileSize = 2100000;    //上传图片最大值(单位字节)（ 2 M = 2097152 B ）
+    ImgObj.src = docObj[0].value;
+
+    var reader = new FileReader();
+    var file = docObj[0].files[0];
+    var imgUrlBase64;
+    if (file) {
+        //将文件以Data URL形式读入页面  
+        imgUrlBase64 = reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            var ImgFileSize = reader.result.substring(reader.result.indexOf(",") + 1).length;
+            if (AllowImgFileSize != 0 && AllowImgFileSize < ImgFileSize) {
+                alert('上传失败，请上传不大于2M的图片！');
+                return;
+            }
+
+            //显示文件  
+            imgObjPreview.attr("src", reader.result);
+            //字符串形式上传  //data:image/png;base64,
+            var imgDataBase64 = imgObjPreview.attr("src").substring(imgObjPreview.attr("src").indexOf(",") + 1);
+
+            //$.ajax({
+            //    type: 'post',
+            //    dataType: 'json',
+            //    data: { "_Image": imgDataBase64, "_format": "." + strExtension },
+            //    url: ajaxUrl + 'UploadIDCartImageBase64',
+            //    success: function (data) {
+            //        if (data) {
+            //            imgObjPreview.attr("src", data);
+            //            $("." + docObj.attr("name")).val(data);
+            //            docObj.parent().find('.logo-img2').remove();
+            //        }
+            //    },
+            //    //此接口返回的图片路径是error的响应文本
+            //    error: function (xhr) {
+            //        imgObjPreview.attr("src", xhr.responseText);
+            //        $("." + docObj.attr("name")).val(xhr.responseText);
+            //        docObj.parent().find('.logo-img2').remove();
+            //    },
+            //    beforeSend: function () {
+
+            //        var logoImg = '<img src="../images/loanding.gif" class="logo-img2" style="position: absolute;left: 50%;top: 50%;width: 20px; height: 20px; -webkit-transform: translate(-50%,-50%);">';
+            //        docObj.parent().append(logoImg);
+            //    }
+            //});
+        }
+        reader.onerror = function () {
+            alert("error");
+        }
+    }
+}
