@@ -31,7 +31,7 @@
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addAreaFun()">添加地域信息</a>
         <a class="easyui-linkbutton" href="javascript:void(0);" onclick="closeCurrentTab()">关闭当前选项卡</a>
 
-        <div>
+        <div style="margin-top:15px;">
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="imagePreviewFun()">图片预览</a>
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="weixinPayAccountAddFun()">添加微信支付账号资料</a>
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportCompanyAddFun()">添加转运公司</a>
@@ -40,13 +40,13 @@
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportAddressAddFun()">添加转运公司地址</a>
         </div>
 
-        <div>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="imagePreviewFun()">图片预览</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="weixinPayAccountAddFun()">添加微信支付账号资料</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportCompanyAddFun()">添加转运公司</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="channelAddFun()">添加线路类型</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transferLineAddFun()">添加转运线路</a>
-            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportAddressAddFun()">添加转运公司地址</a>
+        <div style="margin-top:15px;">
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transferLineSubsidiesAddFun()">添加线路补贴</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportCompanyAreaAddFun()">添加地区对应转运公司</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="kefuAddFun()">添加客服信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="taxationAddFun()">添加税率管理信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="userRankAddFun()">添加用户等级信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="incentiveRulesAddFun()">添加用户奖励规则</a>
         </div>
 
     </div>
@@ -214,6 +214,114 @@
                     handler: function () {
                         parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
                         var f = parent.$.modalDialog.handler.find('#transportAddressAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加线路补贴
+        function transferLineSubsidiesAddFun() {
+            parent.$.modalDialog({
+                title: '添加线路补贴',
+                width: 800,
+                height: 500,
+                href: 'transport/transferLineSubsidiesAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#transferLineSubsidiesAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加地区对应转运公司
+        function transportCompanyAreaAddFun() {
+            parent.$.modalDialog({
+                title: '添加地区对应转运公司',
+                width: 800,
+                height: 500,
+                href: 'transport/transportCompanyAreaAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#transportCompanyAreaAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加税率管理信息
+        function taxationAddFun() {
+            parent.$.modalDialog({
+                title: '添加税率管理信息',
+                width: 800,
+                height: 420,
+                href: 'transport/taxationAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#taxationAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加客服信息
+        function kefuAddFun() {
+            parent.$.modalDialog({
+                title: '添加客服信息',
+                width: 400,
+                height: 460,
+                href: 'kefu/kefuAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#kefuAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加用户等级信息
+        function userRankAddFun() {
+            parent.$.modalDialog({
+                title: '添加用户等级信息',
+                width: 400,
+                height:300,
+                href: 'rule/userRankAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#userRankAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加用户奖励规则
+        function incentiveRulesAddFun() {
+            parent.$.modalDialog({
+                title: '添加用户奖励规则',
+                width: 800,
+                height: 360,
+                href: 'rule/incentiveRulesAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#incentiveRulesAddForm');
                         f.submit();
                     }
                 }]

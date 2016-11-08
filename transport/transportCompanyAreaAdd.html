@@ -1,0 +1,146 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#transportCompanyAreaAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="transportCompanyAreaAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>省份code</td>
+                    <td>
+                        <input id="provinceCode" name="provinceCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>省份名称</td>
+                    <td>
+                        <input id="provinceName" name="provinceName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>城市code</td>
+                    <td>
+                        <input id="cityCode" name="cityCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>城市名称</td>
+                    <td>
+                        <input id="cityName" name="cityName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>地区code</td>
+                    <td>
+                        <input id="areaCode" name="areaCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>地区名称</td>
+                    <td>
+                        <input id="areaName" name="areaName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>上一级code</td>
+                    <td>
+                        <input id="preCode" name="preCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>上一级名称</td>
+                    <td>
+                        <input id="preName" name="preName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>等级</td>
+                    <td>
+                        <select id="levelId" name="levelId" class="easyui-combobox" style="width:220px;">
+                            <option value="1">省份</option>
+                            <option value="2">城市</option>
+                            <option value="3">区</option>
+                        </select>
+                    </td>
+                    <td>公司id</td>
+                    <td>
+                        <input id="tCompanyId" name="tCompanyId" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>转运公司省份code</td>
+                    <td>
+                        <input id="tProvinceCode" name="tProvinceCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>转运公司省份名称</td>
+                    <td>
+                        <input id="tProvinceName" name="tProvinceName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司城市code</td>
+                    <td>
+                        <input id="tCityCode" name="tCityCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>转运公司城市名称</td>
+                    <td>
+                        <input id="tCityName" name="tCityName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司地区code</td>
+                    <td>
+                        <input id="tAreaCode" name="tAreaCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>转运公司地区名称</td>
+                    <td>
+                        <input id="tAreaName" name="tAreaName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司上一级code</td>
+                    <td>
+                        <input id="tPreCode" name="tPreCode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>转运公司上一级名称</td>
+                    <td>
+                        <input id="tPreName" name="tPreName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运公司地区级别</td>
+                    <td>
+                        <select id="tLevelId" name="tLevelId" class="easyui-combobox" style="width:220px;">
+                            <option value="1">省份</option>
+                            <option value="2">城市</option>
+                            <option value="3">区</option>
+                            <option value="4">街道</option>
+                        </select>
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

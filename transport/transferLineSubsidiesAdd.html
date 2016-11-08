@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript">
     $(function () {
-        $('#transportAddressAddForm').form({
+        $('#transferLineSubsidiesAddForm').form({
             url: 'add',
             onSubmit: function () {
                 progressLoad();
@@ -25,65 +25,78 @@
 </script>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
-        <form id="transportAddressAddForm" method="post">
+        <form id="transferLineSubsidiesAddForm" method="post">
             <table class="grid">
                 <tr>
-                    <td>转运公司</td>
+                    <td>补贴名</td>
                     <td>
-                        <select id="transportCompanyId" name="transportCompanyId" class="easyui-combobox" style="width:220px;">
-                            <option value="1">转运四方</option>
-                            <option value="2">海淘1号仓</option>
+                        <input id="subsidiesName" name="subsidiesName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>补贴类型</td>
+                    <td>
+                        <select id="subsidiesType" name="subsidiesType" class="easyui-combobox" style="width:220px;">
+                            <option value="1">税费补贴</option>
+                            <option value="2">运费补贴</option>
                         </select>
                     </td>
-                    <td>转运地址firstName</td>
+                </tr>
+                <tr>
+                    <td>补贴金额（单位：百分比 负数为减少支付金额 正数为加）</td>
                     <td>
-                        <input id="firstName" name="firstName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                        <input id="subsidiesMoney" name="subsidiesMoney" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>补贴比率（单位：百分比 负数为减少支付金额 正数为加）</td>
+                    <td>
+                        <input id="subsidiesRate" name="subsidiesRate" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
                     </td>
                 </tr>
                 <tr>
-                    <td>转运地址lastName</td>
+                    <td>补贴计算方式（同时有比率和金额的情况下）</td>
                     <td>
-                        <input id="lastName" name="lastName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                        <select id="calculateType" name="calculateType" class="easyui-combobox" style="width:220px;">
+                            <option value="1">先算比率再算金额</option>
+                            <option value="2">先算金额再算比率</option>
+                        </select>
                     </td>
-                    <td>转运地址1</td>
-                    <td>
-                        <input id="address1" name="address1" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
-                    </td>
-                </tr>
-                <tr>
-                    <td>转运地址2</td>
-                    <td>
-                        <input id="address2" name="address2" type="text" class="easyui-textbox" data-options="" value="" style="width:220px;">
-                    </td>
-                    <td>转运地址state</td>
-                    <td>
-                        <input id="state" name="state" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
-                    </td>
-                </tr>
-                <tr>
-                    <td>国家</td>
-                    <td>
-                        <input id="nation" name="nation" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
-                    </td>
-                    <td>城市</td>
-                    <td>
-                        <input id="city" name="city" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
-                    </td>
-                </tr>
-                <tr>
-                    <td>县</td>
+                    <td>可补贴国家</td>
                     <td>
                         <input id="country" name="country" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
                     </td>
-                    <td>邮编</td>
+                </tr>
+                <tr>
+                    <td>可补贴线路渠道</td>
                     <td>
-                        <input id="zipcode" name="zipcode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                        <input id="channelId" name="channelId" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>最低补贴起始金额</td>
+                    <td>
+                        <input id="minSubsidiesMoney" name="minSubsidiesMoney" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
                     </td>
                 </tr>
                 <tr>
-                    <td>联系方式</td>
+                    <td>可补贴最高金额上限</td>
                     <td>
-                        <input id="telephone" name="telephone" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                        <input id="maxSubsidiesMoney" name="maxSubsidiesMoney" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>最高限制补贴订单金额</td>
+                    <td>
+                        <input id="orderMoney" name="orderMoney" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否补贴国家限制</td>
+                    <td>
+                        <label><input type="checkbox" id="isRestCountry" name="isRestCountry" value="1" />是</label>
+                    </td>
+                    <td>是否补贴线路渠道限制</td>
+                    <td>
+                        <label><input type="checkbox" id="isRestChannel" name="isRestChannel" value="1" />是</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否订单金额限制</td>
+                    <td>
+                        <label><input type="checkbox" id="isRestOrder" name="isRestOrder" value="1" />是</label>
                     </td>
                     <td>状态</td>
                     <td>
@@ -91,6 +104,26 @@
                             <option value="1">正常</option>
                             <option value="0">禁用</option>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>有效开始时间</td>
+                    <td>
+                        <input id="beginTime" name="beginTime" type="text" class="easyui-datetimebox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>有效结束时间</td>
+                    <td>
+                        <input id="endTime" name="endTime" type="text" class="easyui-datetimebox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>创建人</td>
+                    <td>
+                        <input id="createUserName" name="createUserName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>最后编辑用户名</td>
+                    <td>
+                        <input id="editorUserName" name="editorUserName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
                     </td>
                 </tr>
             </table>

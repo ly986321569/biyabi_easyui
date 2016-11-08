@@ -1,0 +1,117 @@
+﻿<script type="text/javascript">
+    $(function () {
+        //上传图片
+        $('#avatars').on('change', function () {
+            setImgPreview('#avatars', '#preview');
+        });
+
+        $('#kefuAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<style>    
+    .bi-single-img-upload input[type=file] {
+        display:block;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility:hidden;
+    }
+    .bi-single-img-upload .label-img {
+        display: table-cell;
+        width:100px;
+        height:100px;
+        vertical-align:middle;
+        cursor:pointer;
+        border:1px solid #d7d7d7;
+    }
+    .bi-single-img-upload .label-img:hover {
+        border:1px dashed #1679e5;
+    }
+    #preview {
+        max-width:100px;
+        max-height:100px;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="kefuAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>客服昵称</td>
+                    <td>
+                        <input id="nickName" name="nickName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>客服code</td>
+                    <td>
+                        <input id="code" name="code" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>头像</td>
+                    <td>
+                        <div class="bi-single-img-upload">
+                            <input type="file" id="avatars" name="avatars" value="" />
+                            <label class="label-img" for="avatars">
+                                <img id="preview" src="../static/images/default_item.jpg" alt="图片预览" />
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">在线</option>
+                            <option value="2">忙碌</option>
+                            <option value="3">离线</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>android跳转地址</td>
+                    <td>
+                        <input id="androidRedictUrl" name="androidRedictUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>ios跳转地址</td>
+                    <td>
+                        <input id="iosRedictUrl" name="iosRedictUrl" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>客服类型</td>
+                    <td>
+                        <select id="kefuType" name="kefuType" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">微信</option>
+                            <option value="2">qq</option>
+                            <option value="3">电话</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

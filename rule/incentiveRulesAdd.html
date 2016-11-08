@@ -1,0 +1,102 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#incentiveRulesAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="incentiveRulesAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>规则名称</td>
+                    <td>
+                        <input id="ruleName" name="ruleName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>奖励类型</td>
+                    <td>
+                        <select id="rulesType" name="rulesType" class="easyui-combobox" style="width:220px;">
+                            <option value="0">无</option>
+                            <option value="1">注册</option>
+                            <option value="2">首次上传头像</option>
+                            <option value="3">点赞</option>
+                            <option value="4">成功晒单</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>奖励积分</td>
+                    <td>
+                        <input id="ruleScore" name="ruleScore" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>奖励金币</td>
+                    <td>
+                        <input id="ruleGold" name="ruleGold" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>奖励经验</td>
+                    <td>
+                        <input id="ruleExp" name="ruleExp" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>奖励威望</td>
+                    <td>
+                        <input id="rulePrestige" name="rulePrestige" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>每日获取最大积分</td>
+                    <td>
+                        <input id="dayMaxScore" name="dayMaxScore" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>每日获取最大金币</td>
+                    <td>
+                        <input id="dayMaxGold" name="dayMaxGold" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>每日获取最大经验</td>
+                    <td>
+                        <input id="dayMaxExp" name="dayMaxExp" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>每日获取最大威望</td>
+                    <td>
+                        <input id="dayMaxPrestige" name="dayMaxPrestige" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>规则说明</td>
+                    <td>
+                        <input id="ruleRemark" name="ruleRemark" type="text" class="easyui-textbox" data-options="required:true,multiline:true" value="" style="width:220px;height:80px;">
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
