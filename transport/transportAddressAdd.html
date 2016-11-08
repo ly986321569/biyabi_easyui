@@ -1,0 +1,99 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#transportAddressAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="transportAddressAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>转运公司</td>
+                    <td>
+                        <select id="transportCompanyId" name="transportCompanyId" class="easyui-combobox" style="width:220px;">
+                            <option value="1">转运四方</option>
+                            <option value="2">海淘1号仓</option>
+                        </select>
+                    </td>
+                    <td>转运地址firstName</td>
+                    <td>
+                        <input id="firstName" name="firstName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运地址lastName</td>
+                    <td>
+                        <input id="lastName" name="lastName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>转运地址1</td>
+                    <td>
+                        <input id="address1" name="address1" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>转运地址2</td>
+                    <td>
+                        <input id="address2" name="address2" type="text" class="easyui-textbox" data-options="" value="" style="width:220px;">
+                    </td>
+                    <td>转运地址state</td>
+                    <td>
+                        <input id="state" name="state" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>国家</td>
+                    <td>
+                        <input id="nation" name="nation" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>城市</td>
+                    <td>
+                        <input id="city" name="city" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>县</td>
+                    <td>
+                        <input id="country" name="country" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>邮编</td>
+                    <td>
+                        <input id="zipcode" name="zipcode" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>
+                        <input id="telephone" name="telephone" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

@@ -28,26 +28,27 @@
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addCountryCurrencyInfoFun()">添加国家币种信息</a>
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addCurrencyRateInfoFun()">添加币种汇率信息</a>
         <a href="javascript:parent.addTab('添加功能图标信息','common/functionIconInfoAdd.html','menu_icon_datadeal')" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加功能图标信息</a>
-
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addAreaFun()">添加地域信息</a>
+        <a class="easyui-linkbutton" href="javascript:void(0);" onclick="closeCurrentTab()">关闭当前选项卡</a>
 
         <div>
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="imagePreviewFun()">图片预览</a>
-
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="weixinPayAccountAddFun()">添加微信支付账号资料</a>
-
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportCompanyAddFun()">添加转运公司</a>
-
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="channelAddFun()">添加线路类型</a>
-
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transferLineAddFun()">添加转运线路</a>
-
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportAddressAddFun()">添加转运公司地址</a>
-
-            
         </div>
 
-        <a class="easyui-linkbutton" href="javascript:void(0);" onclick="closeCurrentTab()">关闭当前选项卡</a>
+        <div>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="imagePreviewFun()">图片预览</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="weixinPayAccountAddFun()">添加微信支付账号资料</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportCompanyAddFun()">添加转运公司</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="channelAddFun()">添加线路类型</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transferLineAddFun()">添加转运线路</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="transportAddressAddFun()">添加转运公司地址</a>
+        </div>
+
     </div>
 
     <!--配置文件-->
@@ -153,7 +154,7 @@
                 title: '添加转运公司',
                 width: 500,
                 height: 400,
-                href: 'common/transportCompanyAdd.html',
+                href: 'transport/transportCompanyAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
@@ -171,7 +172,7 @@
                 title: '添加线路类型',
                 width: 500,
                 height: 520,
-                href: 'common/channelAdd.html',
+                href: 'transport/channelAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
@@ -189,7 +190,7 @@
                 title: '添加转运线路',
                 width: 800,
                 height: 360,
-                href: 'common/transferLineAdd.html',
+                href: 'transport/transferLineAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
@@ -207,7 +208,7 @@
                 title: '添加转运公司地址',
                 width: 800,
                 height: 360,
-                href: 'common/transportAddressAdd.html',
+                href: 'transport/transportAddressAdd.html',
                 buttons: [{
                     text: '确定',
                     handler: function () {
