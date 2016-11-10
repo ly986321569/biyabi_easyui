@@ -49,6 +49,15 @@
             <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="incentiveRulesAddFun()">添加用户奖励规则</a>
         </div>
 
+        <div style="margin-top:15px;">
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="userSignRuleAddFun()">添加签到奖励规则</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="directionalRangeAddFun()">添加定向优惠范围</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="directionalDiscountAddFun()">添加定向优惠</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="giftAddFun()">添加礼品信息</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="giftRangeAddFun()">添加礼品兑换范围</a>
+            <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="giftBagAddFun()">添加礼包码信息</a>
+        </div>
+
     </div>
 
     <!--配置文件-->
@@ -327,6 +336,119 @@
                 }]
             });
         }
+
+        //添加签到奖励规则
+        function userSignRuleAddFun() {
+            parent.$.modalDialog({
+                title: '添加签到奖励规则',
+                width: 460,
+                height: 320,
+                href: 'rule/userSignRuleAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#userSignRuleAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加定向优惠范围
+        function directionalRangeAddFun() {
+            parent.$.modalDialog({
+                title: '添加定向优惠范围',
+                width: 460,
+                height: 320,
+                href: 'rule/directionalRangeAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#directionalRangeAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加定向优惠
+        function directionalDiscountAddFun() {
+            parent.$.modalDialog({
+                title: '添加定向优惠',
+                width: 800,
+                height: 360,
+                href: 'rule/directionalDiscountAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#directionalDiscountAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加礼品信息
+        function giftAddFun() {
+            parent.$.modalDialog({
+                title: '添加礼品',
+                width: 800,
+                height: 600,
+                href: 'activity/giftAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#giftAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加礼品兑换范围
+        function giftRangeAddFun() {
+            parent.$.modalDialog({
+                title: '添加礼品兑换范围',
+                width: 460,
+                height: 320,
+                href: 'activity/giftRangeAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#giftRangeAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        //添加礼包码信息
+        function giftBagAddFun() {
+            parent.$.modalDialog({
+                title: '添加礼包码',
+                width: 400,
+                height: 500,
+                href: 'activity/giftBagAdd.html',
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        parent.$.modalDialog.openner_dataGrid = dataGrid;//因为添加成功之后，需要刷新这个treeGrid，所以先预定义好
+                        var f = parent.$.modalDialog.handler.find('#giftBagAddForm');
+                        f.submit();
+                    }
+                }]
+            });
+        }
+
+        
+
+
+
 
         
 

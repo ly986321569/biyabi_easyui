@@ -1,0 +1,229 @@
+﻿<script type="text/javascript">
+    $(function () {
+        //上传图片
+        $('#giftImage').on('change', function () {
+            setImgPreview('#giftImage', '#preview');
+        });
+
+        $('#giftAddForm').form({
+            url: 'add',
+            onSubmit: function () {
+                progressLoad();
+                var isValid = $(this).form('validate');
+                if (!isValid) {
+                    progressClose();
+                }
+                return isValid;
+            },
+            success: function (result) {
+                progressClose();
+                result = $.parseJSON(result);
+                if (result.success) {
+                    parent.$.modalDialog.openner_dataGrid.datagrid('reload');//之所以能在这里调用到parent.$.modalDialog.openner_dataGrid这个对象，是因为user.jsp页面预定义好了
+                    parent.$.modalDialog.handler.dialog('close');
+                } else {
+                    parent.$.messager.alert('错误', result.msg, 'error');
+                }
+            }
+        });
+    });
+</script>
+<style>
+    .bi-single-img-upload input[type=file] {
+        display: block;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .bi-single-img-upload .label-img {
+        display: table-cell;
+        width: 100px;
+        height: 100px;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid #d7d7d7;
+    }
+
+        .bi-single-img-upload .label-img:hover {
+            border: 1px dashed #1679e5;
+        }
+
+    #preview {
+        max-width: 100px;
+        max-height: 100px;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true,border:false">
+    <div data-options="region:'center',border:false" title="" style="padding: 3px;overflow: hidden; overflow-y:auto;">
+        <form id="giftAddForm" method="post">
+            <table class="grid">
+                <tr>
+                    <td>兑换品名称</td>
+                    <td>
+                        <input id="giftName" name="giftName" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>优惠额度</td>
+                    <td>
+                        <input id="discounts" name="discounts" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>
+                        <input id="startTime" name="startTime" type="text" class="easyui-datetimebox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>结束时间</td>
+                    <td>
+                        <input id="endTime" name="endTime" type="text" class="easyui-datetimebox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>兑换品图片</td>
+                    <td>
+                        <div class="bi-single-img-upload">
+                            <input type="file" id="giftImage" name="giftImage" value="" />
+                            <label class="label-img" for="giftImage">
+                                <img id="preview" src="../static/images/default_item.jpg" alt="图片预览" />
+                            </label>
+                        </div>
+                    </td>
+                    <td>兑换品内容</td>
+                    <td>
+                        <input id="giftContent" name="giftContent" type="text" class="easyui-textbox" data-options="required:true,multiline:true" value="" style="width:220px;height:80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>消耗积分</td>
+                    <td>
+                        <input id="reduceScore" name="reduceScore" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>消耗金币</td>
+                    <td>
+                        <input id="reduceGold" name="reduceGold" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>商城</td>
+                    <td>
+                        <select id="mallId" name="mallId" class="easyui-combobox" data-options="required:true" style="width:180px;">
+                            <option value="1">美国亚马逊</option>
+                            <option value="2">日本亚马逊</option>
+                        </select>
+                    </td>
+                    <td>兑换品总数</td>
+                    <td>
+                        <input id="giftTotal" name="giftTotal" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>现有数量</td>
+                    <td>
+                        <input id="giftCount" name="giftCount" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                    <td>最大兑换数（限制兑换数量，0为无限）</td>
+                    <td>
+                        <input id="maxExchangeCount" name="maxExchangeCount" type="text" class="easyui-textbox" data-options="required:true" value="" style="width:220px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>排序</td>
+                    <td>
+                        <input id="sort" name="sort" class="easyui-numberspinner" data-options="min:0" value="" style="width:160px;">
+                    </td>
+                    <td>兑换状态</td>
+                    <td>
+                        <select id="giftStatus" name="giftStatus" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="2">兑换完</option>
+                            <option value="3">过期</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否为公码</td>
+                    <td>
+                        <select id="isPublicGift" name="isPublicGift" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">公码</option>
+                            <option value="2">普通优惠码</option>
+                        </select>
+                    </td>
+                    <td>优惠类型</td>
+                    <td>
+                        <select id="giftMold" name="giftMold" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">满减</option>
+                            <option value="2">折扣</option>
+                            <option value="3">指定金额</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>优惠目标</td>
+                    <td>
+                        <select id="giftTarget" name="giftTarget" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">转运费</option>
+                            <option value="2">订单商品</option>
+                            <option value="3">本土运费</option>
+                        </select>
+                    </td>
+                    <td>优惠客户端</td>
+                    <td>
+                        <select id="giftClient" name="giftClient" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">全部</option>
+                            <option value="2">PC端</option>
+                            <option value="3">M端</option>
+                            <option value="4">APP端</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>优惠范围</td>
+                    <td>
+                        <select id="giftRange" name="giftRange" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">全站</option>
+                            <option value="2">限品类</option>
+                            <option value="3">限单品</option>
+                            <option value="4">限用户</option>
+                        </select>
+                    </td>
+                    <td>兑换类型</td>
+                    <td>
+                        <select id="giftType" name="giftType" class="easyui-combobox" data-options="required:true" style="width:180px;">
+                            <option value="0">不管</option>
+                            <option value="1">国内优惠券</option>
+                            <option value="2">礼品卡</option>
+                            <option value="3">实物</option>
+                            <option value="4">记录（用于网页）</option>
+                            <option value="5">奖励（钱）</option>
+                            <option value="6">国外电商公码</option>
+                            <option value="7">红包</option>
+                            <option value="8">比呀比优惠券</option>
+                            <option value="9">本土运费优惠券</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td>
+                        <input id="discountRemark" name="discountRemark" type="text" class="easyui-textbox" data-options="required:true,multiline:true" value="" style="width:220px;height:48px;">
+                    </td>
+                    <td>状态</td>
+                    <td>
+                        <select id="statuses" name="statuses" class="easyui-combobox" data-options="required:true" style="width:220px;">
+                            <option value="1">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                    <!--<td>优惠类型</td>
+                    <td>
+                        <select id="discountType" name="discountType" class="easyui-combobox" style="width:220px;">
+                            <option value="1">折扣</option>
+                            <option value="2">指定金额</option>
+                        </select>
+                    </td>-->
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
